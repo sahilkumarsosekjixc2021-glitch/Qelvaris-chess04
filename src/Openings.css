@@ -1,0 +1,142 @@
+/* Openings page. Classes "qo-" se shuru hote hain. Colours theme.css se aate hain.
+   ".qv-main" laga hai taaki theme.css / index.css ke rules se na dab jaye. */
+
+.qv-main .qo-page { max-width: 1440px; padding: 24px 24px 40px; }
+.qv-main .qo-card { padding: 24px 28px; }
+
+.qo-eyebrow { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.qo-note { margin: 10px 0 0; font-size: 13px; color: var(--muted); line-height: 1.6; }
+.qo-foot { margin: 16px 0; }
+.qo-meta { font-size: 12px; color: var(--muted); }
+.qo-card--hl { border-color: var(--accent); }
+
+.qv-main .qo-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  margin-bottom: 24px;
+}
+.qo-side { display: grid; gap: 24px; min-width: 0; }
+
+/* ---------- Tree card ---------- */
+.qo-cardhead { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.qo-tabs { display: flex; gap: 8px; }
+.qo-tab {
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--surface-3);
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.qo-tab:hover:not(.is-active) { color: var(--text); }
+.qo-tab.is-active { background: var(--accent-soft); color: var(--accent); }
+.qo-tab:focus-visible, .qo-btn:focus-visible, .qo-gap:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.qo-n { opacity: 0.65; margin-left: 4px; font-weight: 500; }
+
+.qo-treewrap { overflow-x: auto; margin: 6px 0 4px; }
+.qo-svg { display: block; width: 100%; height: auto; }
+.qo-edge { stroke: var(--border-strong); stroke-width: 2.5; }
+.qo-tn { cursor: pointer; outline: none; }
+.qo-tn:focus-visible .qo-c { stroke: var(--text); stroke-width: 2; }
+.qo-tn:hover .qo-c { filter: brightness(1.12); }
+.qo-c--good { fill: #4ecfa6; }
+.qo-c--mid { fill: var(--accent); }
+.qo-c--bad { fill: var(--bad); }
+.qo-c--few { fill: #7d8799; }
+.qo-halo { fill: rgba(247, 181, 56, 0.2); }
+.qo-t1 { fill: var(--text); font: 700 12px var(--font-sans); }
+.qo-t2 { fill: var(--muted); font: 400 10px var(--font-sans); }
+
+.qo-legend { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 20px; margin-top: 10px; font-size: 11px; color: var(--muted); }
+.qo-legend-keys { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+.qo-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; vertical-align: -1px; flex: none; }
+.qo-dot--good { background: #4ecfa6; }
+.qo-dot--mid { background: var(--accent); }
+.qo-dot--bad { background: var(--bad); }
+.qo-dot--few { background: #7d8799; }
+
+/* ---------- Selected line ---------- */
+.qo-sel { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-top: 14px; }
+.qo-sel-text { min-width: 0; }
+.qo-name { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.01em; }
+.qo-line { margin-top: 10px; font: 700 11px/1.5 var(--font-mono); color: var(--muted); overflow-wrap: anywhere; }
+.qo-board { width: 132px; flex: none; border-radius: 6px; overflow: hidden; }
+.qo-board .qb-board { width: 100%; }
+
+.qo-stats { display: flex; gap: 36px; margin: 8px 0 18px; }
+.qo-stats div { display: grid; gap: 2px; }
+.qo-stats strong { font-size: 24px; font-weight: 800; line-height: 1.1; }
+.qo-stats span { font-size: 11px; color: var(--muted); }
+.qo-prep { margin: 0 0 20px; font-size: 13px; line-height: 1.6; color: var(--muted); }
+
+.qo-actions { display: flex; gap: 14px; }
+.qo-btn {
+  flex: 1;
+  height: 40px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.qo-btn:hover { border-color: var(--border-strong); background: var(--surface-3); }
+.qo-btn--primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+.qo-btn--primary:hover { background: #ffc457; border-color: #ffc457; }
+
+/* ---------- Gaps ---------- */
+.qo-gaps { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 4px; }
+.qo-gap {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0;
+  text-align: left;
+  font: inherit;
+  color: var(--text);
+  background: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  padding: 9px 4px;
+  cursor: pointer;
+}
+.qo-gap:hover { background: var(--surface-2); }
+.qo-gap-name { font-size: 13px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.qo-gap .qo-meta { font-size: 11px; white-space: nowrap; padding-left: 10px; }
+
+/* ---------- Usernames ---------- */
+.qo-form { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.qo-form input {
+  flex: 1;
+  min-width: 180px;
+  font: inherit;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background: var(--bg);
+  color: var(--text);
+}
+.qo-form input:focus { outline: 0; border-color: var(--accent); }
+.qo-form .qo-btn { flex: none; padding: 0 28px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1000px) {
+  .qv-main .qo-layout { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .qv-main .qo-page { padding: 16px 12px 32px; }
+  .qv-main .qo-card { padding: 18px; }
+  .qo-sel { flex-direction: column-reverse; }
+  .qo-stats { gap: 24px; }
+  .qo-actions { flex-direction: column; }
+}

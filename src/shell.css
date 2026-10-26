@@ -1,0 +1,156 @@
+/* Naya top navigation shell: poora app ek rounded frame ke andar. Classes "qv-" se shuru hoti hain. */
+
+body {
+  background: var(--bg);
+}
+
+.qv-shell {
+  margin: 14px;
+  min-height: calc(100vh - 28px);
+  background: var(--frame);
+  color: var(--text);
+  font-family: var(--font-sans);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  display: flex;
+  flex-direction: column;
+}
+
+.qv-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 60px;
+  padding: 0 24px;
+  background: var(--frame);
+  border-bottom: 1px solid var(--border);
+  border-radius: 26px 26px 0 0;
+}
+
+.qv-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: 0;
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.qv-brand-logo {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+}
+
+.qv-nav {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  height: 100%;
+  flex: 1;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.qv-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.qv-tab {
+  position: relative;
+  background: none;
+  border: 0;
+  color: var(--muted);
+  font: inherit;
+  font-size: 14px;
+  padding: 0 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+.qv-tab:hover {
+  color: var(--text);
+}
+.qv-tab.is-active {
+  color: var(--text);
+  font-weight: 600;
+}
+.qv-tab.is-active::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+.qv-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+.qv-settings {
+  background: none;
+  border: 0;
+  color: var(--muted);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.qv-settings:hover,
+.qv-settings.is-active {
+  color: var(--text);
+}
+.qv-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--surface-3);
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.qv-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.qv-soon {
+  max-width: 520px;
+  margin: 80px auto;
+  text-align: center;
+  padding: 0 20px;
+}
+
+@media (max-width: 700px) {
+  .qv-shell {
+    margin: 0;
+    min-height: 100vh;
+    border: 0;
+    border-radius: 0;
+  }
+  .qv-topbar {
+    gap: 12px;
+    padding: 0 12px;
+    border-radius: 0;
+  }
+  .qv-brand-name {
+    display: none;
+  }
+}

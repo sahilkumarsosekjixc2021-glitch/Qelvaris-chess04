@@ -1,223 +1,137 @@
-
 import { useEffect, useState } from "react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
+import Today from "./Today";
+import Openings from "./OpeningsPage";
+import LeakLab from "./LeakLab";
+import { dbAll } from "./storage";
+import Connect from "./Connect";
+import Review from "./Review";
+import DNA from "./DNA";
+import Games from "./Games";
+import Play from "./Play";
+import "./theme.css";
+import "./shell.css";
+import Settings from "./Settings";
+import { applySavedSettings } from "./settingsData";
+/*
+  Qelvaris, naya design.
+  NAV mein wahi pages hain jo PDF mein hain. Har step mein ek ComingSoon ki jagah asli page judta jayega.
+*/
+const NAV = ["Today", "DNA", "Review", "Leak Lab", "Play", "Openings", "Games"];
+const ALL_PAGES = [...NAV, "Settings", "Connect"];
 
-import OpeningStudio from "./OpeningStudio";
-import Puzzles from "./Puzzles";
-import PlayChess from "./PlayChess";
-import AnalysisLab from "./AnalysisLab";
-import GameReview from "./GameReview";
-import ChessCoach from "./ChessCoach";
-import ProgressIntelligence from "./ProgressIntelligence";
+const PAGE_NOTES = {
+  Connect: "Username daalke Lichess se games aayengi, aur pehle findings turant banne lagengi. (Step B)",
+  Today: "Roz ka 15 minute ka plan: Fix, Review, phir ek Mission. (Step F)",
+  DNA: "Aapki 6 skills aur leaks, rating points mein. (Step D)",
+  Review: "Game ke 3 turning points, pehle guess karo phir wajah. (Step C)",
+  "Leak Lab": "Ek leak chuno aur apni hi games ki positions se practice karo. (Step E)",
+  Play: "Mission ke saath bots se khelo. (Step I)",
+  Openings: "Aapki apni openings ka tree. (Step H)",
+  Games: "Saari games ek library mein. (Step G)",
+  Settings: "Board theme, language, backup. (Step J)",
+};
 
-import "./App.css";
-
-const menuItems = [
-  { name: "Dashboard", icon: "⌂" },
-  { name: "Play Chess", icon: "♟" },
-  { name: "Analysis Lab", icon: "⌕" },
-  { name: "Game Review", icon: "▤" },
-  { name: "Puzzles", icon: "♜" },
-  { name: "Opening Studio", icon: "♞" },
-  { name: "Progress Intelligence", icon: "↗" },
-  { name: "Chess Coach", icon: "✦" },
-];
+function ComingSoon({ title }) {
+  return (
+    <div className="qv-soon">
+      <span className="q-badge q-badge--accent">Coming next</span>
+      <h2 className="q-title" style={{ marginTop: 14 }}>
+        {title}
+      </h2>
+      <p className="q-muted">{PAGE_NOTES[title] || "Ye page agle steps mein banega."}</p>
+    </div>
+  );
+}
 
 function App() {
-  const [active, setActive] = useState("Dashboard");
+  const [active, setActive] = useState("Today");
+  useEffect(() => {
+    applySavedSettings();
+  }, []);
 
-  
-useEffect(() => {
-  const goDashboard = () => setActive("Dashboard");
+  // Pehli visit: agar koi game saved nahi hai toh Connect page se shuru karo
+  useEffect(() => {
+    let alive = true;
 
-  const navigateToPage = (event) => {
-    const page = event.detail;
+    dbAll("games")
+      .then((games) => {
+        if (alive && games.length === 0) setActive("Connect");
+      })
+      .catch((error) => console.error("Could not read games:", error));
 
-    const allowedPages = [
-      "Dashboard",
-      "Play Chess",
-      "Analysis Lab",
-      "Game Review",
-      "My Progress",
-      "Puzzles",
-      "Opening Studio",
-      "Progress Intelligence",
-      "Chess Coach",
-    ];
+    return () => {
+      alive = false;
+    };
+  }, []);
 
-    if (allowedPages.includes(page)) {
-      setActive(page === "My Progress" ? "Game Review" : page);
-    }
-  };
+  // Baad ke pages ye event bhejenge: window.dispatchEvent(new CustomEvent("qelvaris-navigate", { detail: "Review" }))
+  useEffect(() => {
+    const onNavigate = (event) => {
+      const detail = event.detail;
+      const page = typeof detail === "string" ? detail : detail?.page;
+      if (ALL_PAGES.includes(page)) setActive(page);
+    };
 
-  window.addEventListener("qelvaris-dashboard", goDashboard);
-  window.addEventListener("qelvaris-navigate", navigateToPage);
-
-  return () => {
-    window.removeEventListener("qelvaris-dashboard", goDashboard);
-    window.removeEventListener("qelvaris-navigate", navigateToPage);
-  };
-}, []);
+    window.addEventListener("qelvaris-navigate", onNavigate);
+    return () => window.removeEventListener("qelvaris-navigate", onNavigate);
+  }, []);
 
   function renderPage() {
-    switch (active) {
-      case "Play Chess":
-        return <PlayChess />;
-
-      case "Analysis Lab":
-        return <AnalysisLab />;
-
-      case "Game Review":
-        return <GameReview />;
-
-      case "Puzzles":
-        return <Puzzles />;
-
-      case "Opening Studio":
-        return <OpeningStudio />;
-
-      case "Progress Intelligence":
-        return <ProgressIntelligence />;
-
-      case "Chess Coach":
-        return <ChessCoach />;
-
-      default:
-        return (
-          <section className="page-content">
-            <p className="eyebrow">QELVARIS CHESS PLATFORM</p>
-
-            <h1>Build Your Chess Intelligence.</h1>
-
-            <p>
-              Play, analyse, learn from your mistakes and build a
-              stronger chess routine with one connected workspace.
-            </p>
-
-            <div className="dashboard-actions">
-              <button onClick={() => setActive("Play Chess")}>
-                Play Chess →
-              </button>
-
-              <button
-                className="secondary-button"
-                onClick={() => setActive("Analysis Lab")}
-              >
-                Open Analysis Lab
-              </button>
-            </div>
-
-            <div className="dashboard-cards">
-              {[
-                {
-                  name: "Analysis Lab",
-                  icon: "⌕",
-                  description:
-                    "Explore positions, candidate moves and engine lines.",
-                },
-                {
-                  name: "Game Review",
-                  icon: "▤",
-                  description:
-                    "Review saved games and identify critical moments.",
-                },
-                {
-                  name: "Chess Coach",
-                  icon: "✦",
-                  description:
-                    "Turn your game history into practical learning goals.",
-                },
-                {
-                  name: "Progress Intelligence",
-                  icon: "↗",
-                  description:
-                    "Track game history and discover performance trends.",
-                },
-                {
-                  name: "Puzzles",
-                  icon: "♜",
-                  description:
-                    "Practise tactical patterns and calculate variations.",
-                },
-                {
-                  name: "Opening Studio",
-                  icon: "♞",
-                  description:
-                    "Organise opening lines and study your repertoire.",
-                },
-              ].map((item) => (
-                <button
-                  key={item.name}
-                  className="dashboard-card"
-                  onClick={() => setActive(item.name)}
-                >
-                  <span className="card-icon">{item.icon}</span>
-                  <h3>{item.name}</h3>
-                  <p>{item.description}</p>
-                </button>
-              ))}
-            </div>
-          </section>
-        );
-    }
+    // Jaise-jaise pages banenge, yahan case add hote jayenge.
+    if (active === "Settings") return <Settings />;
+    if (active === "Games") return <Games />;
+    if (active === "Today") return <Today />;
+    if (active === "Openings") return <Openings />;
+    if (active === "Connect") return <Connect />;
+    if (active === "Review") return <Review />;
+    if (active === "Leak Lab") return <LeakLab />;
+    if (active === "Play") return <Play />;
+    if (active === "DNA") return <DNA />;
+    return <ComingSoon title={active} />;
   }
 
   return (
-    <div className="app-shell">
-      <aside className="sidebar">
-        <div className="brand">
-          <div className="brand-logo">Q</div>
-          <div>
-            <h2>QELVARIS</h2>
-            <span>CHESS PLATFORM</span>
-          </div>
-        </div>
+    <div className="qv-shell">
+      <header className="qv-topbar">
+        <button className="qv-brand" onClick={() => setActive("Today")} aria-label="Go to Qelvaris home">
+          <span className="qv-brand-logo">Q</span>
+          <span className="qv-brand-name">Qelvaris</span>
+        </button>
 
-        <p className="menu-label">WORKSPACE</p>
-
-        <nav className="sidebar-nav">
-          {menuItems.map((item) => (
+        <nav className="qv-nav">
+          {NAV.map((name) => (
             <button
-              key={item.name}
-              className={`nav-item ${
-                active === item.name ? "active" : ""
-              }`}
-              onClick={() => setActive(item.name)}
+              key={name}
+              className={`qv-tab ${active === name ? "is-active" : ""}`}
+              onClick={() => setActive(name)}
+              aria-current={active === name ? "page" : undefined}
             >
-              <span className="nav-icon">{item.icon}</span>
-              <span>{item.name}</span>
-
-              {active === item.name && (
-                <span className="active-dot" />
-              )}
+              {name}
             </button>
           ))}
         </nav>
 
-        <div className="sidebar-footer">
-          <div className="footer-piece">♞</div>
-          <div>
-            <strong>Think. Play. Improve.</strong>
-            <p>Your game, your journey.</p>
-          </div>
+        <div className="qv-right">
+          <button
+            className={`qv-settings ${active === "Connect" ? "is-active" : ""}`}
+            onClick={() => setActive("Connect")}
+          >
+            + Add games
+          </button>
+          <button
+            className={`qv-settings ${active === "Settings" ? "is-active" : ""}`}
+            onClick={() => setActive("Settings")}
+          >
+            Settings
+          </button>
+          <span className="qv-avatar">Y</span>
         </div>
-      </aside>
+      </header>
 
-      <main className="main-area">
-        <header className="topbar">
-          <div>
-            <span className="breadcrumb">QELVARIS</span>
-            <span className="breadcrumb-separator"> / </span>
-            <span className="current-page">{active}</span>
-          </div>
+      <main className="qv-main">{renderPage()}</main>
 
-          <div className="topbar-status">
-            <span className="status-dot" />
-            Chess workspace
-          </div>
-        </header>
-
-        {renderPage()}
-      </main>
+      <SpeedInsights />
     </div>
   );
 }

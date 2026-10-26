@@ -1,0 +1,145 @@
+/* DNA page. Classes "dn-" se shuru hoti hain. Colours theme.css se aate hain.
+   ".qv-main" laga hai taaki theme.css / index.css ke rules se na dab jaye. */
+
+.qv-main .dn-page {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px 24px 40px;
+  display: block;
+  color: var(--text);
+}
+
+.dn-h2 { margin: 0; font-size: 18px; }
+.dn-small { margin: 14px 0 0; font-size: 12px; }
+.dn-empty { margin: 14px 0 0; }
+
+.dn-blank { display: grid; gap: 12px; justify-items: start; max-width: 600px; }
+.dn-blank .q-title, .dn-blank .q-muted { margin: 0; }
+
+.qv-main .dn-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 20px;
+  align-items: stretch;
+}
+.dn-right { display: grid; gap: 20px; align-content: start; min-width: 0; }
+.dn-bottom { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.dn-grid .q-card { padding: 24px 28px; }
+
+.dn-card-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; width: 100%; }
+
+/* 30 / 90 / All time: chhote chips radar card ke andar */
+.dn-windows { display: flex; gap: 6px; }
+.dn-win {
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.dn-win:hover { border-color: var(--border-strong); color: var(--text); }
+.dn-win.is-on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+
+/* ---------- Radar ---------- */
+.dn-skills { display: flex; flex-direction: column; align-items: center; }
+.dn-radar { width: 100%; max-width: 520px; height: auto; margin: 12px 0 4px; flex: 1; }
+.dn-ring { fill: none; stroke: var(--border); stroke-width: 1; }
+.dn-axis { stroke: var(--border); stroke-width: 1; }
+.dn-now { fill: rgba(247, 181, 56, 0.2); stroke: var(--accent); stroke-width: 2.5; stroke-linejoin: round; }
+.dn-prev { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.dn-dot { fill: var(--accent); }
+.dn-label { fill: var(--text); font-size: 14px; font-weight: 700; }
+.dn-value { fill: var(--accent); font: 700 13px var(--font-sans); }
+
+.dn-legend { display: flex; gap: 22px; font-size: 12px; color: var(--muted); align-self: flex-start; margin-top: 6px; }
+.dn-key { display: inline-block; width: 16px; height: 12px; margin-right: 8px; vertical-align: middle; border-radius: 3px; background: rgba(247, 181, 56, 0.45); border: 1px solid var(--accent); }
+.dn-key--prev { height: 0; background: none; border: 0; border-top: 2px dashed var(--muted); border-radius: 0; width: 22px; }
+.dn-skills .dn-small { align-self: flex-start; }
+
+/* ---------- Leaks ---------- */
+.dn-leaklist { list-style: none; margin: 12px 0 0; padding: 0; }
+.dn-leak {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1.5fr) minmax(90px, 1fr) 54px 118px;
+  gap: 18px;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid var(--border);
+}
+.dn-leak:first-child { border-top: 0; padding-top: 10px; }
+.dn-rank { color: var(--muted); font-weight: 700; font-size: 14px; text-align: center; }
+.dn-leak-main { display: grid; gap: 3px; min-width: 0; }
+.dn-leak-main strong { font-size: 16px; display: flex; align-items: center; gap: 8px; }
+.dn-status { font-size: 10px; }
+.dn-leak-text {
+  font-size: 12px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dn-bar { height: 10px; border-radius: 99px; background: var(--surface-3); overflow: hidden; }
+.dn-bar div { height: 100%; border-radius: 99px; background: var(--bad); }
+.dn-points { font-size: 16px; font-weight: 800; color: var(--bad); text-align: right; white-space: nowrap; }
+.dn-train {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.dn-train:hover { border-color: var(--accent); background: var(--surface-3); }
+.dn-train:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- Clock ---------- */
+.dn-clock { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 14px; text-align: center; }
+.dn-clock-col { display: flex; flex-direction: column; align-items: center; gap: 8px; justify-content: flex-end; }
+.dn-clock-num { font-size: 13px; font-weight: 800; }
+.dn-clock-bar { width: 100%; max-width: 46px; height: 100px; display: flex; align-items: flex-end; }
+.dn-clock-bar div { width: 100%; border-radius: 8px; min-height: 4px; }
+.dn-tone--good { background: #4ecfa6; }
+.dn-tone--warn { background: var(--accent); }
+.dn-tone--bad { background: var(--bad); }
+.dn-tone--none { background: var(--surface-3); }
+.dn-clock-col .q-muted { font-size: 11px; }
+
+/* ---------- Compare ---------- */
+.dn-compare-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+.dn-compare-row + .dn-compare-row { padding-top: 10px; }
+.dn-from { font-weight: 700; color: var(--muted); font-size: 15px; text-align: right; }
+.dn-now-num { font-size: 24px; font-weight: 800; min-width: 74px; text-align: right; color: var(--text); }
+.dn-now-num.is-good { color: #4ecfa6; }
+.dn-verdict { margin: 8px 0 0; font-size: 12px; line-height: 1.5; color: var(--muted); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1100px) {
+  .qv-main .dn-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .qv-main .dn-page { padding: 16px 12px 32px; }
+  .dn-grid .q-card { padding: 18px; }
+  .dn-bottom { grid-template-columns: minmax(0, 1fr); }
+  .dn-leak { grid-template-columns: 22px minmax(0, 1fr) auto; gap: 10px 12px; }
+  .dn-bar { grid-column: 2; grid-row: 2; }
+  .dn-points { grid-column: 3; grid-row: 1; }
+  .dn-train { grid-column: 3; grid-row: 2; padding: 0 14px; height: 34px; }
+  .dn-leak-text { white-space: normal; }
+}

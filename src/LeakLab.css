@@ -1,0 +1,159 @@
+/* Leak Lab page. Classes "ll-" se shuru hoti hain. Colours theme.css se aate hain.
+   ".qv-main" laga hai taaki theme.css / index.css ke rules se na dab jaye. */
+
+.qv-main .ll-page {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px 24px 40px;
+  color: var(--text);
+}
+
+.ll-blank { display: grid; gap: 12px; justify-items: start; max-width: 600px; }
+.ll-blank .q-title, .ll-blank .q-muted { margin: 0; }
+
+.qv-main .ll-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.ll-grid .q-card { padding: 24px 26px; }
+
+.ll-label { display: block; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.ll-h2 { margin: 0; font-size: 20px; }
+.ll-muted { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+/* ---------- status pills ---------- */
+.ll-pill { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 999px; white-space: nowrap; }
+.ll-pill--good { background: rgba(62, 207, 142, 0.16); color: var(--good); }
+.ll-pill--warn { background: rgba(247, 181, 56, 0.16); color: var(--accent); }
+.ll-pill--bad { background: rgba(239, 100, 97, 0.16); color: var(--bad); }
+
+/* ---------- Leaks list ---------- */
+.ll-leaks { display: grid; gap: 12px; align-content: start; }
+.ll-leaks .ll-label { margin-bottom: 4px; }
+
+.ll-all {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 16px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  background: transparent;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.ll-all:hover { color: var(--text); border-color: var(--muted); }
+.ll-all.is-on { color: var(--accent); border-color: var(--accent); border-style: solid; }
+
+.ll-leak {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 18px;
+  text-align: left;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font: inherit;
+  transition: border-color 0.15s;
+}
+.ll-leak:hover { border-color: var(--border-strong); }
+.ll-leak.is-on { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.ll-leak:focus-visible, .ll-all:focus-visible, .ll-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ll-leak-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 16px; }
+.ll-leak-bar { height: 9px; border-radius: 99px; background: var(--surface-3); overflow: hidden; }
+.ll-leak-bar div { height: 100%; border-radius: 99px; min-width: 3px; }
+.ll-leak-bar .is-good { background: #4ecfa6; }
+.ll-leak-bar .is-warn { background: var(--accent); }
+.ll-leak-bar .is-bad { background: var(--bad); }
+.ll-leak-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); }
+.ll-leak-meta strong { color: var(--text); font-size: 13px; }
+
+/* ---------- Position ---------- */
+.ll-main { display: grid; gap: 14px; min-width: 0; }
+.ll-poshead { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.ll-board { width: 100%; max-width: 560px; margin: 4px auto 0; }
+.ll-prompt { margin: 6px 0 0; font-size: 15px; font-weight: 700; max-width: 560px; width: 100%; justify-self: center; }
+
+.ll-hint, .ll-msg {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border-left: 3px solid var(--accent);
+  font-size: 13px;
+  line-height: 1.5;
+  max-width: 560px;
+  width: 100%;
+  justify-self: center;
+}
+.ll-msg.is-good { border-left-color: var(--good); }
+
+.ll-actions { display: flex; gap: 12px; max-width: 560px; width: 100%; justify-self: center; }
+.ll-btn {
+  flex: 1;
+  height: 38px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.ll-btn:hover:not(:disabled) { border-color: var(--border-strong); background: var(--surface-3); }
+.ll-btn:disabled { opacity: 0.45; cursor: default; }
+.ll-btn--primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+.ll-btn--primary:hover:not(:disabled) { background: #ffc457; border-color: #ffc457; }
+
+.ll-note { margin: 0; font-size: 11px; color: var(--muted); max-width: 560px; width: 100%; justify-self: center; }
+.ll-note strong { color: var(--text); }
+.ll-done { display: grid; gap: 14px; padding: 12px 0; }
+.ll-done .ll-actions { max-width: none; }
+.ll-done .ll-btn { flex: none; padding: 0 22px; }
+
+/* ---------- Side ---------- */
+.ll-side { display: grid; gap: 24px; min-width: 0; }
+.ll-small { margin: 10px 0 0; font-size: 12px; color: var(--muted); line-height: 1.5; }
+.ll-chart { display: block; width: 100%; height: 120px; margin-top: 16px; overflow: visible; }
+.ll-chart-area { fill: rgba(62, 207, 142, 0.14); }
+.ll-chart-line { fill: none; stroke: #4ecfa6; stroke-width: 2.5; stroke-linejoin: round; }
+.ll-chart-dot { fill: #4ecfa6; }
+
+.ll-trend { display: flex; align-items: baseline; gap: 12px; margin-top: 14px; }
+.ll-from { font-size: 16px; font-weight: 700; color: var(--muted); }
+.ll-trend strong { font-size: 26px; font-weight: 800; }
+.ll-trend strong.is-good { color: #4ecfa6; }
+.ll-trend strong.is-bad { color: var(--bad); }
+.ll-trend .ll-pill { margin-left: auto; align-self: center; }
+.ll-proof { margin: 18px 0 0; font-size: 12px; line-height: 1.6; }
+.ll-fine { margin: 10px 0 0; font-size: 11px; color: var(--muted); }
+
+.ll-schedule { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 14px; }
+.ll-schedule li { display: grid; grid-template-columns: 96px minmax(0, 1fr) 24px; align-items: center; gap: 16px; font-size: 13px; }
+.ll-schedule strong { text-align: right; font-weight: 700; }
+.ll-back-bar { height: 8px; border-radius: 99px; background: var(--surface-3); overflow: hidden; }
+.ll-back-bar div { height: 100%; border-radius: 99px; background: var(--accent); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1180px) {
+  .qv-main .ll-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); }
+  .ll-side { grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .qv-main .ll-page { padding: 16px 12px 32px; }
+  .qv-main .ll-grid { grid-template-columns: minmax(0, 1fr); }
+  .ll-side { grid-template-columns: minmax(0, 1fr); }
+  .ll-grid .q-card { padding: 18px; }
+  .ll-actions { flex-wrap: wrap; }
+}

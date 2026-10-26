@@ -1,0 +1,53 @@
+.qb-board {
+  width: 100%;
+  line-height: 0;
+  user-select: none;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.qb-board svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.qb-piece {
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", "Apple Symbols", "DejaVu Sans", sans-serif;
+  paint-order: stroke fill;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.qb-piece--w {
+  fill: #ffffff;
+  stroke: #1d1d1d;
+  stroke-width: 6px;
+}
+
+.qb-piece--b {
+  fill: #1d1d1d;
+  stroke: #000000;
+  stroke-width: 2px;
+}
+
+.qb-coord {
+  font: 700 20px var(--font-sans, sans-serif);
+  pointer-events: none;
+}
+
+.qb-arrow line {
+  stroke: rgba(78, 204, 163, 0.85);
+}
+
+.qb-arrow polygon {
+  fill: rgba(78, 204, 163, 0.85);
+}
+
+.qb-arrow {
+  pointer-events: none;
+}
+
+.qb-hit {
+  cursor: pointer;
+}

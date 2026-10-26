@@ -1,35 +1,23 @@
+/* Global reset. Colours aur components theme.css mein hain. */
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
-
-:root {
-  font-family: 'DM Sans', sans-serif;
-  color: #e9eee9;
-  background: #0b0f0c;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-html {
-  min-width: 320px;
+html,
+body,
+#root {
+  margin: 0;
   min-height: 100%;
-  background: #0b0f0c;
 }
 
 body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-  background: #0b0f0c;
-}
-
-#root {
-  min-height: 100vh;
+  background: var(--bg, #0b0d10);
+  color: var(--text, #eceff3);
+  font-family: var(--font-sans, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif);
+  -webkit-font-smoothing: antialiased;
 }
 
 button,
@@ -37,25 +25,4 @@ input,
 select,
 textarea {
   font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid #69d893;
-  outline-offset: 3px;
-}
-
-a {
-  color: inherit;
-}
-
-img,
-svg {
-  max-width: 100%;
 }

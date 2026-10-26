@@ -1,0 +1,94 @@
+/* Settings page. Classes "qs-" se shuru hote hain. Container, panel aur rang theme.css se aate hain. */
+
+.qs-page { max-width: 920px; }
+
+.qs-title { margin: 0 0 16px; font-size: 22px; }
+.qs-hint { margin: 8px 0 0; font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+.qs-section { margin-bottom: var(--gap); }
+.qs-section-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+
+/* Plans */
+.qs-plans { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.qs-plan {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+.qs-plan.is-current { border-color: var(--accent); background: var(--accent-soft); }
+.qs-plan-name { font-weight: 700; }
+.qs-price { font-size: 28px; font-weight: 800; }
+.qs-price span { font-size: 12px; font-weight: 400; color: var(--muted); }
+.qs-features { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 13px; color: var(--muted); }
+.qs-adds { margin-top: 16px; padding: 14px 16px; border: 1px dashed var(--border-strong); border-radius: var(--radius); }
+.qs-adds p { margin: 6px 0 0; font-size: 14px; }
+
+/* Rows */
+.qs-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+}
+.qs-eyebrow + .qs-row { margin-top: 12px; }
+.qs-row-title { font-weight: 600; }
+.qs-row-control { display: flex; }
+
+.qs-seg { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+.qs-seg-btn {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.qs-seg-btn:hover { border-color: var(--border-strong); }
+.qs-seg-btn.is-active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+.qs-form { display: flex; gap: 10px; flex-wrap: wrap; }
+.qs-form input {
+  min-width: 220px;
+  font: inherit;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background: var(--bg);
+  color: var(--text);
+}
+.qs-form input:focus { outline: 0; border-color: var(--accent); }
+
+.qs-btn {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.qs-btn:hover { background: var(--surface-3); }
+.qs-btn--danger { color: var(--bad); border-color: var(--bad); }
+.qs-file { display: inline-block; }
+.qs-pill { justify-self: start; font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+
+.qs-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; align-items: center; }
+.qs-confirm { display: inline-flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 13px; color: var(--bad); }
+
+@media (max-width: 760px) {
+  .qs-plans { grid-template-columns: minmax(0, 1fr); }
+}

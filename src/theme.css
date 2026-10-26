@@ -1,0 +1,213 @@
+/* Qelvaris design system: colours, spacing, shared components.
+   Sab classes "q-" se shuru hoti hain taaki purani CSS se na takraye.
+
+   Teen layers (PDF jaisa):
+     frame   -> poora app ek rounded frame mein   (--frame)
+     panel   -> bade rounded boxes                (--surface)
+     inner   -> panel ke andar chhote cards       (--surface-2)
+*/
+
+:root {
+  --bg: #080a0f;
+  --frame: #0b0f17;
+  --surface: #0f1521;
+  --surface-2: #151d2e;
+  --surface-3: #1d2638;
+  --border: #212a3c;
+  --border-strong: #2e3a54;
+
+  --text: #eef1f6;
+  --muted: #8c97ab;
+  --faint: #5d677b;
+
+  --accent: #f7b538;
+  --accent-ink: #1c1303;
+  --accent-soft: rgba(247, 181, 56, 0.14);
+
+  --warn: #f7b538;
+  --bad: #ef6461;
+  --good: #3ecf8e;
+  --info: #6b86f2;
+  --brilliant: #22b8cf;
+
+  --board-light: #e8edd6;
+  --board-dark: #6a9b87;
+  --board-highlight: rgba(230, 200, 50, 0.55);
+
+  --radius: 14px;
+  --radius-sm: 10px;
+  --radius-lg: 20px;
+
+  --page-max: 1120px;
+  --page-pad: 28px;
+  --gap: 20px;
+
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* ---------- Shared page container: har page ek jaisa ---------- */
+.cn-page,
+.qt-page,
+.qg-page,
+.qo-page,
+.qs-page {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: var(--page-pad) var(--page-pad) 48px;
+  box-sizing: border-box;
+  color: var(--text);
+}
+
+/* ---------- Panel: bade rounded boxes (mere pages ke cards) ---------- */
+.q-card,
+.cn-panel,
+.qt-card,
+.qg-card,
+.qo-card,
+.qs-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* ---------- Text helpers ---------- */
+.q-eyebrow,
+.qt-eyebrow,
+.qg-eyebrow,
+.qo-eyebrow,
+.qs-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+}
+.q-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+.q-muted {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.q-mono {
+  font-family: var(--font-mono);
+}
+
+/* ---------- Buttons ---------- */
+.q-btn {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+.q-btn:hover {
+  background: var(--surface-3);
+}
+.q-btn:active {
+  transform: translateY(1px);
+}
+.q-btn:focus-visible,
+.q-chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.q-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.q-btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+.q-btn--primary:hover {
+  background: #ffc457;
+}
+.q-btn--danger {
+  color: var(--bad);
+}
+
+/* ---------- Chips (option pickers): rounded rectangle, selected = amber ---------- */
+.q-chip {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 22px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.q-chip:hover {
+  border-color: var(--border-strong);
+}
+.q-chip.is-on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* ---------- Badges / tags ---------- */
+.q-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  color: var(--muted);
+  white-space: nowrap;
+}
+.q-badge--accent { background: var(--accent-soft); color: var(--accent); }
+.q-badge--bad { background: rgba(239, 100, 97, 0.16); color: var(--bad); }
+.q-badge--info { background: rgba(107, 134, 242, 0.16); color: var(--info); }
+.q-badge--good { background: rgba(62, 207, 142, 0.16); color: var(--good); }
+
+/* ---------- Layout helpers ---------- */
+.q-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.q-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap);
+}
+@media (max-width: 800px) {
+  .q-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --page-pad: 16px;
+    --gap: 14px;
+  }
+  .q-card,
+  .cn-panel,
+  .qt-card,
+  .qg-card,
+  .qo-card,
+  .qs-section {
+    padding: 16px;
+  }
+}

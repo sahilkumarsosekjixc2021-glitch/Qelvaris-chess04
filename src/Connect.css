@@ -1,0 +1,285 @@
+/* Connect page: do bade panels (left form, right live findings). Classes "cn-" se shuru hoti hain.
+   Container aur panel ka look theme.css se aata hai. */
+
+.cn-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: var(--gap);
+  align-items: start;
+}
+
+.cn-left {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.cn-title {
+  margin: 6px 0 0;
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 800;
+  max-width: 14em;
+}
+.cn-lead {
+  margin: 0;
+  max-width: 34em;
+}
+
+/* Source chips + count */
+.cn-sources {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.cn-select--end {
+  margin-left: auto;
+}
+
+/* Inputs */
+.cn-input,
+.cn-select,
+.cn-textarea {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 13px 16px;
+  font: inherit;
+  font-size: 15px;
+  transition: border-color 0.15s;
+}
+.cn-input {
+  flex: 1;
+  min-width: 0;
+}
+.cn-input--small {
+  flex: 1;
+  font-size: 14px;
+  padding: 10px 14px;
+}
+.cn-select {
+  font-size: 13px;
+  padding: 10px 12px;
+}
+.cn-input:focus,
+.cn-select:focus,
+.cn-textarea:focus {
+  outline: 0;
+  border-color: var(--accent);
+}
+.cn-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  font: 13px/1.5 var(--font-mono);
+}
+.cn-file {
+  display: inline-block;
+}
+
+.cn-action {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+}
+.cn-action .q-btn {
+  padding: 0 22px;
+  white-space: nowrap;
+}
+
+.cn-note {
+  margin: 0;
+  font-size: 12px;
+}
+.cn-error {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: rgba(239, 100, 97, 0.12);
+  border: 1px solid rgba(239, 100, 97, 0.4);
+  color: #f5a9a6;
+  font-size: 14px;
+}
+
+/* Progress (left panel ke neeche) */
+.cn-progress {
+  display: grid;
+  gap: 10px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.cn-progress-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+.cn-count {
+  color: var(--text);
+  font-size: 13px;
+}
+.cn-bar {
+  height: 8px;
+  border-radius: 99px;
+  background: var(--surface-3);
+  overflow: hidden;
+}
+.cn-bar div {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--accent);
+  transition: width 0.25s ease;
+}
+
+/* Right panel */
+.cn-right {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+.cn-right-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.cn-findings {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.cn-finding {
+  --c: var(--warn);
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 16px 18px;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--c);
+}
+.cn-finding--bad { --c: var(--bad); }
+.cn-finding--info { --c: var(--info); }
+.cn-finding--warn { --c: var(--warn); }
+
+.cn-finding-no {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--c) 18%, transparent);
+  color: var(--c);
+  font-weight: 700;
+  font-size: 14px;
+}
+.cn-finding-main {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.cn-finding-main strong {
+  font-size: 15px;
+}
+.cn-finding-main .q-muted {
+  font-size: 13px;
+}
+.cn-finding .q-badge {
+  background: color-mix(in srgb, var(--c) 16%, transparent);
+  color: var(--c);
+}
+
+.cn-finding.is-waiting,
+.cn-finding.is-empty {
+  --c: var(--faint);
+  opacity: 0.75;
+  border-left-color: var(--border);
+}
+.cn-skel {
+  display: grid;
+  gap: 8px;
+}
+.cn-skel i {
+  display: block;
+  height: 10px;
+  border-radius: 99px;
+  background: var(--surface-3);
+}
+.cn-skel i:first-child { width: 70%; }
+.cn-skel i:last-child { width: 45%; }
+
+.cn-total {
+  margin: 4px 0 0;
+  font-size: 15px;
+}
+.cn-total .q-muted {
+  font-size: 12px;
+}
+.cn-actions {
+  margin: 0;
+}
+
+/* Pro banner */
+.cn-pro {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 18px;
+  border-radius: var(--radius);
+  background: rgba(247, 181, 56, 0.06);
+  border: 1px solid var(--accent);
+}
+.cn-pro-icon {
+  color: var(--accent);
+  display: grid;
+  place-items: center;
+}
+.cn-pro-text {
+  display: grid;
+  gap: 4px;
+}
+.cn-pro-text strong {
+  font-size: 15px;
+}
+.cn-pro-text .q-muted {
+  font-size: 12px;
+}
+.cn-pro-cta {
+  display: grid;
+  gap: 8px;
+}
+
+@media (max-width: 960px) {
+  .cn-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .cn-title {
+    font-size: 24px;
+  }
+  .cn-action {
+    flex-wrap: wrap;
+  }
+  .cn-action .q-btn {
+    padding: 11px 18px;
+  }
+  .cn-finding {
+    grid-template-columns: 34px 1fr;
+  }
+  .cn-finding .q-badge {
+    grid-column: 2;
+    justify-self: start;
+  }
+  .cn-pro {
+    grid-template-columns: 1fr;
+  }
+}
