@@ -2,21 +2,12 @@ import { ENGINE_URL } from "./engine";
 import { parseInfoLine } from "./chessUtils";
 import { Chess } from "chess.js";
 
-/*
-  Play ke bots. Stockfish ko "Skill Level" aur thoda sa sochne ka time diya jaata hai (level 1 se 8).
-  Personality sirf ye tay karti hai ki engine ki achhi chaalon mein se kaun si chuni jaaye:
-    Solid     engine ki pehli pasand
-    Attacker  capture ya check wali achhi chaal ko pehle chunta hai
-    Trickster kabhi kabhi doosri sabse achhi chaal chunta hai, jo kam dikhne wali hoti hai
-*/
-
 export const PERSONALITIES = [
   { id: "solid", label: "Solid", text: "Plays safe, sensible moves and waits for your mistake." },
   { id: "attacker", label: "Attacker", text: "Goes for captures and checks. Tests whether you keep your pieces safe." },
   { id: "trickster", label: "Trickster", text: "Plays less obvious moves and sets small traps." },
 ];
 
-// level 1..8: Stockfish Skill Level aur har chaal par kitne millisecond sochna hai
 export const LEVELS = [
   { skill: 0, ms: 120 },
   { skill: 2, ms: 160 },
@@ -36,7 +27,7 @@ function candidatesFor(fen, lines, level) {
     .sort((a, b) => b.score - a.score);
 
   if (!scored.length) return [];
-  const tolerance = Math.max(0.35, 1.3 - level * 0.12); // pawns
+  const tolerance = Math.max(0.35, 1.3 - level * 0.12);
   return scored.filter((line) => line.score >= scored[0].score - tolerance);
 }
 
@@ -146,7 +137,6 @@ export function createBot() {
     return booting;
   }
 
-  // Aaj ki position par bot ki chaal (UCI, jaise "e7e5")
   async function pick(fen, { level = 4, personality = "solid" } = {}) {
     await boot();
     if (stopped) throw new Error("stopped");
@@ -169,9 +159,7 @@ export function createBot() {
     if (worker) {
       try {
         worker.terminate();
-      } catch {
-        // ignore
-      }
+      } catch {}
       worker = null;
     }
 

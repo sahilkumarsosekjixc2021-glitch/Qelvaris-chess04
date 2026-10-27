@@ -1,10 +1,6 @@
 import { Chess } from "chess.js";
 import { dbAll } from "./storage";
 
-/*
-  Mission Play ka dimaag: missions, "muft mein kaun sa piece lag sakta hai", aur result ka faisla.
-*/
-
 export const MISSIONS = [
   {
     id: "safe-hands",
@@ -49,11 +45,8 @@ export function missionFor(leakId) {
 
 export const TIME_CHOICES = [5, 10, 15];
 
-/* ---------- Muft mein lagne wale pieces ---------- */
-
 const VALUE = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 };
 
-// Capture "muft" tab hai jab wapas capture nahi ho sakta, ya jab bada piece chhote ke badle mil jaye (2+ ka fayda).
 function isFree(chess, move) {
   if (!move.captured || move.captured === "k") return false;
 
@@ -74,7 +67,6 @@ function withTurn(fen, color) {
   return parts.join(" ");
 }
 
-// `color` ke wo pieces jinhe opponent abhi muft mein le sakta hai: [{ square, piece }]
 export function hangingPieces(fen, color) {
   try {
     const chess = new Chess(withTurn(fen, color === "w" ? "b" : "w"));
@@ -90,7 +82,6 @@ export function hangingPieces(fen, color) {
   }
 }
 
-// Bot ne abhi jo chaal chali, kya usne muft mein piece liya? (chaal chalne se pehle ki position)
 export function wasFreeCapture(fenBefore, from, to, promotion) {
   try {
     const chess = new Chess(fenBefore);
@@ -106,15 +97,12 @@ export function wasFreeCapture(fenBefore, from, to, promotion) {
 const PIECE_NAME = { p: "pawn", n: "knight", b: "bishop", r: "rook", q: "queen" };
 export const pieceName = (code) => PIECE_NAME[code] || "piece";
 
-/* ---------- Convert the win: shuruaati position ---------- */
-
 const STANDARD_ENDGAMES = [
   "8/5k2/8/8/8/8/2Q5/4K3 w - - 0 1",
   "8/8/8/4k3/8/8/8/R3K3 w - - 0 1",
   "6k1/5ppp/8/8/8/8/5PPP/3R2K1 w - - 0 1",
 ];
 
-// Pehle aapki apni games ki jeetne wali endgame positions (Leak Lab se), warna ek standard
 export async function pickEndgame() {
   try {
     const items = (await dbAll("training")).filter((item) => item.leak === "endgame-conversion" && item.fen);
@@ -131,14 +119,10 @@ export async function pickEndgame() {
       const item = usable[Math.floor(Math.random() * usable.length)];
       return { fen: item.fen, userColor: item.userColor === "b" ? "b" : "w", own: true };
     }
-  } catch {
-    // niche standard position
-  }
+  } catch {}
 
   return { fen: STANDARD_ENDGAMES[Math.floor(Math.random() * STANDARD_ENDGAMES.length)], userColor: "w", own: false };
 }
-
-/* ---------- Result ---------- */
 
 export const mmss = (seconds) => {
   const s = Math.max(0, Math.round(seconds));
@@ -154,7 +138,6 @@ export function userWon(result, color) {
   return (result === "1-0" && color === "w") || (result === "0-1" && color === "b");
 }
 
-// { done: bool, title, text } mission ke natije ke liye
 export function missionOutcome(mission, { result, userColor, freeLost, clockAt25, reason }) {
   const won = userWon(result, userColor);
   const draw = result === "1/2-1/2";
@@ -210,7 +193,6 @@ export function missionOutcome(mission, { result, userColor, freeLost, clockAt25
   return { done: false, title: "Not converted", text: "The winning endgame was lost." };
 }
 
-// Clean game: analysis ke baad, kya aapki koi chaal Mistake ya Blunder thi?
 export function cleanOutcome(userMoves) {
   const bad = userMoves.filter((m) => m.cat === "Mistake" || m.cat === "Blunder").length;
   return bad === 0
