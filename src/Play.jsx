@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Chess } from "chess.js";
 import Board from "./Board";
-import { createBot, LEVELS, PERSONALITIES } from "./bot";
+import { createBot, LEVELS, PERSONALITIES } from "./bot.js";
+import { CALM_SECONDS, MIN_MOVES, MISSIONS, TIME_CHOICES, cleanOutcome, hangingPieces, hms, missionFor, missionOutcome, mmss, pickEndgame, pieceName, wasFreeCapture } from "./playdata.js";
 import { createEngine } from "./engine";
 import { gradeAll, parseGame } from "./chessUtils";
 import { analyseGame as buildRecord, computeLeaks, inWindow, loadReviewedGames } from "./leaks";
@@ -10,21 +11,6 @@ import { buildCandidates, seedTraining } from "./lab";
 import { betterLabel, explainMoment } from "./story";
 import { dbAll, getSetting, setSetting } from "./storage";
 import { setStepDone } from "./todayData";
-import {
-  CALM_SECONDS,
-  MIN_MOVES,
-  MISSIONS,
-  TIME_CHOICES,
-  cleanOutcome,
-  hangingPieces,
-  hms,
-  missionFor,
-  missionOutcome,
-  mmss,
-  pickEndgame,
-  pieceName,
-  wasFreeCapture,
-} from "./playData";
 import "./Play.css";
 
 function go(page) {
