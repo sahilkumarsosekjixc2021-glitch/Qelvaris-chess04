@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Analytics } from "@vercel/analytics/react";
 import Today from "./Today";
 import Openings from "./OpeningsPage";
 import LeakLab from "./LeakLab";
@@ -132,6 +133,7 @@ function App() {
       <main className="qv-main">{renderPage()}</main>
 
       <SpeedInsights />
+      <Analytics />
     </div>
   );
 }
