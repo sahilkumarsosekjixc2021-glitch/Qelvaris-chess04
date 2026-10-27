@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Chess } from "chess.js";
 import Board from "./Board";
-import { createBot, LEVELS, PERSONALITIES } from "./bot.js";
-import { CALM_SECONDS, MIN_MOVES, MISSIONS, TIME_CHOICES, cleanOutcome, hangingPieces, hms, missionFor, missionOutcome, mmss, pickEndgame, pieceName, wasFreeCapture } from "./playdata.js";
+import { createBot, LEVELS, PERSONALITIES } from "./bot";
+import { CALM_SECONDS, MIN_MOVES, MISSIONS, TIME_CHOICES, cleanOutcome, hangingPieces, hms, missionFor, missionOutcome, mmss, pickEndgame, pieceName, wasFreeCapture } from "./playdata";
 import { createEngine } from "./engine";
 import { gradeAll, parseGame } from "./chessUtils";
 import { analyseGame as buildRecord, computeLeaks, inWindow, loadReviewedGames } from "./leaks";
@@ -415,7 +415,6 @@ export default function Play() {
       const saved = await saveReviewedGame({ game, parsed, moves, depth });
       const record = buildRecord(saved, parsed, moves);
 
-      // Sabse mehengi galti = is game ka ek turning point
       const worst = record.userMoves
         .filter((m) => m.isError && (m.winLoss || 0) >= 6)
         .sort((a, b) => b.winLoss - a.winLoss)[0];
@@ -432,7 +431,6 @@ export default function Play() {
           }
         : null;
 
-      // Galtiyan Leak Lab mein apne aap
       const before = (await dbAll("training")).length;
       const list = await seedTraining([record]);
       const added = Math.max(0, list.length - before);
