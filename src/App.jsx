@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Analytics } from "@vercel/analytics/react";
+
+import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Today from "./Today";
 import Openings from "./OpeningsPage";
 import LeakLab from "./LeakLab";
@@ -14,6 +17,8 @@ import "./theme.css";
 import "./shell.css";
 import Settings from "./Settings";
 import { applySavedSettings } from "./settingsData";
+
+<><Route path="/login" element={<Login />} /><Route path="/review" element={<ProtectedRoute><Review /></ProtectedRoute>} /><Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} /></>
 /*
   Qelvaris, naya design.
   NAV mein wahi pages hain jo PDF mein hain. Har step mein ek ComingSoon ki jagah asli page judta jayega.
