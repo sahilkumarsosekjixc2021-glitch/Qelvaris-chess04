@@ -14,31 +14,85 @@ function Sample() {
   return <span className="qt-sample">Sample data</span>;
 }
 
-function PlanCard({ data, dateLabel, onToggle }) {
+/* ---------- Progress ring (1 / 3) ---------- */
+function Ring({ done, total }) {
+  const r = 26;
+  const c = 2 * Math.PI * r;
+  const pct = total ? done / total : 0;
+  return (
+    <div className="qt-ring" aria-label={`${done} of ${total} done`}>
+      <svg viewBox="0 0 64 64" width="64" height="64">
+        <circle cx="32" cy="32" r={r} className="qt-ring-bg" />
+        <circle
+          cx="32"
+          cy="32"
+          r={r}
+          className="qt-ring-fg"
+          strokeDasharray={c}
+          strokeDashoffset={c * (1 - pct)}
+          transform="rotate(-90 32 32)"
+        />
+      </svg>
+      <span className="qt-ring-text">
+        {done} / {total}
+      </span>
+    </div>
+  );
+}
+
+/* ---------- Plan card ---------- */
+function PlanCard({ data, onToggle }) {
   const { steps } = data.plan;
   const doneCount = steps.filter((s) => data.doneIds.includes(s.id)).length;
   const firstOpen = steps.find((s) => !data.doneIds.includes(s.id));
+  const pct = steps.length ? (doneCount / steps.length) * 100 : 0;
 
   return (
     <section className="qt-card">
       <div className="qt-plan-head">
         <div>
-          <div className="qt-eyebrow">{dateLabel}</div>
-          <h2 className="qt-h2">Today&rsquo;s 15 minutes</h2>
+          <h2 className="qt-h2">A little focus. A stronger game.</h2>
+          <div className="qt-sub">Your 15-minute daily plan · Built from your games</div>
         </div>
-        <span className="qt-donepill">
-          {doneCount} of {steps.length} done
-        </span>
+        <Ring done={doneCount} total={steps.length} />
+      </div>
+
+      <div className="qt-progress" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(pct)}>
+        <div className="qt-progress-fill" style={{ width: `${pct}%` }} />
       </div>
 
       <ol className="qt-steps">
         {steps.map((step, i) => {
           const done = data.doneIds.includes(step.id);
           const isCurrent = !done && firstOpen?.id === step.id;
-          const state = done ? "done" : isCurrent ? "current" : "next";
+
+          if (isCurrent) {
+            return (
+              <li key={step.id} className="qt-step qt-step--current">
+                <div className="qt-current-top">
+                  <span className="qt-upnext">▶ Up next for you</span>
+                  <span className="qt-min">{step.minutes} min</span>
+                </div>
+                <div className="qt-current-body">
+                  <div className="qt-current-board">
+                    <Board fen={step.fen || data.lastGame.fen} showCoords={false} />
+                  </div>
+                  <div className="qt-current-info">
+                    <div className="qt-current-title">
+                      {step.kind} · {step.title}
+                    </div>
+                    <div className="qt-step-from">{step.from}</div>
+                    <button className="qt-cta" onClick={() => go(step.goTo)}>
+                      → Continue {step.kind.toLowerCase()}
+                    </button>
+                  </div>
+                </div>
+              </li>
+            );
+          }
 
           return (
-            <li key={step.id} className={`qt-step qt-step--${state}`}>
+            <li key={step.id} className={`qt-step qt-step--row ${done ? "qt-step--done" : ""}`}>
               <button
                 className="qt-check"
                 onClick={() => onToggle(step.id, !done)}
@@ -57,17 +111,11 @@ function PlanCard({ data, dateLabel, onToggle }) {
 
               <span className="qt-min">{step.minutes} min</span>
 
-              <div className="qt-act-col">
-                {done ? (
-                  <span className="qt-pill-done">Done</span>
-                ) : isCurrent ? (
-                  <button className="qt-act qt-act--go" onClick={() => go(step.goTo)}>
-                    Start
-                  </button>
-                ) : (
-                  <span className="qt-act qt-act--next">Up next</span>
-                )}
-              </div>
+              {done ? (
+                <span className="qt-chip qt-chip--good">✓ Done</span>
+              ) : (
+                <span className="qt-chip">○ Next</span>
+              )}
             </li>
           );
         })}
@@ -82,58 +130,69 @@ function PlanCard({ data, dateLabel, onToggle }) {
   );
 }
 
+/* ---------- Last game ---------- */
 function LastGameCard({ game }) {
+  const won = game.result && game.result.startsWith("1-0");
   return (
     <section className="qt-card qt-last">
-      <div className="qt-last-board">
-        <Board fen={game.fen} showCoords={false} />
+      <div className="qt-last-head">
+        <span className="qt-eyebrow">
+          Your last game {game.isSample && <Sample />}
+        </span>
+        {game.result && (
+          <span className={`qt-chip ${won ? "qt-chip--good" : ""}`}>
+            {won ? "✓ Win" : "Result"} · {game.result}
+          </span>
+        )}
       </div>
 
-      <div className="qt-last-info">
-        <div className="qt-eyebrow">
-          Last game{game.source ? ` · ${game.source}` : ""} {game.isSample && <Sample />}
+      <div className="qt-last-row">
+        <div className="qt-last-info">
+          <div className="qt-last-title">{game.title}</div>
+          <div className="qt-last-meta">
+            {game.turningPoints ? `${game.turningPoints} turning points` : "Not reviewed yet"}
+            {game.source ? ` · ${game.source}` : ""}
+          </div>
         </div>
-        <div className="qt-last-title">
-          {game.title}
-          {game.result ? ` · ${game.result}` : ""}
-        </div>
-        <div className="qt-last-meta">
-          {game.accuracy !== null && game.accuracy !== undefined ? (
-            <strong className="qt-acc">Accuracy {game.accuracy}</strong>
-          ) : (
-            <span>Not reviewed yet</span>
-          )}
-          {game.turningPoints ? <span> · {game.turningPoints} turning points found</span> : null}
-        </div>
-        <div className="qt-actions">
-          <button className="qt-btn" onClick={() => go("Review")}>
-            Open story
-          </button>
-          <button className="qt-btn" onClick={() => go("Games")}>
-            All games
-          </button>
-        </div>
+
+        {game.accuracy !== null && game.accuracy !== undefined && (
+          <div className="qt-acc-box">
+            <strong className="qt-acc">{game.accuracy}</strong>
+            <span>ACCURACY</span>
+          </div>
+        )}
+
+        <button className="qt-btn" onClick={() => go("Review")}>
+          Open story
+        </button>
       </div>
     </section>
   );
 }
 
+/* ---------- Rating leaks ---------- */
 function LeakCard({ leaks }) {
   const max = Math.max(...leaks.leaks.map((l) => Math.abs(l.points)), 1);
+  const s = leaks.status;
 
   return (
     <section className="qt-card">
-      <div className="qt-eyebrow">
-        Leak score · {leaks.windowLabel} {leaks.isSample && <Sample />}
+      <div className="qt-card-head">
+        <span className="qt-eyebrow">
+          Your rating leaks {leaks.isSample && <Sample />}
+        </span>
+        <span className="qt-info" title="Estimate of rating points lost to repeating habits">i</span>
       </div>
 
       <div className="qt-scorerow">
         <div className="qt-score">{minus(leaks.total)}</div>
         <div className="qt-scoretext">
-          <strong>rating points lost to leaks</strong>
-          <span>an estimate from how often each leak decides a game</span>
+          <strong>rating points</strong>
+          <span>estimated cost · {leaks.windowLabel}</span>
         </div>
       </div>
+
+      <p className="qt-tagline">Small, repeatable habits. Real rating upside.</p>
 
       {leaks.leaks.length === 0 && <p className="qt-note">Abhi koi leak nahi mila. Aur games review karo.</p>}
 
@@ -151,51 +210,51 @@ function LeakCard({ leaks }) {
         ))}
       </ul>
 
-      <div className="qt-leakfoot">
-        <span>{leaks.moreCount > 0 ? `+ ${leaks.moreCount} more leaks` : ""}</span>
-        <button className="qt-link" onClick={() => go("DNA")}>
-          See all in DNA →
-        </button>
+      <div className="qt-status">
+        <span className="qt-st qt-st--good">✓ {s.fixed} fixed</span>
+        <span className="qt-st qt-st--warn">↗ {s.improving} improving</span>
+        <span className="qt-st qt-st--bad">○ {s.open} open</span>
       </div>
+
+      <button className="qt-link" onClick={() => go("DNA")}>
+        Explore your Chess DNA ↗
+      </button>
     </section>
   );
 }
 
-function WeekCard({ streak, status }) {
+/* ---------- Just want a game ---------- */
+function QuickPlayCard() {
   return (
-    <section className="qt-card">
-      <div className="qt-card-head">
-        <div className="qt-eyebrow">This week</div>
-        <span className="qt-streak">{streak.count} day streak</span>
+    <section className="qt-card qt-quick">
+      <div className="qt-quick-head">
+        <div className="qt-quick-icon" aria-hidden="true">⚔</div>
+        <div>
+          <div className="qt-quick-title">Just want a game?</div>
+          <div className="qt-quick-sub">No mission. No pressure.</div>
+        </div>
       </div>
+      <button className="qt-quick-btn" onClick={() => go("Play")}>
+        ▷ Quick play · 10 + 0
+      </button>
+      <div className="qt-quick-foot">Always here. Every game can teach you.</div>
+    </section>
+  );
+}
 
-      <div className="qt-week">
-        {streak.week.map((day, i) => (
-          <span
-            key={day.key + i}
-            className={`qt-dot ${day.done ? "is-done" : ""} ${day.isToday ? "is-today" : ""} ${day.isFuture ? "is-future" : ""}`}
-            aria-label={`${day.label}: ${day.done ? "session finished" : "no finished session"}`}
-          >
-            {day.label}
-          </span>
-        ))}
+/* ---------- Bottom connect banner ---------- */
+function ConnectBanner() {
+  return (
+    <section className="qt-banner">
+      <div className="qt-banner-icon" aria-hidden="true">🔗</div>
+      <div className="qt-banner-text">
+        <strong>The coach that learns from your games.</strong>
+        <span>Connect → Find your leaks → Train your positions → Prove it in play</span>
       </div>
-
-      <p className="qt-note qt-note--tight">A streak day means a finished session, not just a login.</p>
-
-      <div className="qt-status">
-        <div>
-          <strong className="qt-n qt-n--good">{status.fixed}</strong>
-          <span>Fixed</span>
-        </div>
-        <div>
-          <strong className="qt-n qt-n--warn">{status.improving}</strong>
-          <span>Improving</span>
-        </div>
-        <div>
-          <strong className="qt-n qt-n--bad">{status.open}</strong>
-          <span>Still open</span>
-        </div>
+      <div className="qt-banner-actions">
+        <span className="qt-chip qt-chip--good">✓ Lichess</span>
+        <button className="qt-btn" onClick={() => go("Games")}>Connect Chess.com</button>
+        <button className="qt-btn" onClick={() => go("Games")}>⇪ Import PGN</button>
       </div>
     </section>
   );
@@ -235,22 +294,43 @@ export default function Today() {
   if (!data) return <div className="qt-page"><p className="qt-note">Loading…</p></div>;
 
   const dateLabel = new Date()
-    .toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "short" })
+    .toLocaleDateString("en-IN", { weekday: "long", month: "long", day: "numeric" })
     .toUpperCase();
+
+  // data.user?.name ho to welcome mein dikhega, warna sirf "Welcome back"
+  const name = data.user?.name;
 
   return (
     <div className="qt-page">
+      <header className="qt-hero">
+        <div>
+          <div className="qt-eyebrow qt-eyebrow--accent">{dateLabel}</div>
+          <h1 className="qt-hero-title">Your next move is a better you.</h1>
+          <p className="qt-hero-sub">
+            Welcome back{name ? `, ${name}` : ""}. Let&rsquo;s turn yesterday&rsquo;s games into today&rsquo;s edge.
+          </p>
+        </div>
+        <span className="qt-streak">🔥 You&rsquo;re on a {data.streak.count}-day streak</span>
+      </header>
+
       <div className="qt-grid">
         <div className="qt-col">
-          <PlanCard data={data} dateLabel={dateLabel} onToggle={onToggle} />
+          <PlanCard data={data} onToggle={onToggle} />
           <LastGameCard game={data.lastGame} />
         </div>
 
         <div className="qt-col">
           <LeakCard leaks={data.leaks} />
-          <WeekCard streak={data.streak} status={data.leaks.status} />
+          <QuickPlayCard />
         </div>
       </div>
+
+      <ConnectBanner />
+
+      <footer className="qt-foot">
+        <span>Built from your games. Measured in your games.</span>
+        {(data.plan.isSample || data.lastGame.isSample || data.leaks.isSample) && <span>Sample player &amp; game data</span>}
+      </footer>
     </div>
   );
 }
