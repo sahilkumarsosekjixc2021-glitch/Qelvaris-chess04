@@ -1,0 +1,201 @@
+/* EXPLORE: Review ke glass theme jaisa. Colors Review.css ke variables se aate hain. */
+
+/* Story / Explore tabs */
+.pp-page.pp-page .st-tabs {
+  display: inline-flex;
+  justify-self: start;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--gl-edge);
+  border-radius: 14px;
+  background: rgba(5, 10, 18, 0.55);
+}
+.pp-page.pp-page .st-tab {
+  min-width: 96px;
+  height: 36px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--gl-mute);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.pp-page.pp-page .st-tab:hover:not(:disabled):not(.is-on) {
+  color: var(--gl-ink);
+  background: rgba(79, 209, 197, 0.1);
+}
+.pp-page.pp-page .st-tab.is-on {
+  border-color: rgba(255, 214, 110, 0.55);
+  background: rgba(247, 181, 56, 0.14);
+  color: var(--gl-gold);
+}
+.pp-page.pp-page .st-tab:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Panel */
+.pp-page.pp-page .st-ex {
+  display: grid;
+  gap: 14px;
+}
+.pp-page.pp-page .st-ex-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.pp-page.pp-page .st-ex-depths {
+  display: inline-flex;
+  gap: 6px;
+}
+.pp-page.pp-page .st-ex-depth {
+  min-width: 40px;
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--gl-edge-soft);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--gl-ink);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.pp-page.pp-page .st-ex-depth:hover:not(.is-on) {
+  border-color: var(--gl-cyan);
+  background: rgba(79, 209, 197, 0.12);
+}
+.pp-page.pp-page .st-ex-depth.is-on {
+  border-color: rgba(255, 214, 110, 0.75);
+  background: linear-gradient(180deg, #ffd97a, #f2ac2a);
+  color: #2b1a00;
+}
+
+.pp-page.pp-page .st-ex-status {
+  margin: 0;
+  color: var(--gl-mute);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.pp-page.pp-page .st-ex-status.is-error {
+  color: #ffb3c9;
+}
+.pp-page.pp-page .st-ex-progress {
+  height: 3px;
+  margin-top: -6px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.07);
+}
+.pp-page.pp-page .st-ex-progress span {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--gl-cyan);
+  transition: width 0.25s ease;
+}
+
+/* Engine lines */
+.pp-page.pp-page .st-ex-lines {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pp-page.pp-page .st-ex-line {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 10px 12px;
+  border: 1px solid var(--gl-edge-soft);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+}
+.pp-page.pp-page .st-ex-line.is-best {
+  border-color: rgba(255, 214, 110, 0.45);
+  background: rgba(247, 181, 56, 0.08);
+}
+.pp-page.pp-page .st-ex-score {
+  padding: 5px 0;
+  border-radius: 8px;
+  background: rgba(5, 10, 18, 0.7);
+  color: #fff;
+  font: 800 12px var(--font-mono);
+  text-align: center;
+}
+.pp-page.pp-page .st-ex-line.is-best .st-ex-score {
+  color: var(--gl-gold);
+}
+.pp-page.pp-page .st-ex-moves {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 4px;
+  min-width: 0;
+  line-height: 1.2;
+}
+.pp-page.pp-page .st-ex-token {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.pp-page.pp-page .st-ex-token i {
+  color: var(--gl-mute);
+  font: normal 11px var(--font-mono);
+  opacity: 0.8;
+}
+.pp-page.pp-page .st-ex-moves button {
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--gl-ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.pp-page.pp-page .st-ex-moves button:hover {
+  border-color: rgba(79, 209, 197, 0.45);
+  background: rgba(79, 209, 197, 0.12);
+  color: var(--gl-cyan);
+}
+
+/* Player ki apni variation */
+.pp-page.pp-page .st-ex-trail {
+  display: grid;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid var(--gl-edge-soft);
+}
+.pp-page.pp-page .st-ex-trail p {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  margin: 0;
+  font-size: 14px;
+}
+.pp-page.pp-page .st-ex-trail b {
+  color: var(--gl-gold);
+  font-weight: 700;
+}
+
+@media (max-width: 760px) {
+  .pp-page.pp-page .st-tabs {
+    justify-self: stretch;
+  }
+  .pp-page.pp-page .st-tab {
+    flex: 1;
+  }
+  .pp-page.pp-page .st-ex-line {
+    grid-template-columns: 54px minmax(0, 1fr);
+    gap: 8px;
+  }
+}

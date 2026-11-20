@@ -1,0 +1,247 @@
+/* DNA PAGE: Leak Lab jaisa theme (navy checker bg, glass cards, gold accents).
+   DNA.jsx me sabse LAST import karo (DNALayout.css ke baad):
+   import "./DNALayout.css";
+   import "./DNATheme.css";   // naya
+   DNA.css / DNAGlow.css / DNAFx.css / DNALayout.css ko edit nahi kiya, sirf override. */
+
+/* ---------- 0. Colors (Leak Lab ke same) ---------- */
+.qv-main .dn-page {
+  --ll-gold: #f7b538;
+  --ll-gold-soft: #ffd98a;
+  --ll-teal: #4fd1c5;
+  --ll-good: #61d69a;
+  --ll-bad: #ff7d7d;
+  --ll-text: #eef1f6;
+  --ll-muted: #8c97ab;
+  --ll-line: rgba(130, 170, 190, 0.16);
+  --ll-glass: linear-gradient(145deg, rgba(20, 32, 50, 0.9), rgba(9, 14, 24, 0.94));
+
+  /* DNA.css ke purane variables ko bhi isi palette pe laao */
+  --accent: #f7b538;
+  --text: #eef1f6;
+  --muted: #8c97ab;
+  --border: rgba(130, 170, 190, 0.16);
+
+  position: relative;
+  isolation: isolate;
+  min-height: calc(100vh - 72px);
+}
+
+/* ---------- 1. Background: green network hatao, navy checker lagao ---------- */
+.qv-main--net:has(.dn-page),
+.qv-main--net:has(.ll-page) {
+  background: #070c14 !important;
+}
+.qv-main--net:has(.dn-page)::before,
+.qv-main--net:has(.dn-page)::after,
+.qv-main--net:has(.ll-page)::before,
+.qv-main--net:has(.ll-page)::after {
+  display: none !important;
+}
+.qv-main .dn-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  z-index: -1;
+  pointer-events: none;
+  background-color: #070c14;
+  background-image:
+    radial-gradient(ellipse 70% 40% at 50% 100%, rgba(79, 209, 197, 0.14), transparent 70%),
+    repeating-conic-gradient(rgba(255, 255, 255, 0.022) 0% 25%, transparent 0% 50%);
+  background-size: 100% 100%, 110px 110px;
+}
+body:has(.dn-page) { overflow-x: clip; }
+
+/* ---------- 2. Saare cards: glass ---------- */
+.qv-main .dn-page .dn2-hero,
+.qv-main .dn-page .dn-metric,
+.qv-main .dn-page .dn-panel,
+.qv-main .dn-page .dn-empty-state {
+  background: var(--ll-glass) !important;
+  border: 1px solid var(--ll-line) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28) !important;
+}
+.qv-main .dn-page .dn-metric:hover,
+.qv-main .dn-page .dn-panel:hover {
+  border-color: rgba(247, 181, 56, 0.3) !important;
+}
+/* Glow-follow effect ka cyan/green tint hatao */
+.qv-main .dn-page .dn-glow::before,
+.qv-main .dn-page .dn-glow::after {
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 0%), rgba(247, 181, 56, 0.08), transparent 55%) !important;
+  border-color: transparent !important;
+}
+
+/* ---------- 3. Header (Leak Lab banner jaisa) ---------- */
+.qv-main .dn-page .dn2-hero {
+  background:
+    radial-gradient(circle at 88% 15%, rgba(79, 209, 197, 0.12), transparent 46%),
+    linear-gradient(135deg, rgba(20, 32, 50, 0.94), rgba(9, 14, 24, 0.97)) !important;
+  border-color: rgba(247, 181, 56, 0.22) !important;
+}
+.qv-main .dn-page .dn2-kicker,
+.qv-main .dn-page .dn-kicker,
+.qv-main .dn-page .dn-label,
+.qv-main .dn-page .dn-metric-label {
+  color: var(--ll-gold) !important;
+}
+.qv-main .dn-page .dn2-titles h1 { color: #fff !important; }
+.qv-main .dn-page .dn2-titles h1 span {
+  color: var(--ll-gold) !important;
+  background: none !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+.qv-main .dn-page .dn2-chip {
+  color: var(--ll-text) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--ll-line) !important;
+}
+.qv-main .dn-page .dn2-chip i { background: var(--ll-good) !important; box-shadow: 0 0 8px rgba(97, 214, 154, 0.6) !important; }
+
+/* 30 days / 90 days / All time */
+.qv-main .dn-page .dn-windows {
+  background: var(--ll-glass) !important;
+  border: 1px solid var(--ll-line) !important;
+  border-radius: 13px !important;
+  padding: 4px !important;
+}
+.qv-main .dn-page .dn-win {
+  color: var(--ll-muted) !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  box-shadow: none !important;
+}
+.qv-main .dn-page .dn-win:hover:not(.is-on) { color: var(--ll-text) !important; }
+.qv-main .dn-page .dn-win.is-on {
+  color: #211607 !important;
+  background: linear-gradient(135deg, #f7c45f, #d99a32) !important;
+  border-color: #e6aa44 !important;
+}
+
+/* ---------- 4. Headings aur text ---------- */
+.qv-main .dn-page .dn-panel h2,
+.qv-main .dn-page .dn-panel h3,
+.qv-main .dn-page .dn-metric-value,
+.qv-main .dn-page .dn-value { color: #fff !important; }
+.qv-main .dn-page .dn-panel p,
+.qv-main .dn-page .dn-metric-detail,
+.qv-main .dn-page .dn-disclaimer,
+.qv-main .dn-page .dn-chart-note { color: var(--ll-muted) !important; }
+
+/* Icon boxes (panel / metric) */
+.qv-main .dn-page .dn-metric-icon,
+.qv-main .dn-page .dn-panel-symbol {
+  color: var(--ll-gold) !important;
+  background: rgba(247, 181, 56, 0.1) !important;
+  border: 1px solid rgba(247, 181, 56, 0.28) !important;
+  border-radius: 12px !important;
+}
+
+/* ---------- 5. Buttons ---------- */
+.qv-main .dn-page .dn-primary-btn,
+.qv-main .dn-page .dn2-btn--primary,
+.qv-main .dn-page .dn-train {
+  color: #211607 !important;
+  background: linear-gradient(135deg, #f7c45f, #d99a32) !important;
+  border: 1px solid #e6aa44 !important;
+  box-shadow: 0 8px 22px rgba(217, 154, 50, 0.22) !important;
+}
+.qv-main .dn-page .dn-primary-btn:hover,
+.qv-main .dn-page .dn2-btn--primary:hover,
+.qv-main .dn-page .dn-train:hover {
+  background: linear-gradient(135deg, #ffd479, #e6aa44) !important;
+  box-shadow: 0 12px 28px rgba(217, 154, 50, 0.34) !important;
+}
+.qv-main .dn-page .dn2-dl,
+.qv-main .dn-page .dn2-btn:not(.dn2-btn--primary) {
+  color: var(--ll-text) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--ll-line) !important;
+  box-shadow: none !important;
+}
+.qv-main .dn-page .dn2-dl:hover,
+.qv-main .dn-page .dn2-btn:not(.dn2-btn--primary):hover {
+  color: var(--ll-gold-soft) !important;
+  background: rgba(247, 181, 56, 0.08) !important;
+  border-color: var(--ll-gold) !important;
+}
+
+/* "Train your weakest skill" bar */
+.qv-main .dn-page .dn2-train-skill {
+  color: var(--ll-gold-soft) !important;
+  background: rgba(247, 181, 56, 0.07) !important;
+  border: 1px solid rgba(247, 181, 56, 0.3) !important;
+}
+.qv-main .dn-page .dn2-train-skill:hover {
+  background: rgba(247, 181, 56, 0.12) !important;
+  border-color: var(--ll-gold) !important;
+}
+
+/* ---------- 6. Improvement priorities (accordion = Leak Lab ke leak rows jaisa) ---------- */
+.qv-main .dn-page .dn-acc-item {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid var(--ll-line) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+.qv-main .dn-page .dn-acc-item:hover { border-color: rgba(247, 181, 56, 0.4) !important; }
+.qv-main .dn-page .dn-acc-item.is-open {
+  background: linear-gradient(145deg, rgba(247, 181, 56, 0.12), rgba(255, 255, 255, 0.02)) !important;
+  border-color: var(--ll-gold) !important;
+  box-shadow: 0 0 0 1px rgba(247, 181, 56, 0.15), 0 0 22px rgba(247, 181, 56, 0.12) !important;
+}
+.qv-main .dn-page .dn-points { color: var(--ll-bad) !important; }
+.qv-main .dn-page .dn-bar { background: rgba(255, 255, 255, 0.08) !important; border-radius: 99px !important; }
+.qv-main .dn-page .dn-bar > *,
+.qv-main .dn-page .dn-bar i {
+  background: linear-gradient(90deg, #f7c45f, #d99a32) !important;
+  border-radius: 99px !important;
+}
+
+/* Fixed / working pills */
+.qv-main .dn-page .dn-status.is-fixed {
+  color: var(--ll-good) !important;
+  background: rgba(97, 214, 154, 0.1) !important;
+  border: 1px solid rgba(97, 214, 154, 0.3) !important;
+}
+.qv-main .dn-page .dn-status.is-working {
+  color: var(--ll-gold-soft) !important;
+  background: rgba(247, 181, 56, 0.1) !important;
+  border: 1px solid rgba(247, 181, 56, 0.3) !important;
+}
+
+/* ---------- 7. Radar, clock bars, compare ---------- */
+.qv-main .dn-page .dn-radar { color: var(--ll-teal); }
+.qv-main .dn-page .dn-axis { color: #fff !important; fill: #fff !important; }
+.qv-main .dn-page .dn-value { color: var(--ll-teal) !important; fill: var(--ll-teal) !important; }
+.qv-main .dn-page .dn-key--now { background: var(--ll-teal) !important; border-color: var(--ll-teal) !important; }
+.qv-main .dn-page .dn-key--prev { border-color: var(--ll-gold) !important; }
+
+.qv-main .dn-page .dn-clock-bar { background: rgba(255, 255, 255, 0.06) !important; border-color: var(--ll-line) !important; }
+.qv-main .dn-page .dn-compare-row { border-color: var(--ll-line) !important; }
+.qv-main .dn-page .dn-verdict {
+  color: var(--ll-gold-soft) !important;
+  background: rgba(247, 181, 56, 0.07) !important;
+  border: 1px solid rgba(247, 181, 56, 0.28) !important;
+}
+.qv-main .dn-page .dn-footer,
+.qv-main .dn-page .dn-disclaimer { border-color: var(--ll-line) !important; }
+
+/* ---------- 8. DNA card download modal ---------- */
+.qv-main .dn-page .dn2-modal-box,
+.dn2-modal .dn2-modal-box {
+  background: var(--ll-glass, linear-gradient(145deg, rgba(20, 32, 50, 0.96), rgba(9, 14, 24, 0.98))) !important;
+  border: 1px solid rgba(130, 170, 190, 0.2) !important;
+  border-radius: 16px !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qv-main .dn-page .dn-acc-item,
+  .qv-main .dn-page .dn-metric,
+  .qv-main .dn-page .dn-panel { transition: none !important; }
+}

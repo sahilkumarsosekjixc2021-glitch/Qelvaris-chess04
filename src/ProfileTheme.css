@@ -1,0 +1,33 @@
+/* PROFILE (+ Friends) PAGE: sirf background (Leak Lab jaisa). Layout aur cards bilkul purane hain.
+   Profile.jsx me sabse LAST import karo:
+   import "./Profile.css";
+   import "./Profile-glass.css";
+   import "./ProfileTheme.css";   // naya */
+
+/* Green network hatao, navy checker lagao */
+.qv-main--net:has(.profile-page) { background: #070c14 !important; }
+.qv-main--net:has(.profile-page)::before,
+.qv-main--net:has(.profile-page)::after { display: none !important; }
+
+.profile-page {
+  position: relative;
+  isolation: isolate;
+  min-height: calc(100vh - 72px);
+}
+.profile-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  z-index: -1;
+  pointer-events: none;
+  background-color: #070c14;
+  background-image:
+    radial-gradient(ellipse 70% 40% at 50% 100%, rgba(79, 209, 197, 0.14), transparent 70%),
+    repeating-conic-gradient(rgba(255, 255, 255, 0.022) 0% 25%, transparent 0% 50%);
+  background-size: 100% 100%, 110px 110px;
+}
+body:has(.profile-page) { overflow-x: clip; }

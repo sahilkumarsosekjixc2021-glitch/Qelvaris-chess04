@@ -1,0 +1,508 @@
+/* Qelvaris Game Room */
+.gm {
+  --gold: #f7b538;
+  --ink: #f3efe2;
+  --mut: #9fb0a6;
+  --gap: 16px;
+
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 20px 18px 40px;
+  color: var(--ink);
+  border-radius: 0;
+  background: none;
+}
+
+.gm *,
+.gm *::before,
+.gm *::after {
+  box-sizing: border-box;
+}
+
+/* Labels */
+.gm-k {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.gm-k-sm {
+  font-size: 10px;
+}
+
+/* Hero */
+.gm-hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 28px;
+  border: 1px solid rgba(130, 170, 190, 0.16);
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(22, 34, 52, 0.82), rgba(11, 17, 28, 0.9));
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+}
+
+.gm-hero::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid rgba(247, 181, 56, 0.06);
+  border-radius: 11px;
+  pointer-events: none;
+}
+
+.gm-hero h1 {
+  margin: 8px 0;
+  font-size: clamp(26px, 4vw, 38px);
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+.gm-hero h1 span {
+  color: var(--gold);
+}
+
+.gm-meta {
+  font-size: 12px;
+  color: #8c97ab;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.gm-crown {
+  position: relative;
+  flex: none;
+  width: 150px;
+  height: 110px;
+}
+
+.gm-crown svg {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 92px;
+  height: 92px;
+  filter: drop-shadow(0 0 14px rgba(255, 201, 74, 0.55));
+}
+
+.gm-crown i {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  border: 1px solid rgba(255, 201, 74, 0.28);
+  border-radius: 50%;
+}
+
+.gm-crown i:nth-child(1) {
+  width: 150px;
+  height: 60px;
+}
+
+.gm-crown i:nth-child(2) {
+  width: 110px;
+  height: 40px;
+  border-color: rgba(255, 201, 74, 0.4);
+}
+
+/* Section Header */
+.gm-sec {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin: 28px 4px 6px;
+}
+
+.gm-sec h2 {
+  margin: 4px 0 0;
+  font-size: 19px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* Carousel */
+.gm-car {
+  position: relative;
+  width: 100%;
+}
+
+.gm-track {
+  display: flex;
+  gap: var(--gap);
+  width: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scroll-padding: 0 28px;
+  padding: 16px 28px 24px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 18px,
+    #000 calc(100% - 18px),
+    transparent
+  );
+
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 18px,
+    #000 calc(100% - 18px),
+    transparent
+  );
+}
+
+.gm-track::-webkit-scrollbar {
+  display: none;
+}
+
+.gm-track:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+  border-radius: 12px;
+}
+
+/* Carousel Navigation */
+.gm-nav {
+  position: absolute;
+  top: 44%;
+  z-index: 3;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(247, 181, 56, 0.4);
+  background: rgba(11, 17, 28, 0.92);
+  color: var(--gold);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.gm-nav:hover {
+  background: rgba(247, 181, 56, 0.16);
+}
+
+.gm-nav.off {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.gm-prev {
+  left: -6px;
+}
+
+.gm-next {
+  right: -6px;
+}
+
+/* Game Cards */
+.gm-card {
+  --c: #ffb52e;
+
+  position: relative;
+  flex: 0 0 clamp(240px, 22vw, 300px);
+  scroll-snap-align: start;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  padding: 20px 18px 22px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--c) 75%, #1b2230);
+
+  background:
+    radial-gradient(
+      120% 70% at 50% 0,
+      color-mix(in srgb, var(--c) 30%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(180deg, #101626, #0a0f1a);
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.02) inset,
+    0 0 28px -2px color-mix(in srgb, var(--c) 65%, transparent);
+
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.gm-card:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 0 46px 0 color-mix(in srgb, var(--c) 85%, transparent);
+}
+
+.gm-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 3px 8px;
+  border-radius: 999px;
+
+  color: var(--c);
+  border: 1px solid color-mix(in srgb, var(--c) 60%, transparent);
+  background: color-mix(in srgb, var(--c) 12%, transparent);
+}
+
+/* Artwork */
+.gm-art {
+  position: relative;
+  width: 100%;
+  height: 232px;
+  margin-bottom: 2px;
+}
+
+.gm-art::before {
+  content: "";
+  position: absolute;
+  inset: 24px 26px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--c) 38%, transparent),
+    transparent 64%
+  );
+}
+
+.gm-art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: screen;
+  /* contrast: navy bg kala ho jaye, mask: image ke kinare feather (box na dikhe) */
+  filter: saturate(1.4) brightness(1.05) contrast(1.35);
+  -webkit-mask-image: radial-gradient(ellipse 64% 64% at 50% 50%, #000 68%, transparent 100%);
+  mask-image: radial-gradient(ellipse 64% 64% at 50% 50%, #000 68%, transparent 100%);
+  user-select: none;
+  pointer-events: none;
+
+  transform: perspective(700px)
+    rotateY(var(--ry, -9deg))
+    rotateX(var(--rx, 5deg))
+    scale(var(--s, 1));
+
+  will-change: transform;
+  backface-visibility: hidden;
+  image-rendering: -webkit-optimize-contrast;
+  transition: transform 0.3s ease-out;
+  animation: gm-bob 4.5s ease-in-out infinite;
+}
+
+.is-soon .gm-art img {
+  filter: saturate(1.25) brightness(1.05) contrast(1.3);
+}
+
+@keyframes gm-bob {
+  0%, 100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 0 -7px;
+  }
+}
+
+/* Card Text */
+.gm-card h3 {
+  margin: 6px 0;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.gm-sep {
+  width: 34px;
+  height: 3px;
+  margin: 2px 0 10px;
+  opacity: 0.7;
+  background: radial-gradient(
+    circle,
+    var(--c) 1px,
+    transparent 1.5px
+  ) 0 0 / 8px 3px repeat-x;
+}
+
+.gm-card p {
+  margin: 0 0 18px;
+  min-height: 40px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #e6ede9;
+}
+
+/* Buttons */
+.gm-btn {
+  margin-top: auto;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 16%, transparent);
+  border: 1.5px solid var(--c);
+  border-radius: 999px;
+  padding: 9px 24px;
+
+  box-shadow: 0 0 18px -2px var(--c);
+  transition: box-shadow 0.2s, background 0.2s;
+}
+
+.gm-btn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--c) 28%, transparent);
+  box-shadow: 0 0 22px 0 var(--c);
+}
+
+.gm-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.gm-btn:disabled {
+  cursor: not-allowed;
+  box-shadow: none;
+  border-style: dashed;
+  opacity: 0.92;
+}
+
+/* Progress + Dots */
+.gm-bar {
+  position: relative;
+  height: 3px;
+  max-width: 420px;
+  margin: 2px auto 14px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.gm-bar i {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #4fd1c5, var(--gold));
+  transition: left 0.2s, width 0.2s;
+}
+
+.gm-pager {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.gm-dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  cursor: pointer;
+  transition: width 0.2s, background 0.2s;
+}
+
+.gm-dot.on {
+  width: 18px;
+  border-radius: 4px;
+  background: var(--gold);
+}
+
+.gm-dot:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .gm {
+    padding: 16px 12px 32px;
+  }
+
+  .gm-card {
+    flex-basis: min(270px, 78vw);
+  }
+}
+
+@media (max-width: 560px) {
+  .gm-hero {
+    padding: 18px;
+  }
+
+  .gm-crown {
+    display: none;
+  }
+
+  .gm-nav {
+    display: none;
+  }
+
+  .gm-track {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .gm-art img {
+    animation: none;
+  }
+
+  .gm-track {
+    scroll-behavior: auto;
+  }
+
+  .gm-card,
+  .gm-art img {
+    transition: none;
+  }
+}
+
+/* Theme.css ke upar rehne ke liye (sirf bahar ke hisse, cards nahi) */
+.gm.gm {
+  max-width: 1360px;
+  margin: 0 auto;
+  background: none;
+}
+
+.gm.gm .gm-hero {
+  border-color: rgba(130, 170, 190, 0.16);
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(22, 34, 52, 0.82), rgba(11, 17, 28, 0.9));
+}
+
+.gm.gm .gm-hero h1 {
+  color: #fff;
+}
+
+.gm.gm .gm-hero h1 span {
+  color: #f7b538;
+}
+
+.gm.gm .gm-sec h2 {
+  color: #fff;
+}
+
+.gm.gm .gm-bar i {
+  background: linear-gradient(90deg, #4fd1c5, #f7b538);
+}

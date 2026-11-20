@@ -1,4 +1,6 @@
-/* Naya top navigation shell: poora app ek rounded frame ke andar. Classes "qv-" se shuru hoti hain. */
+/* =========================================
+   QELVARIS — PREMIUM TOP NAVIGATION
+========================================= */
 
 body {
   background: var(--bg);
@@ -16,10 +18,12 @@ body {
   flex-direction: column;
 }
 
+/* TOPBAR */
+
 .qv-topbar {
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 100;
   display: flex;
   align-items: center;
   gap: 24px;
@@ -42,6 +46,7 @@ body {
   cursor: pointer;
   flex-shrink: 0;
 }
+
 .qv-brand-logo {
   width: 30px;
   height: 30px;
@@ -53,38 +58,48 @@ body {
   font-weight: 800;
 }
 
+.qv-brand-name {
+  letter-spacing: 0.2px;
+}
+
+/* NAVIGATION */
+
 .qv-nav {
   display: flex;
   align-items: stretch;
   gap: 2px;
   height: 100%;
   flex: 1;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.qv-nav::-webkit-scrollbar {
-  display: none;
+  min-width: 0;
+  overflow: visible;
 }
 
 .qv-tab {
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 100%;
   background: none;
   border: 0;
   color: var(--muted);
   font: inherit;
   font-size: 14px;
-  padding: 0 14px;
+  padding: 0 13px;
   cursor: pointer;
   white-space: nowrap;
-  transition: color 0.15s;
+  transition: color 0.18s ease;
 }
+
 .qv-tab:hover {
   color: var(--text);
 }
+
 .qv-tab.is-active {
   color: var(--text);
   font-weight: 600;
 }
+
 .qv-tab.is-active::after {
   content: "";
   position: absolute;
@@ -96,12 +111,150 @@ body {
   background: var(--accent);
 }
 
+/* =========================================
+   DROPDOWN (hover par khulta hai, App.jsx se control hota hai)
+   Khulna/band hona sirf ".is-open" class se hota hai.
+========================================= */
+
+.qv-nav-item {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+}
+
+/* khula hua tab: safed text + cyan line */
+.qv-nav-item.is-open > .qv-tab--dropdown {
+  color: var(--text);
+}
+
+.qv-nav-item.is-open > .qv-tab--dropdown:not(.is-active)::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: #38e8f5;
+}
+
+.qv-dropdown {
+  position: absolute;
+  top: calc(100% + 1px);
+  left: 0;
+  z-index: 150;
+  width: 280px;
+  padding: 6px;
+
+  background: var(--surface);
+  border: 1px solid rgba(56, 232, 245, 0.28);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transform-origin: top left;
+
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease,
+    visibility 0.15s ease;
+}
+
+.qv-nav-item.is-open .qv-dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Aakhri item (Games) ka menu right se align, taaki screen se bahar na jaye */
+.qv-nav-item:last-child .qv-dropdown {
+  left: auto;
+  right: 0;
+  transform-origin: top right;
+}
+
+.qv-dropdown-list {
+  display: grid;
+  gap: 2px;
+}
+
+.qv-dropdown-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 9px 10px;
+  background: transparent;
+  border: 0;
+  border-radius: 9px;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.qv-dropdown-option:hover,
+.qv-dropdown-option:focus-visible {
+  background: rgba(56, 232, 245, 0.09);
+  outline: none;
+}
+
+.qv-dropdown-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: rgba(56, 232, 245, 0.1);
+  color: #38e8f5;
+  font-size: 18px;
+  line-height: 1;
+  transition: background 0.15s ease;
+}
+
+.qv-dropdown-option:hover .qv-dropdown-icon,
+.qv-dropdown-option:focus-visible .qv-dropdown-icon {
+  background: rgba(56, 232, 245, 0.18);
+}
+
+.qv-dropdown-option-copy {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.qv-dropdown-option-title {
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.qv-dropdown-option-description {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+/* =========================================
+   RIGHT SIDE CONTROLS
+========================================= */
+
 .qv-right {
   display: flex;
   align-items: center;
   gap: 14px;
   flex-shrink: 0;
 }
+
 .qv-settings {
   background: none;
   border: 0;
@@ -110,11 +263,14 @@ body {
   font-size: 14px;
   cursor: pointer;
   transition: color 0.15s;
+  white-space: nowrap;
 }
+
 .qv-settings:hover,
 .qv-settings.is-active {
   color: var(--text);
 }
+
 .qv-avatar {
   width: 30px;
   height: 30px;
@@ -124,11 +280,43 @@ body {
   place-items: center;
   font-size: 13px;
   font-weight: 600;
+  flex-shrink: 0;
+  border: 1px solid transparent;
+  color: var(--text);
+  cursor: pointer;
 }
+
+.qv-avatar.is-active {
+  border-color: var(--accent);
+}
+
+/* =========================================
+   MAIN CONTENT
+========================================= */
 
 .qv-main {
   flex: 1;
   min-width: 0;
+}
+
+/* ---------- Page background (dark green + network lines) ----------
+   Review wala background, ab saare pages par. App.jsx ".qv-main--net" class
+   lagata hai; Play (game modes) par ye class nahi lagti, wahan purana background rehta hai.
+   Background badalna ho to sirf ye ek rule badlo. */
+.qv-main.qv-main--net {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='460' height='460' viewBox='0 0 460 460'%3E%3Cg stroke='%2360f0d8' stroke-opacity='.10' stroke-width='1' fill='none'%3E%3Cpath d='M30 60 L150 20 L260 90 L380 40 L440 130'/%3E%3Cpath d='M150 20 L120 160 L260 90 L300 210 L440 130'/%3E%3Cpath d='M120 160 L40 280 L170 330 L300 210 L420 300'/%3E%3Cpath d='M170 330 L120 440 M300 210 L330 400 L420 300 M40 280 L30 60'/%3E%3C/g%3E%3Cg fill='%2360f0d8' fill-opacity='.38'%3E%3Ccircle cx='30' cy='60' r='2'/%3E%3Ccircle cx='150' cy='20' r='2.4'/%3E%3Ccircle cx='260' cy='90' r='2'/%3E%3Ccircle cx='380' cy='40' r='1.8'/%3E%3Ccircle cx='440' cy='130' r='2.2'/%3E%3Ccircle cx='120' cy='160' r='2.2'/%3E%3Ccircle cx='300' cy='210' r='2.4'/%3E%3Ccircle cx='40' cy='280' r='1.8'/%3E%3Ccircle cx='170' cy='330' r='2.2'/%3E%3Ccircle cx='420' cy='300' r='2'/%3E%3Ccircle cx='120' cy='440' r='1.8'/%3E%3Ccircle cx='330' cy='400' r='2.2'/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(900px 520px at 10% -5%, rgba(32, 201, 176, 0.2), transparent 62%),
+    radial-gradient(760px 560px at 96% 28%, rgba(224, 80, 190, 0.09), transparent 62%),
+    radial-gradient(800px 520px at 50% 112%, rgba(30, 190, 130, 0.16), transparent 62%),
+    linear-gradient(160deg, #06181b 0%, #08231f 46%, #051312 100%);
+  border-radius: 0 0 25px 25px;
+}
+
+@media (max-width: 700px) {
+  .qv-main.qv-main--net {
+    border-radius: 0;
+  }
 }
 
 .qv-soon {
@@ -138,6 +326,32 @@ body {
   padding: 0 20px;
 }
 
+/* =========================================
+   RESPONSIVE NAVIGATION
+========================================= */
+
+@media (max-width: 1050px) {
+  .qv-topbar {
+    gap: 12px;
+    padding: 0 14px;
+  }
+
+  .qv-tab {
+    padding: 0 9px;
+    font-size: 13px;
+  }
+
+  .qv-right {
+    gap: 9px;
+  }
+
+  .qv-dropdown {
+    left: auto;
+    right: 0;
+    transform-origin: top right;
+  }
+}
+
 @media (max-width: 700px) {
   .qv-shell {
     margin: 0;
@@ -145,12 +359,65 @@ body {
     border: 0;
     border-radius: 0;
   }
+
   .qv-topbar {
-    gap: 12px;
-    padding: 0 12px;
+    position: sticky;
+    top: 0;
+    height: auto;
+    min-height: 58px;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 12px 0;
     border-radius: 0;
   }
+
   .qv-brand-name {
     display: none;
+  }
+
+  .qv-nav {
+    order: 3;
+    flex-basis: 100%;
+    height: 42px;
+    overflow-x: auto;
+    overflow-y: visible;
+    scrollbar-width: none;
+  }
+
+  .qv-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .qv-nav-item {
+    flex-shrink: 0;
+  }
+
+  .qv-tab {
+    padding: 0 11px;
+  }
+
+  .qv-right {
+    margin-left: auto;
+  }
+
+  .qv-dropdown,
+  .qv-nav-item:last-child .qv-dropdown {
+    position: fixed;
+    top: 110px;
+    left: 12px;
+    right: auto;
+    width: min(290px, calc(100vw - 24px));
+    max-height: calc(100vh - 130px);
+    overflow-y: auto;
+  }
+}
+
+/* REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+  .qv-dropdown,
+  .qv-dropdown-option,
+  .qv-dropdown-icon {
+    transition: none;
   }
 }

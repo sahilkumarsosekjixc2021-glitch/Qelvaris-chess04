@@ -1,0 +1,84 @@
+/* ================================================================
+   GLASS THEME: saare pages Today jaise (dark navy, glass boxes, hero banner).
+   Lagana: src/main.jsx mein SABSE LAST ye line (forest wali line hata do):
+        import "./glass-theme.css";
+   Hataana: wahi line delete.
+   Rang sirf pehle block mein hain.
+   ================================================================ */
+
+/* ---------- 1. TOKENS: Today ka navy (calm green theme ko override) ---------- */
+:root:root {
+  --bg: #070c14;
+  --frame: #0a111b;
+  --surface: #0f1826;
+  --surface-2: #142033;
+  --surface-3: #1b2a40;
+  --border: #22324a;
+  --border-strong: #2f4260;
+  --text: #eef1f6;
+  --muted: #8c97ab;
+  --faint: #6d788c;
+  --accent: #f7b538;
+  --accent-ink: #1c1303;
+  --accent-soft: rgba(247, 181, 56, .14);
+  --good: #61d69a;
+  --bad: #ff7d7d;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --radius-lg: 16px;
+
+  --gl-cyan: #4fd1c5;
+  --gl-edge: rgba(130, 170, 190, .22);
+  --gl-edge-soft: rgba(130, 170, 190, .13);
+  --gl-glass: linear-gradient(145deg, rgba(22, 34, 52, .82), rgba(11, 17, 28, .9));
+}
+
+/* ---------- 2. Page background: Today jaisa dark navy (network/green hata ke) ---------- */
+html body, html body .qv-shell { background: #070c14; }
+html body .qv-main.qv-main--net,
+html body .qv-main {
+  background:
+    radial-gradient(900px 480px at 8% -6%, rgba(79, 209, 197, .07), transparent 62%),
+    radial-gradient(800px 520px at 100% 100%, rgba(88, 140, 242, .05), transparent 62%),
+    #070c14;
+  border-radius: 0 0 25px 25px;
+}
+
+/* ---------- 3. BOXES: Today jaise glass cards ----------
+   Naam mein "card" ya "panel" wali har class (dn-panel, ql-card, q-card, cn-panel ...). */
+html body .qv-main :is([class*="-card"], [class*="-panel"], .q-card, .qo-card, .qs-section):not([class*="-btn"]):not([class*="-heading"]):not([class*="-symbol"]):not([class*="-cards"]):not([class*="-card-"]):not(button):not(a) {
+  background: var(--gl-glass);
+  border: 1px solid var(--gl-edge);
+  border-radius: 16px;
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 18px 44px rgba(0, 0, 0, .28);
+}
+
+/* ---------- 4. HERO: Today ka hero banner (padded glass + teal glow) ----------
+   Naam mein "hero" wali root class (dn-hero, ld-hero, qs-head, ...). */
+html body .qv-main :is([class*="-hero"]:not([class*="-hero-"]), .qs-head) {
+  position: relative;
+  padding: 26px 30px;
+  background:
+    radial-gradient(60% 140% at 100% 0%, rgba(79, 209, 197, .16), transparent 62%),
+    radial-gradient(40% 120% at 0% 100%, rgba(88, 140, 242, .1), transparent 70%),
+    var(--gl-glass);
+  border: 1px solid var(--gl-edge);
+  border-radius: 22px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 18px 44px rgba(0, 0, 0, .28);
+}
+html body .qv-main :is([class*="-hero"]:not([class*="-hero-"]), .qs-head) :is(h1, h2) {
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: -.045em;
+}
+html body .qv-main :is([class*="-hero"]:not([class*="-hero-"]), .qs-head) :is(h1, h2) span { color: var(--gl-cyan); }
+html body .qs-head::after, html body .ld-hero-glow { display: none; }
+
+/* ---------- 5. Chhote touches ---------- */
+html body .qv-main [class*="eyebrow"] { color: var(--gl-cyan); }
+html body .qv-main [class*="-panel-heading"] h2, html body .qv-main [class*="-card"] > h2 { color: #fff; }
+
+/* Openings ka sidebar bhi isi glass mein */
+html body .qs-side { background: var(--gl-glass); border-color: var(--gl-edge); }

@@ -1,0 +1,98 @@
+/* ANALYSIS: naya layout (chhota board, moves neeche horizontal) + teal theme.
+   AnalysisPage.jsx mein Analysis.css ke BAAD import hoti hai. */
+
+.ll-page.ll-page .an { gap: 12px; }
+
+/* ---------- Patla top bar ---------- */
+.ll-page.ll-page .an-top { align-items: center; gap: 10px; padding: 8px 12px; border-radius: 12px; }
+.ll-page.ll-page .an-pick { display: flex; align-items: center; gap: 10px; min-width: 220px; }
+.ll-page.ll-page .an-pick select { flex: 1; min-width: 0; height: 36px; }
+.ll-page.ll-page .an-top-actions .ll-btn { min-height: 36px; font-size: 12px; }
+
+/* ---------- Main grid: chhota board | move + engine ---------- */
+.ll-page.ll-page .an-grid { grid-template-columns: minmax(0, 470px) minmax(0, 1fr); gap: 16px; }
+.ll-page.ll-page .an-left, .ll-page.ll-page .an-right { gap: 12px; }
+
+.ll-page.ll-page .an-boardrow { max-width: 470px; }
+.ll-page.ll-page .an-controls { max-width: 470px; gap: 6px; }
+.ll-page.ll-page .an-controls .ll-btn { min-width: 42px; min-height: 38px; padding: 0 12px; font-size: 15px; }
+.ll-page.ll-page .an-controls .an-bad { font-size: 12px; }
+.ll-page.ll-page .an-keys { max-width: 470px; font-size: 11px; line-height: 1.5; }
+
+.ll-page.ll-page .an-card { padding: 14px; gap: 10px; border-radius: 14px; }
+.ll-page.ll-page .an-movecard h3 { font-size: 22px; }
+
+/* ---------- MOVES: neeche, ek horizontal strip (kitni bhi moves ho, height fix) ---------- */
+.ll-page.ll-page .an-movesbar { gap: 8px; }
+.ll-page.ll-page .an-moves {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  max-height: none;
+  padding: 0 0 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(79, 209, 197, .45) transparent;
+}
+.ll-page.ll-page .an-moves::-webkit-scrollbar { height: 6px; }
+.ll-page.ll-page .an-moves::-webkit-scrollbar-thumb { background: rgba(79, 209, 197, .4); border-radius: 99px; }
+.ll-page.ll-page .an-moves li {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 8px 2px 2px;
+  border-right: 1px solid var(--ll-line);
+}
+.ll-page.ll-page .an-moves li:last-child { border-right: 0; }
+.ll-page.ll-page .an-no { min-width: 22px; text-align: right; padding-right: 2px; }
+.ll-page.ll-page .an-mv { flex: none; padding: 6px 9px; white-space: nowrap; }
+
+/* ---------- Graph + Summary: neeche side by side ---------- */
+.ll-page.ll-page .an-bottom { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.ll-page.ll-page .an-graph { height: 100px; }
+
+/* ---------- Teal theme (gold sirf primary buttons mein) ---------- */
+.ll-page.ll-page .an-boardwrap { border-color: rgba(79, 209, 197, .32); box-shadow: 0 18px 40px rgba(0, 0, 0, .35), 0 0 0 5px rgba(79, 209, 197, .04); }
+.ll-page.ll-page .an-controls .an-bad { color: #9be8df; border-color: rgba(79, 209, 197, .35); }
+.ll-page.ll-page .an-depth.is-on { color: #4fd1c5; border-color: #4fd1c5; background: rgba(79, 209, 197, .14); }
+.ll-page.ll-page .an-lines li.is-best { border-color: rgba(79, 209, 197, .45); background: rgba(79, 209, 197, .08); }
+.ll-page.ll-page .an-mv.is-on { border-color: #4fd1c5; background: rgba(79, 209, 197, .14); }
+.ll-page.ll-page .an-line { stroke: #4fd1c5; }
+.ll-page.ll-page .an-area { fill: rgba(79, 209, 197, .1); }
+.ll-page.ll-page .an-cursor { stroke: #58c4f2; }
+
+/* ---------- Chhoti screen ---------- */
+@media (max-width: 1100px) {
+  .ll-page.ll-page .an-grid { grid-template-columns: minmax(0, 1fr); }
+  .ll-page.ll-page .an-boardrow, .ll-page.ll-page .an-controls, .ll-page.ll-page .an-keys { max-width: none; }
+}
+@media (max-width: 760px) {
+  .ll-page.ll-page .an-bottom { grid-template-columns: minmax(0, 1fr); }
+  .ll-page.ll-page .an-pick { min-width: 100%; }
+}
+
+/* ---------- Engine patla ---------- */
+.ll-page.ll-page .an-engine { gap: 6px; padding: 10px 14px; }
+.ll-page.ll-page .an-engine .an-row { align-items: center; }
+.ll-page.ll-page .an-engine .an-row > div:first-child { display: flex; align-items: center; gap: 10px; }
+.ll-page.ll-page .an-engine .an-score { display: inline-block; margin: 0; font-size: 22px; }
+.ll-page.ll-page .an-depth { height: 28px; padding: 0 10px; font-size: 11px; }
+.ll-page.ll-page .an-status { margin: 0; font-size: 11px !important; line-height: 1.3 !important; }
+.ll-page.ll-page .an-lines { gap: 5px; }
+.ll-page.ll-page .an-lines li { grid-template-columns: 54px minmax(0, 1fr); gap: 8px; padding: 5px 9px; border-radius: 10px; align-items: center; }
+.ll-page.ll-page .an-lscore { padding: 3px 0; font-size: 11px; }
+.ll-page.ll-page .an-lmoves button { padding: 2px 5px; font-size: 12px; }
+
+/* ---------- Graph + Summary ab right column mein (Engine ke neeche), compact ---------- */
+.ll-page.ll-page .an-right .an-graph { height: 78px; }
+.ll-page.ll-page .an-right .an-card { gap: 8px; padding: 12px 14px; }
+.ll-page.ll-page .an-right .an-meta { font-size: 12px; }
+.ll-page.ll-page .an-right .an-acc { gap: 8px; }
+.ll-page.ll-page .an-right .an-acc div { padding: 8px 12px; }
+.ll-page.ll-page .an-right .an-acc strong { font-size: 20px; }
+.ll-page.ll-page .an-right .an-acc span { font-size: 11px; }
+.ll-page.ll-page .an-right .an-counts { gap: 6px; }
+.ll-page.ll-page .an-right .an-counts li { padding: 4px 9px; font-size: 11px; }

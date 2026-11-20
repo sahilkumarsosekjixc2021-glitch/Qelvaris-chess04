@@ -1,0 +1,299 @@
+/* Qelvaris DNA: motion and effects layer.
+   Import order in DNA.jsx: DNA.css, DNAGlow.css, DNAFx.css (this file last). */
+
+/* ---------- ambient background ---------- */
+.dn-page {
+  position: relative;
+  isolation: isolate;
+}
+
+.dn-page::before {
+  content: "";
+  position: absolute;
+  inset: -30px;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(420px 320px at 8% 6%, rgba(56, 232, 245, 0.10), transparent 70%),
+    radial-gradient(380px 300px at 94% 38%, rgba(255, 79, 154, 0.07), transparent 70%),
+    radial-gradient(440px 320px at 42% 100%, rgba(242, 195, 75, 0.06), transparent 70%);
+  animation: dn-drift 18s ease-in-out infinite alternate;
+}
+
+@keyframes dn-drift {
+  to {
+    transform: translate3d(20px, -14px, 0) scale(1.05);
+  }
+}
+
+/* ---------- cursor glow ---------- */
+.dn-page .dn-glow {
+  position: relative;
+  --mx: 50%;
+  --my: 50%;
+  --px: 0;
+  --py: 0;
+}
+
+.dn-page .dn-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s;
+  background: radial-gradient(
+    260px circle at var(--mx) var(--my),
+    rgba(56, 232, 245, 0.95),
+    rgba(242, 195, 75, 0.55) 40%,
+    transparent 70%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+
+.dn-page .dn-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  right: auto;
+  top: auto;
+  border: 0;
+  border-radius: inherit;
+  box-shadow: none;
+  display: block;
+  pointer-events: none;
+  background: radial-gradient(
+    340px circle at var(--mx) var(--my),
+    rgba(56, 232, 245, 0.08),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.dn-page .dn-glow:hover::before,
+.dn-page .dn-glow:hover::after {
+  opacity: 1;
+}
+
+.dn-page .dn-hero.dn-glow::before {
+  padding: 1.5px;
+}
+
+/* ---------- hero ---------- */
+.dn-page .dn-hero {
+  min-height: 230px;
+}
+
+.dn-page .dn-hero-art {
+  position: absolute;
+  right: -30px;
+  top: -22%;
+  height: 144%;
+  aspect-ratio: 1.561;
+  pointer-events: none;
+}
+
+.dn-page .dn-hero-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  mix-blend-mode: screen;
+  filter: saturate(1.25) brightness(1.12);
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 55%, transparent 100%);
+  transform: translate(calc(var(--px) * -16px), calc(var(--py) * -10px));
+  transition: transform 0.25s ease-out;
+  animation: dn-float 6s ease-in-out infinite;
+}
+
+@keyframes dn-float {
+  50% {
+    translate: 0 -10px;
+  }
+}
+
+/* ---------- hero text ---------- */
+.dn-page .dn-hero-copy > * {
+  animation: dn-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.dn-page .dn-hero-copy > :nth-child(1) { animation-delay: 0.05s; }
+.dn-page .dn-hero-copy > :nth-child(2) { animation-delay: 0.15s; }
+.dn-page .dn-hero-copy > :nth-child(3) { animation-delay: 0.25s; }
+.dn-page .dn-hero-copy > :nth-child(4) { animation-delay: 0.35s; }
+
+.dn-page .dn-hero h1 {
+  background: linear-gradient(100deg, #ffffff 0%, #8ff0fa 50%, #ffffff 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation:
+    dn-rise 0.7s 0.2s cubic-bezier(0.2, 0.7, 0.2, 1) both,
+    dn-sheen 7s linear infinite;
+}
+
+.dn-page .dn-hero h1 span {
+  background: linear-gradient(100deg, #f2c34b 0%, #ff4f9a 50%, #f2c34b 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 14px rgba(242, 195, 75, 0.35));
+  animation: dn-sheen 5s linear infinite;
+}
+
+@keyframes dn-sheen {
+  to {
+    background-position: 200% 0;
+  }
+}
+
+.dn-page .dn-hero .dn-kicker::before {
+  content: "";
+  display: inline-block;
+  width: 26px;
+  height: 2px;
+  margin-right: 10px;
+  vertical-align: middle;
+  background: linear-gradient(90deg, var(--g-cy), transparent);
+  animation: dn-line 2.4s ease-in-out infinite;
+}
+
+@keyframes dn-line {
+  50% {
+    width: 46px;
+  }
+}
+
+.dn-page .dn-hero-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 4px 11px;
+  font-size: 12px;
+  color: var(--g-ink);
+  border: 1px solid var(--g-line);
+  border-radius: 999px;
+  background: rgba(56, 232, 245, 0.07);
+}
+
+.dn-page .dn-hero-chip i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #3dff7a;
+  box-shadow: 0 0 8px #3dff7a;
+  animation: dn-blink 1.6s ease-in-out infinite;
+}
+
+@keyframes dn-blink {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* ---------- reveals ---------- */
+@keyframes dn-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+.dn-page .dn-col > * {
+  animation: dn-rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.dn-page .dn-col > :nth-child(2) { animation-delay: 0.12s; }
+.dn-page .dn-col > :nth-child(3) { animation-delay: 0.24s; }
+.dn-page .dn-col > :nth-child(4) { animation-delay: 0.36s; }
+
+.dn-page .dn-metric {
+  animation: dn-rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.dn-page .dn-metric:nth-child(1) { animation-delay: 0.30s; }
+.dn-page .dn-metric:nth-child(2) { animation-delay: 0.38s; }
+.dn-page .dn-metric:nth-child(3) { animation-delay: 0.46s; }
+.dn-page .dn-metric:nth-child(4) { animation-delay: 0.54s; }
+
+.dn-page .dn-now,
+.dn-page .dn-prev {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  animation: dn-grow 0.9s 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.dn-page .dn-prev {
+  animation-delay: 0.5s;
+}
+
+.dn-page .dn-dot {
+  animation: dn-pop 0.4s 1s both;
+}
+
+@keyframes dn-grow {
+  from {
+    transform: scale(0.05);
+    opacity: 0;
+  }
+}
+
+@keyframes dn-pop {
+  from {
+    opacity: 0;
+  }
+}
+
+.dn-page .dn-acc-body {
+  animation: dn-fade 0.25s ease-out;
+}
+
+@keyframes dn-fade {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+/* ---------- small screens ---------- */
+@media (max-width: 800px) {
+  .dn-page .dn-hero-art {
+    right: -90px;
+    opacity: 0.45;
+  }
+}
+
+@media (max-width: 560px) {
+  .dn-page .dn-hero {
+    min-height: 0;
+  }
+
+  .dn-page .dn-hero-art {
+    opacity: 0.3;
+  }
+}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .dn-page *,
+  .dn-page *::before,
+  .dn-page *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .dn-page .dn-hero-art img {
+    transform: none;
+  }
+}

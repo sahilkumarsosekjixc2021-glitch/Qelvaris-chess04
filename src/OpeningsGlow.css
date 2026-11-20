@@ -1,0 +1,297 @@
+/* Qelvaris Openings: glass theme (Profile / Settings / Games jaisa).
+   Ye OpeningsGlow.css ki JAGAH aati hai (same naam, Openings.css ke BAAD import hoti hai).
+   Sirf rang, glow, border aur type badalti hai; layout (grids, sizes) Openings.css ka hi rehta hai.
+   Selectors ".qo-page.qo-page" se shuru hain, taaki theme.css ke rule rang ko na dabayein.
+   Accent badalna ho to neeche --qo-gold / --qo-teal badlo. */
+
+.qo-page.qo-page {
+  --qo-gold: #f7b538;
+  --qo-gold-soft: #ffd98a;
+  --qo-teal: #4fd1c5;
+  --qo-bad: #ff7d7d;
+  --qo-vi: #a98bff;
+  --qo-few: #6f7b90;
+  --qo-ink: #eef1f6;
+  --qo-mut: #8c97ab;
+  --qo-line: rgba(130, 170, 190, 0.16);
+  --qo-glass: linear-gradient(145deg, rgba(22, 34, 52, 0.82), rgba(11, 17, 28, 0.9));
+  color: var(--qo-ink);
+}
+
+/* ---------- Header + summary ---------- */
+
+.qo-page.qo-page .qo-hero { margin-bottom: 22px; }
+.qo-page.qo-page .qo-hero h1 { margin: 8px 0 6px; color: #fff; font-size: clamp(30px, 4vw, 42px); letter-spacing: -0.03em; }
+.qo-page.qo-page .qo-hero p { margin: 0; max-width: 40em; color: var(--qo-mut); font-size: 14px; line-height: 1.6; }
+
+.qo-page.qo-page .qo-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-bottom: 24px; }
+
+.qo-page.qo-page .qo-sum {
+  --sc: var(--qo-gold);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1px solid var(--qo-line);
+  border-radius: 16px;
+  background: var(--qo-glass);
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.qo-page.qo-page .qo-sum:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--sc) 45%, transparent); }
+.qo-page.qo-page .qo-sum--teal { --sc: var(--qo-teal); }
+.qo-page.qo-page .qo-sum--bad { --sc: var(--qo-bad); }
+
+.qo-page.qo-page .qo-sum i {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--sc) 14%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sc) 30%, transparent);
+  color: var(--sc);
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.qo-page.qo-page .qo-sum strong { display: block; color: #fff; font-size: 26px; line-height: 1.1; }
+.qo-page.qo-page .qo-sum span { display: block; margin-top: 3px; color: var(--qo-mut); font-size: 12px; }
+
+/* ---------- Cards ---------- */
+
+.qo-page.qo-page .qo-card,
+.qo-page.qo-page .qo-workspace {
+  position: relative;
+  border: 1px solid var(--qo-line);
+  border-radius: 18px;
+  background: var(--qo-glass);
+  box-shadow: none;
+}
+
+.qo-page.qo-page .qo-card::before,
+.qo-page.qo-page .qo-workspace::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid rgba(247, 181, 56, 0.06);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.qo-page.qo-page .qo-card > *,
+.qo-page.qo-page .qo-workspace > * { position: relative; }
+
+.qo-page.qo-page .qo-card--hl { border-color: rgba(247, 181, 56, 0.55); box-shadow: 0 0 34px -12px var(--qo-gold); }
+
+.qo-page.qo-page .qo-eyebrow { color: var(--qo-gold); font-size: 10px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; }
+.qo-page.qo-page .qo-name { color: #fff; text-shadow: none; }
+.qo-page.qo-page .qo-line,
+.qo-page.qo-page .qo-note,
+.qo-page.qo-page .qo-meta,
+.qo-page.qo-page .qo-prep { color: var(--qo-mut); }
+
+/* ---------- Tabs ---------- */
+
+.qo-page.qo-page .qo-tabs { gap: 4px; padding: 4px; border: 1px solid var(--qo-line); border-radius: 12px; background: rgba(7, 12, 20, 0.55); }
+
+.qo-page.qo-page .qo-tab {
+  padding: 8px 15px;
+  color: var(--qo-mut);
+  font-weight: 700;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+}
+
+.qo-page.qo-page .qo-tab:hover:not(.is-active) { color: #fff; }
+.qo-page.qo-page .qo-tab.is-active { color: var(--qo-gold-soft); background: rgba(247, 181, 56, 0.14); border-color: rgba(247, 181, 56, 0.4); box-shadow: none; }
+
+/* ---------- Tree ---------- */
+
+.qo-page.qo-page .qo-svg text { fill: var(--qo-ink); }
+.qo-page.qo-page .qo-t2 { fill: var(--qo-mut) !important; }
+.qo-page.qo-page .qo-edge { fill: none; stroke: rgba(130, 170, 190, 0.35); stroke-width: 2; stroke-linecap: round; opacity: 1; }
+
+.qo-page.qo-page .qo-c { stroke-width: 2; transition: filter 0.2s; }
+.qo-page.qo-page .qo-c--good { fill: rgba(79, 209, 197, 0.32); stroke: var(--qo-teal); filter: drop-shadow(0 0 6px rgba(79, 209, 197, 0.55)); }
+.qo-page.qo-page .qo-c--mid { fill: rgba(247, 181, 56, 0.3); stroke: var(--qo-gold); filter: drop-shadow(0 0 6px rgba(247, 181, 56, 0.5)); }
+.qo-page.qo-page .qo-c--bad { fill: rgba(255, 125, 125, 0.3); stroke: var(--qo-bad); filter: drop-shadow(0 0 6px rgba(255, 125, 125, 0.5)); }
+.qo-page.qo-page .qo-c--few { fill: rgba(111, 123, 144, 0.25); stroke: var(--qo-few); filter: none; }
+
+.qo-page.qo-page .qo-halo { fill: none; stroke: #fff; stroke-width: 2; stroke-dasharray: 5 5; opacity: 0.85; animation: qo-pulse 1.8s ease-in-out infinite; }
+.qo-page.qo-page .qo-tn { cursor: pointer; }
+.qo-page.qo-page .qo-tn:hover .qo-c { stroke-width: 3.5; }
+.qo-page.qo-page .qo-tn:focus-visible .qo-c { stroke: #fff; stroke-width: 3; }
+@keyframes qo-pulse { 50% { opacity: 0.35; } }
+
+/* ---------- Legend + dots ---------- */
+
+.qo-page.qo-page .qo-legend { padding: 11px 14px; color: var(--qo-mut); border: 1px solid var(--qo-line); border-radius: 12px; background: rgba(7, 12, 20, 0.45); }
+.qo-page.qo-page .qo-dot { background: var(--qo-few); }
+.qo-page.qo-page .qo-dot--good { background: var(--qo-teal); box-shadow: 0 0 8px rgba(79, 209, 197, 0.6); }
+.qo-page.qo-page .qo-dot--mid { background: var(--qo-gold); box-shadow: 0 0 8px rgba(247, 181, 56, 0.6); }
+.qo-page.qo-page .qo-dot--bad { background: var(--qo-bad); box-shadow: 0 0 8px rgba(255, 125, 125, 0.6); }
+.qo-page.qo-page .qo-dot--few { background: var(--qo-few); }
+
+/* ---------- Selected line ---------- */
+
+.qo-page.qo-page .qo-board,
+.qo-page.qo-page .qo-board--tree { border: 1px solid rgba(247, 181, 56, 0.3); border-radius: 10px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35); overflow: hidden; }
+
+.qo-page.qo-page .qo-stats { gap: 12px; flex-wrap: wrap; }
+
+.qo-page.qo-page .qo-stats > div {
+  min-width: 88px;
+  padding: 11px 16px;
+  border: 1px solid var(--qo-line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.qo-page.qo-page .qo-stats strong { color: #fff; }
+.qo-page.qo-page .qo-stats span { color: var(--qo-mut); }
+
+/* ---------- Buttons ---------- */
+
+.qo-page.qo-page .qo-btn {
+  color: var(--qo-ink);
+  font-weight: 700;
+  border: 1px solid var(--qo-line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: none;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+}
+
+.qo-page.qo-page .qo-btn:hover:not(:disabled) { filter: none; background: rgba(255, 255, 255, 0.1); border-color: rgba(130, 170, 190, 0.4); }
+
+.qo-page.qo-page .qo-btn--primary { color: #211607; border-color: transparent; background: linear-gradient(135deg, #f7c45f, #d99a32); }
+.qo-page.qo-page .qo-btn--primary:hover:not(:disabled) { background: linear-gradient(135deg, #ffd27a, #e5a63d); border-color: transparent; transform: translateY(-1px); }
+
+.qo-page.qo-page .qo-btn:focus-visible,
+.qo-page.qo-page .qo-gap:focus-visible,
+.qo-page.qo-page .qo-hub-card:focus-visible,
+.qo-page.qo-page .qo-tab:focus-visible { outline: 2px solid var(--qo-gold); outline-offset: 2px; }
+
+/* ---------- Gaps ---------- */
+
+.qo-page.qo-page .qo-gaps { gap: 8px; }
+
+.qo-page.qo-page .qo-gap {
+  padding: 11px 12px;
+  color: #c4ccd9;
+  border: 1px solid var(--qo-line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.qo-page.qo-page .qo-gap:hover { border-color: rgba(255, 125, 125, 0.5); background: rgba(255, 125, 125, 0.07); }
+.qo-page.qo-page .qo-gap-name { color: #fff; font-weight: 700; }
+
+/* ---------- Usernames form ---------- */
+
+.qo-page.qo-page .qo-form input { color: var(--qo-ink); border: 1px solid var(--qo-line); border-radius: 12px; background: rgba(7, 12, 20, 0.6); }
+.qo-page.qo-page .qo-form input:focus { outline: 0; border-color: rgba(247, 181, 56, 0.65); box-shadow: 0 0 0 3px rgba(247, 181, 56, 0.1); }
+
+/* ---------- Opening academy: hub ---------- */
+
+.qo-page.qo-page .qo-hub-heading h2 { color: #fff; }
+
+.qo-page.qo-page .qo-hub-card {
+  --c: var(--qo-teal);
+  color: var(--qo-ink);
+  border: 1px solid var(--qo-line);
+  border-radius: 16px;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--c) 9%, transparent), rgba(255, 255, 255, 0.02) 60%), var(--qo-glass);
+  box-shadow: none;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.qo-page.qo-page .qo-hub-card:nth-child(2) { --c: var(--qo-vi); }
+.qo-page.qo-page .qo-hub-card:nth-child(3) { --c: var(--qo-bad); }
+.qo-page.qo-page .qo-hub-card:nth-child(4) { --c: var(--qo-gold); }
+.qo-page.qo-page .qo-hub-card:hover,
+.qo-page.qo-page .qo-hub-card.is-active { transform: translateY(-4px); border-color: color-mix(in srgb, var(--c) 60%, transparent); box-shadow: 0 14px 30px -14px color-mix(in srgb, var(--c) 60%, transparent); }
+
+.qo-page.qo-page .qo-hub-icon { color: var(--c); background: color-mix(in srgb, var(--c) 14%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 30%, transparent); text-shadow: none; }
+.qo-page.qo-page .qo-hub-card-title { color: #fff; }
+.qo-page.qo-page .qo-hub-card-desc,
+.qo-page.qo-page .qo-hub-card-meta { color: var(--qo-mut); border-color: var(--qo-line); }
+.qo-page.qo-page .qo-hub-card-meta b { color: var(--c); }
+
+/* ---------- Workspace: explore / study / practice / repertoire ---------- */
+
+.qo-page.qo-page .qo-work-head { border-color: var(--qo-line); }
+.qo-page.qo-page .qo-work-head h2,
+.qo-page.qo-page .qo-study-top h3,
+.qo-page.qo-page .qo-practice-head h3,
+.qo-page.qo-page .qo-repertoire-summary h3,
+.qo-page.qo-page .qo-practice-options h3,
+.qo-page.qo-page .qo-empty h3 { color: #fff; }
+
+.qo-page.qo-page .qo-search,
+.qo-page.qo-page .qo-explore-tools select,
+.qo-page.qo-page .qo-study-top select,
+.qo-page.qo-page .qo-practice-head select { color: var(--qo-ink); border: 1px solid var(--qo-line); border-radius: 12px; background: rgba(7, 12, 20, 0.6); }
+
+.qo-page.qo-page .qo-search:focus,
+.qo-page.qo-page .qo-explore-tools select:focus,
+.qo-page.qo-page .qo-study-top select:focus,
+.qo-page.qo-page .qo-practice-head select:focus { outline: 0; border-color: rgba(247, 181, 56, 0.65); box-shadow: 0 0 0 3px rgba(247, 181, 56, 0.1); }
+
+.qo-page.qo-page .qo-opening-card,
+.qo-page.qo-page .qo-study-info,
+.qo-page.qo-page .qo-practice-options,
+.qo-page.qo-page .qo-repertoire-count { border: 1px solid var(--qo-line); border-radius: 14px; background: rgba(255, 255, 255, 0.03); box-shadow: none; }
+
+.qo-page.qo-page .qo-opening-card:hover { border-color: rgba(247, 181, 56, 0.4); }
+.qo-page.qo-page .qo-opening-card h3 { color: #fff; }
+.qo-page.qo-page .qo-opening-card-bottom { border-color: var(--qo-line); }
+.qo-page.qo-page .qo-opening-card-bottom button,
+.qo-page.qo-page .qo-text-btn { color: var(--qo-gold-soft); }
+
+.qo-page.qo-page .qo-mini-tag { color: var(--qo-gold-soft); border: 1px solid rgba(247, 181, 56, 0.3); background: rgba(247, 181, 56, 0.1); }
+.qo-page.qo-page .qo-save-icon { color: var(--qo-mut); border: 1px solid var(--qo-line); background: rgba(255, 255, 255, 0.04); }
+.qo-page.qo-page .qo-save-icon.is-saved { color: var(--qo-gold); border-color: rgba(247, 181, 56, 0.5); }
+
+.qo-page.qo-page .qo-move-row button { color: #d0d6e2; }
+.qo-page.qo-page .qo-move-row button:hover,
+.qo-page.qo-page .qo-move-row button.is-current { color: var(--qo-gold-soft); background: rgba(247, 181, 56, 0.14); border-color: rgba(247, 181, 56, 0.4); }
+
+.qo-page.qo-page .qo-lesson-note,
+.qo-page.qo-page .qo-study-tip { border: 1px solid var(--qo-line); border-radius: 12px; background: rgba(7, 12, 20, 0.45); }
+
+.qo-page.qo-page .qo-study-board .qb-board,
+.qo-page.qo-page .qo-practice-board .qb-board { border: 1px solid rgba(247, 181, 56, 0.25); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); }
+
+.qo-page.qo-page .qo-answer { color: var(--qo-ink); border: 1px solid var(--qo-line); border-radius: 12px; background: rgba(255, 255, 255, 0.04); }
+.qo-page.qo-page .qo-answer:hover:not(:disabled) { border-color: rgba(247, 181, 56, 0.5); background: rgba(247, 181, 56, 0.1); }
+.qo-page.qo-page .qo-answer.is-correct { color: #61d69a; border-color: rgba(97, 214, 154, 0.5); background: rgba(97, 214, 154, 0.12); }
+.qo-page.qo-page .qo-answer-feedback.is-correct { color: #61d69a; background: rgba(97, 214, 154, 0.1); }
+.qo-page.qo-page .qo-answer-feedback.is-wrong { color: var(--qo-bad); background: rgba(255, 125, 125, 0.1); }
+
+.qo-page.qo-page .qo-repertoire-count strong { color: var(--qo-gold); }
+.qo-page.qo-page .qo-empty { color: var(--qo-mut); border: 1px dashed rgba(130, 170, 190, 0.3); border-radius: 14px; }
+.qo-page.qo-page .qo-empty-icon { color: var(--qo-gold); }
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .qo-page.qo-page .qo-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+  .qo-page.qo-page .qo-sum { padding: 13px; gap: 10px; }
+  .qo-page.qo-page .qo-sum i { width: 36px; height: 36px; font-size: 19px; }
+  .qo-page.qo-page .qo-sum strong { font-size: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qo-page.qo-page .qo-halo { animation: none; }
+  .qo-page.qo-page .qo-hub-card,
+  .qo-page.qo-page .qo-sum { transition: none; }
+}

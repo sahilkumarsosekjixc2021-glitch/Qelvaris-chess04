@@ -1,0 +1,54 @@
+/* PRACTICE: naye features ki styling. Purani PracticePuzzles.css ko haath nahi lagaya. */
+.pp-page.pp-page {
+  /* Explore panel ke colors ke liye (wo --gl-* variables dhoondhta hai) */
+  --gl-gold: var(--pp-gold);
+  --gl-cyan: var(--pp-teal);
+  --gl-pink: var(--pp-bad);
+  --gl-ink: var(--pp-text);
+  --gl-mute: var(--pp-muted);
+  --gl-edge: var(--pp-line);
+  --gl-edge-soft: var(--pp-line);
+}
+
+.pp-page.pp-page .pp-tabs { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.pp-page.pp-page .pp-tab { height: 40px; padding: 0 20px; border: 1px solid var(--pp-line); border-radius: 999px; background: rgba(255, 255, 255, 0.04); color: var(--pp-muted); font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.2s ease; }
+.pp-page.pp-page .pp-tab:hover:not(.is-on) { color: var(--pp-text); border-color: var(--pp-teal); }
+.pp-page.pp-page .pp-tab.is-on { color: var(--pp-gold-soft); border-color: rgba(247, 181, 56, 0.55); background: rgba(247, 181, 56, 0.12); }
+.pp-page.pp-page .pp-select { height: 40px; padding: 0 12px; border: 1px solid var(--pp-line); border-radius: 10px; background: rgba(7, 12, 20, 0.8); color: var(--pp-text); font: inherit; font-size: 13px; }
+.pp-page.pp-page .pp-chip { padding: 8px 14px; border: 1px solid rgba(79, 209, 197, 0.4); border-radius: 999px; background: rgba(79, 209, 197, 0.08); color: var(--pp-teal); font-size: 12px; font-weight: 700; }
+
+.pp-page.pp-page .pp-block { width: 100%; flex: none; margin-top: 14px; }
+.pp-page.pp-page .pp-weak { position: relative; display: grid; gap: 14px; margin-top: 14px; }
+.pp-page.pp-page .pp-weak-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 6px; font-size: 13px; }
+.pp-page.pp-page .pp-weak-row small { color: var(--pp-muted); font-size: 11px; }
+
+.pp-page.pp-page .pp-hud { display: flex; align-items: center; justify-content: center; gap: 18px; max-width: 552px; margin: 0 auto 12px; font-size: 14px; font-weight: 700; }
+.pp-page.pp-page .pp-hud b { color: var(--pp-gold); font-size: 22px; font-variant-numeric: tabular-nums; }
+
+.pp-page.pp-page .pp-result { position: relative; max-width: 552px; margin: 12px auto 0; font-size: 13px; line-height: 1.5; font-weight: 600; }
+.pp-page.pp-page .pp-result.is-win { color: var(--pp-good); }
+.pp-page.pp-page .pp-result.is-miss { color: var(--pp-bad); }
+.pp-page.pp-page .pp-good { margin: 0; color: var(--pp-teal); font-weight: 700; }
+
+.pp-page.pp-page .pp-arcade { position: relative; display: grid; gap: 12px; }
+.pp-page.pp-page .pp-arcade h2 { margin: 0; color: #fff; font-size: 26px; }
+.pp-page.pp-page .pp-arcade-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pp-page.pp-page .pp-mode { display: grid; gap: 4px; padding: 16px; text-align: left; border: 1px solid var(--pp-line); border-radius: 12px; background: rgba(255, 255, 255, 0.04); color: var(--pp-text); font: inherit; cursor: pointer; transition: 0.2s ease; }
+.pp-page.pp-page .pp-mode:hover { border-color: var(--pp-gold); background: rgba(247, 181, 56, 0.08); }
+.pp-page.pp-page .pp-mode b { font-size: 17px; }
+.pp-page.pp-page .pp-mode span { color: var(--pp-muted); font-size: 12px; }
+
+/* Explore panel: Review wali classes jo Practice me nahi hain */
+.pp-page.pp-page .pp-explore { position: relative; max-width: 552px; margin: 16px auto 0; }
+.pp-page.pp-page .pp-explore > .q-card { padding: 0; border: 0; background: none; box-shadow: none; }
+.pp-page.pp-page .q-eyebrow { color: var(--pp-gold); font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; }
+.pp-page.pp-page .st-label { color: var(--pp-muted); font-size: 12px; }
+.pp-page.pp-page .st-note { margin: 0; color: var(--pp-muted); font-size: 12px; line-height: 1.5; }
+.pp-page.pp-page .st-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.pp-page.pp-page .st-btn { height: 40px; padding: 0 16px; border: 1px solid var(--pp-line); border-radius: 11px; background: rgba(255, 255, 255, 0.05); color: var(--pp-text); font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+.pp-page.pp-page .st-btn--primary { border: 0; background: linear-gradient(135deg, #f7c45f, #d99a32); color: #211607; }
+
+@media (max-width: 560px) {
+  .pp-page.pp-page .pp-arcade-grid { grid-template-columns: 1fr; }
+  .pp-page.pp-page .pp-explore { max-width: 100%; }
+}

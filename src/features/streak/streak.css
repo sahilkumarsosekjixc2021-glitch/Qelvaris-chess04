@@ -1,0 +1,96 @@
+/* QV-STREAK: streak badge + card. Colours qelvaris-redesign.css ke variables se aate hain. */
+
+/* ---- Topbar badge ---- */
+.qs-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 11px;
+  color: var(--faint, #707b72);
+  background: var(--surface-2, #202925);
+  border: 1px solid var(--border, #2b3630);
+  border-radius: 10px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: color .15s ease, border-color .15s ease, background .15s ease;
+}
+.qs-badge:hover { border-color: var(--border-strong, #3b4941); color: var(--text, #f0f2ec); }
+.qs-badge.is-lit {
+  color: var(--accent, #e8c27a);
+  background: var(--accent-soft, rgba(232,194,122,.12));
+  border-color: rgba(232,194,122,.35);
+}
+.qs-badge.is-risk:not(.is-lit) { color: var(--warn, #d9ad62); border-color: rgba(217,173,98,.35); }
+.qs-flame { display: block; }
+.qs-flame.is-lit { filter: drop-shadow(0 0 5px rgba(232,194,122,.55)); }
+
+/* ---- Today card ---- */
+.qs-card { display: grid; gap: 16px; }
+.qs-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.qs-head-left { display: flex; align-items: center; gap: 13px; min-width: 0; }
+.qs-big-flame {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  flex: none;
+  color: var(--faint, #707b72);
+  background: var(--surface-2, #202925);
+  border: 1px solid var(--border, #2b3630);
+  border-radius: 14px;
+}
+.qs-big-flame svg { width: 24px; height: 24px; }
+.qs-big-flame.is-lit {
+  color: var(--accent, #e8c27a);
+  background: var(--accent-soft, rgba(232,194,122,.12));
+  border-color: rgba(232,194,122,.35);
+}
+.qs-count { margin-top: 4px; color: #fff; font-size: 26px; line-height: 1; font-weight: 800; letter-spacing: -.03em; }
+.qs-count span { color: var(--muted, #a0aaa1); font-size: 13px; font-weight: 600; letter-spacing: 0; }
+.qs-best { display: grid; gap: 2px; text-align: right; }
+.qs-best strong { color: var(--accent, #e8c27a); font-size: 20px; font-weight: 800; }
+.qs-best span { color: var(--muted, #a0aaa1); font-size: 9px; letter-spacing: .08em; }
+
+.qs-week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.qs-day { display: grid; justify-items: center; gap: 6px; }
+.qs-dot {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  color: var(--muted, #a0aaa1);
+  background: var(--surface-2, #202925);
+  border: 1px solid var(--border, #2b3630);
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 800;
+}
+.qs-day--done .qs-dot { color: #1c1b14; background: var(--accent, #e8c27a); border-color: var(--accent, #e8c27a); }
+.qs-day--frozen .qs-dot { color: #bfe3f2; background: rgba(120,190,230,.14); border-color: rgba(120,190,230,.4); }
+.qs-day--future .qs-dot { opacity: .45; }
+.qs-day.is-today .qs-dot { border-color: var(--accent, #e8c27a); box-shadow: 0 0 0 3px rgba(232,194,122,.14); }
+.qs-dl { color: var(--faint, #707b72); font-size: 10px; font-weight: 700; }
+.qs-day.is-today .qs-dl { color: var(--text, #f0f2ec); }
+
+.qs-msg { margin: 0; color: var(--muted, #a0aaa1); font-size: 12px; line-height: 1.6; }
+.qs-mile-bar { height: 5px; overflow: hidden; background: rgba(255,255,255,.09); border-radius: 99px; }
+.qs-mile-fill { height: 100%; background: var(--accent, #e8c27a); border-radius: inherit; transition: width .35s ease; }
+.qs-mile-cap { display: flex; justify-content: space-between; margin-top: 7px; color: var(--faint, #707b72); font-size: 10px; }
+.qs-foot {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 13px;
+  color: var(--muted, #a0aaa1);
+  border-top: 1px solid var(--border, #2b3630);
+  font-size: 11px;
+}
+
+@media (max-width: 640px) {
+  .qs-badge { height: 30px; padding: 0 9px; }
+}

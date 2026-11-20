@@ -1,0 +1,136 @@
+/* =====================================================================
+   TODAY PAGE: naya layout (sirf CSS, Today.jsx me koi code nahi badla).
+   Import: Today.jsx me sabse LAST:   import "./TodayLayout.css";
+
+   Desktop (>= 1100px)                      Tablet (< 1100px)        Mobile (< 700px)
+   +--------------------------+--------+    +--------------------+   Ek ke neeche ek:
+   |  Hero (title + streak)            |    |  Hero              |   Focus
+   +--------------------------+--------+    +--------------------+   Plan
+   |  Today's focus (8)       | Streak |    |  Focus             |   Streak
+   +--------------------------+  (4)   |    |  Plan              |   Leaks
+   |  Daily journey (8)       | Leaks  |    |  Streak  | Leaks   |   Last game
+   |  (plan + up next)        |  (4)   |    |  Last game         |   Quick play
+   +--------------------------+--------+    |  Quick play        |   Connect banner
+   |  Last game (8)           | Quick  |    +--------------------+
+   +--------------------------+ play   |
+   |  Connect banner (full)    |        |
+   ===================================================================== */
+
+/* ---------- Page frame ---------- */
+.qt-page.qt-page {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 16px 28px 44px;
+  box-sizing: border-box;
+}
+
+/* ---------- Hero: patla, ek line ---------- */
+.qt-page.qt-page .qt-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding: 22px 28px;
+}
+.qt-page.qt-page .qt-hero-title {
+  margin: 6px 0 4px;
+  font-size: clamp(26px, 2.8vw, 36px);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+.qt-page.qt-page .qt-hero-sub { margin: 0; }
+
+/* ---------- Grid: dono columns ek hi grid me (qt-col ko "invisible" kar diya) ---------- */
+.qt-page.qt-page .qt-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+.qt-page.qt-page .qt-col { display: contents; }
+
+/* Har card apne grid cell ko bharta hai */
+.qt-page.qt-page .qt-grid > .qt-col > * {
+  min-width: 0;
+  margin: 0;
+}
+
+/* Desktop placement */
+.qt-page.qt-page .qt-col:first-child > :nth-child(1) { grid-column: 1 / span 8; grid-row: 1; }   /* Today's focus */
+.qt-page.qt-page .qt-col:last-child  > :nth-child(1) { grid-column: 9 / span 4; grid-row: 1; }   /* Streak */
+.qt-page.qt-page .qt-plan-card                       { grid-column: 1 / span 8; grid-row: 2 / span 2; }   /* Daily journey (2 row lamba) */
+.qt-page.qt-page .qt-leak-card                       { grid-column: 9 / span 4; grid-row: 2; }   /* Rating leaks */
+/* Neeche ke 2 chhote cards (Recent activity + Take a break) ek wrapper .qt-bottom me hain */
+.qt-page.qt-page .qt-bottom                          { grid-column: 9 / span 4; grid-row: 3; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; }
+/* FIX: wrapper ke andar wale cards par bahar wali grid placement lagni nahi chahiye */
+.qt-page.qt-page .qt-bottom > .qt-last,
+.qt-page.qt-page .qt-bottom > .qt-quick              { grid-column: auto; grid-row: auto; }
+
+/* Cards ke andar ka khali gap: content upar, buttons/links neeche */
+.qt-page.qt-page .qt-leak-card,
+.qt-page.qt-page .qt-quick { display: flex; flex-direction: column; }
+.qt-page.qt-page .qt-leak-card .qt-link { margin-top: auto; align-self: flex-start; }
+.qt-page.qt-page .qt-quick .qt-quick-btn { margin-top: auto; }
+
+/* Daily journey: steps do hisson me saaf (board left, text right) */
+.qt-page.qt-page .qt-plan-card .qt-steps { gap: 12px; }
+.qt-page.qt-page .qt-current-body { align-items: center; }
+
+/* Connect banner: poori chaudai, patli strip */
+.qt-page.qt-page .qt-banner {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding: 18px 22px;
+}
+.qt-page.qt-page .qt-banner-text { flex: 1 1 320px; min-width: 0; }
+.qt-page.qt-page .qt-banner-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-left: auto; }
+
+.qt-page.qt-page .qt-foot { margin-top: 20px; }
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1100px) {
+  .qt-page.qt-page { padding: 14px 18px 36px; }
+  .qt-page.qt-page .qt-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+
+  .qt-page.qt-page .qt-col:first-child > :nth-child(1) { grid-column: 1 / -1; grid-row: auto; order: 1; }
+  .qt-page.qt-page .qt-plan-card                       { grid-column: 1 / -1; grid-row: auto; order: 2; }
+  .qt-page.qt-page .qt-col:last-child  > :nth-child(1) { grid-column: 1;      grid-row: auto; order: 3; }
+  .qt-page.qt-page .qt-leak-card                       { grid-column: 2;      grid-row: auto; order: 3; }
+  .qt-page.qt-page .qt-bottom                          { grid-column: 1 / -1; grid-row: auto; order: 4; }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 700px) {
+  .qt-page.qt-page { padding: 12px 12px 30px; }
+  .qt-page.qt-page .qt-hero { padding: 16px; }
+  .qt-page.qt-page .qt-grid { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .qt-page.qt-page .qt-col:first-child > :nth-child(1),
+  .qt-page.qt-page .qt-plan-card,
+  .qt-page.qt-page .qt-col:last-child > :nth-child(1),
+  .qt-page.qt-page .qt-leak-card,
+  .qt-page.qt-page .qt-bottom { grid-column: 1; grid-template-columns: minmax(0, 1fr); }
+  .qt-page.qt-page .qt-banner { padding: 16px; }
+  .qt-page.qt-page .qt-banner-actions { margin-left: 0; width: 100%; }
+}
+
+/* ---------- Today's focus card: puzzle + chess image (right side, left se fade) ---------- */
+.qt-page.qt-page .qt-col:first-child > :nth-child(1) {
+  position: relative;
+  overflow: hidden;
+  background-image:
+    linear-gradient(90deg, rgba(10, 16, 27, 0.97) 0%, rgba(10, 16, 27, 0.9) 42%, rgba(10, 16, 27, 0.3) 100%),
+    url("./assets/focus-hero.webp") !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 100%, auto 150% !important;
+  background-position: 0 0, right -30px center !important;
+}
+@media (max-width: 700px) {
+  .qt-page.qt-page .qt-col:first-child > :nth-child(1) {
+    background-size: 100% 100%, auto 120% !important;
+  }
+}

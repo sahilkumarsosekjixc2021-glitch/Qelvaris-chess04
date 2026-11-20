@@ -1,0 +1,6 @@
+.ch{margin-top:12px}
+.ch__btn{width:100%;padding:11px 16px;border-radius:12px;border:1px solid rgba(247,181,56,.5);background:rgba(247,181,56,.12);color:#f7b538;font-weight:800;cursor:pointer}
+.ch__btn:disabled{opacity:.5;cursor:default}
+.ch__btn:focus-visible{outline:2px solid #f7b538;outline-offset:2px}
+.ch__text{margin:8px 0 0;font-size:14px;line-height:1.45;color:#dfe5f0}
+.ch__note{margin:6px 0 0;font-size:12px;color:#8c97ab}

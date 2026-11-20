@@ -1,0 +1,4 @@
+/* Add to the END of your Openings.css (or import this file in Openings.jsx) */
+.qo-gap-drill{margin:6px 0 2px 22px;padding:6px 12px;border-radius:10px;border:1px solid rgba(79,209,197,.45);background:rgba(79,209,197,.1);color:#4fd1c5;font-weight:700;font-size:12.5px;cursor:pointer}
+.qo-gap-drill:hover{background:rgba(79,209,197,.18)}
+.qo-gap-drill:focus-visible{outline:2px solid #f7b538;outline-offset:2px}

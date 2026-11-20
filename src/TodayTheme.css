@@ -1,0 +1,208 @@
+/* TODAY PAGE: Leak Lab / DNA jaisa theme (navy checker bg, glass banner, gold accents).
+   Today.jsx me sabse LAST import karo:
+   import "./Today.css";
+   import "./TodayTheme.css";   // naya
+   Today.css ko edit nahi kiya, sirf override. */
+
+/* ---------- 0. Page frame (Leak Lab jaisa width aur spacing) ---------- */
+.qt-page.qt-page {
+  --qt-line: rgba(130, 170, 190, 0.16);
+  --qt-glass: linear-gradient(145deg, rgba(20, 32, 50, 0.9), rgba(9, 14, 24, 0.94));
+  --qt-edge: rgba(130, 170, 190, 0.16);
+
+  position: relative;
+  isolation: isolate;
+  max-width: 1480px;
+  padding-top: 16px;
+  min-height: calc(100vh - 72px);
+}
+
+/* ---------- 1. Background: green network hatao, navy checker lagao ---------- */
+.qv-main--net:has(.qt-page) {
+  background: #070c14 !important;
+}
+.qv-main--net:has(.qt-page)::before,
+.qv-main--net:has(.qt-page)::after {
+  display: none !important;
+}
+.qt-page.qt-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  z-index: -1;
+  pointer-events: none;
+  background-color: #070c14;
+  background-image:
+    radial-gradient(ellipse 70% 40% at 50% 100%, rgba(79, 209, 197, 0.14), transparent 70%),
+    repeating-conic-gradient(rgba(255, 255, 255, 0.022) 0% 25%, transparent 0% 50%);
+  background-size: 100% 100%, 110px 110px;
+}
+body:has(.qt-page) { overflow-x: clip; }
+
+/* ---------- 2. Header = Leak Lab wala glass banner ---------- */
+.qt-page.qt-page .qt-hero {
+  position: relative;
+  overflow: hidden;
+  align-items: center;
+  margin-bottom: 18px;
+  padding: 22px 28px;
+  border: 1px solid rgba(247, 181, 56, 0.22);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 88% 15%, rgba(79, 209, 197, 0.12), transparent 46%),
+    linear-gradient(135deg, rgba(20, 32, 50, 0.94), rgba(9, 14, 24, 0.97));
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+}
+.qt-page.qt-page .qt-hero::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 320px;
+  height: 100%;
+  opacity: 0.05;
+  pointer-events: none;
+  background: repeating-conic-gradient(#8fb4c8 0% 25%, transparent 0% 50%) 0 0 / 40px 40px;
+  -webkit-mask-image: linear-gradient(to left, #000 20%, transparent);
+  mask-image: linear-gradient(to left, #000 20%, transparent);
+}
+.qt-page.qt-page .qt-hero > * { position: relative; z-index: 1; }
+.qt-page.qt-page .qt-eyebrow--accent { color: var(--qt-gold); }
+.qt-page.qt-page .qt-hero-title {
+  margin: 8px 0 6px;
+  font-size: clamp(26px, 2.8vw, 36px);
+  letter-spacing: -0.03em;
+}
+
+/* ---------- 3. Saare cards: Leak Lab glass + gold hairline ---------- */
+.qt-page.qt-page .qt-card,
+.qt-page.qt-page .qt-banner,
+.qt-page.qt-page .qt-col > section,
+.qt-page.qt-page .qt-col > article {
+  position: relative;
+  background: var(--qt-glass) !important;
+  border: 1px solid var(--qt-line) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28) !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.qt-page.qt-page .qt-card:hover,
+.qt-page.qt-page .qt-col > section:hover {
+  border-color: rgba(247, 181, 56, 0.28) !important;
+}
+/* andar ki double border (card ke andar card) hatao */
+.qt-page.qt-page .qt-col > section::before,
+.qt-page.qt-page .qt-col > article::before,
+.qt-page.qt-page .qt-card::before {
+  border-color: rgba(247, 181, 56, 0.06) !important;
+}
+
+/* ---------- 4. Layout: dono columns barabar, gap Leak Lab jaisa ---------- */
+.qt-page.qt-page .qt-grid { gap: 18px; }
+.qt-page.qt-page .qt-col { gap: 18px; }
+.qt-page.qt-page .qt-foot { border-color: var(--qt-line); }
+
+/* ---------- 5. Accents: cyan -> gold (primary), teal sirf progress ke liye ---------- */
+.qt-page.qt-page .qt-card-icon {
+  color: var(--qt-gold);
+  background: rgba(247, 181, 56, 0.1);
+  border-color: rgba(247, 181, 56, 0.28);
+}
+.qt-page.qt-page .qt-card-label {
+  color: var(--qt-gold);
+  background: rgba(247, 181, 56, 0.08);
+  border-color: rgba(247, 181, 56, 0.3);
+}
+.qt-page.qt-page .qt-link { color: var(--qt-gold); }
+
+/* "Up next" card: gold glow (Leak Lab ke selected card jaisa) */
+.qt-page.qt-page .qt-step--current {
+  background: linear-gradient(145deg, rgba(247, 181, 56, 0.12), rgba(255, 255, 255, 0.02));
+  border-color: var(--qt-gold);
+  box-shadow: 0 0 0 1px rgba(247, 181, 56, 0.15), 0 0 22px rgba(247, 181, 56, 0.12);
+}
+.qt-page.qt-page .qt-upnext { color: var(--qt-gold); }
+.qt-page.qt-page .qt-live-dot {
+  background: var(--qt-gold);
+  box-shadow: 0 0 0 4px rgba(247, 181, 56, 0.14), 0 0 10px var(--qt-gold);
+}
+
+/* Step rows / check circles */
+.qt-page.qt-page .qt-step--row {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: var(--qt-line);
+  border-radius: 12px;
+}
+.qt-page.qt-page .qt-step--row:hover { border-color: rgba(247, 181, 56, 0.4); background: rgba(255, 255, 255, 0.05); }
+.qt-page.qt-page .qt-check:hover { color: var(--qt-gold); border-color: var(--qt-gold); }
+
+/* Buttons: sab primary = gold, secondary = glass */
+.qt-page.qt-page .qt-cta,
+.qt-page.qt-page .qt-quick-btn {
+  color: #211607;
+  background: linear-gradient(135deg, #f7c45f, #d99a32);
+  border: 1px solid #e6aa44;
+  box-shadow: 0 8px 22px rgba(217, 154, 50, 0.22);
+}
+.qt-page.qt-page .qt-cta:hover,
+.qt-page.qt-page .qt-quick-btn:hover {
+  background: linear-gradient(135deg, #ffd479, #e6aa44);
+  border-color: #ffd479;
+  box-shadow: 0 12px 28px rgba(217, 154, 50, 0.34);
+}
+.qt-page.qt-page .qt-btn {
+  color: var(--qt-text);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--qt-line);
+}
+.qt-page.qt-page .qt-btn:hover {
+  color: #ffd98a;
+  background: rgba(247, 181, 56, 0.08);
+  border-color: var(--qt-gold);
+}
+.qt-page.qt-page .qt-btn:focus-visible,
+.qt-page.qt-page .qt-cta:focus-visible,
+.qt-page.qt-page .qt-quick-btn:focus-visible,
+.qt-page.qt-page .qt-check:focus-visible,
+.qt-page.qt-page .qt-link:focus-visible { outline-color: var(--qt-gold); }
+
+/* "Today's focus" card ka button (FocusCard component, teal tha) -> gold */
+.qt-page.qt-page .qt-col > :first-child button:not(.qt-check):not(.qt-btn):not(.qt-link) {
+  color: #211607;
+  background: linear-gradient(135deg, #f7c45f, #d99a32);
+  border: 1px solid #e6aa44;
+  box-shadow: 0 8px 22px rgba(217, 154, 50, 0.22);
+}
+
+/* Streak pill (header) */
+.qt-page.qt-page .qt-streak {
+  background: rgba(247, 181, 56, 0.1);
+  border-color: rgba(247, 181, 56, 0.35);
+  box-shadow: none;
+}
+
+/* Leak bars: Leak Lab ke bad-bar jaise */
+.qt-page.qt-page .qt-bar { background: rgba(255, 255, 255, 0.08); border-radius: 99px; }
+.qt-page.qt-page .qt-bar-fill { background: linear-gradient(90deg, #e0605c, #ff9a94); border-radius: 99px; }
+
+/* Progress bar: Leak Lab ki teal-green bar */
+.qt-page.qt-page .qt-progress { background: rgba(255, 255, 255, 0.08); border-radius: 99px; }
+.qt-page.qt-page .qt-progress-fill { background: linear-gradient(90deg, #4fd1c5, #61d69a); border-radius: 99px; }
+
+/* Chips */
+.qt-page.qt-page .qt-chip { border-color: var(--qt-line); }
+.qt-page.qt-page .qt-chip--good {
+  color: var(--qt-green);
+  background: rgba(97, 214, 154, 0.1);
+  border-color: rgba(97, 214, 154, 0.3);
+}
+
+/* ---------- 6. Chhoti screen ---------- */
+@media (max-width: 700px) {
+  .qt-page.qt-page .qt-hero { padding: 16px 16px; }
+}

@@ -1,0 +1,35 @@
+/* =====================================================================
+   Openings page background: "Chess board" theme
+   Halka chessboard pattern (kinaron par fade) + neeche teal glow, navy base.
+   Sirf tab lagta hai jab Openings page khula ho (.qs-shell hone par),
+   baaki pages ka background nahi badalta.
+   ===================================================================== */
+
+/* Background poore viewport (canvas) par lagta hai, isliye nav/sidebar/cards ke peeche rehta hai. */
+html:has(.qs-shell) {
+  background:
+    radial-gradient(60% 50% at 50% 100%, rgba(79, 209, 197, 0.2), transparent 65%),
+    radial-gradient(75% 70% at 50% 40%, transparent 10%, #050a16 82%),
+    conic-gradient(rgba(255, 255, 255, 0.05) 25%, transparent 0 50%, rgba(255, 255, 255, 0.05) 0 75%, transparent 0) 0 0 / 88px 88px,
+    #050a16 !important;
+  background-attachment: fixed !important;
+}
+
+/* Beech ke wrappers ka purana background (network/constellation) hata do taaki upar wala dikhe. */
+html:has(.qs-shell) body,
+html:has(.qs-shell) body *:has(.qs-shell) {
+  background: transparent !important;
+  background-image: none !important;
+}
+html:has(.qs-shell) body *:has(.qs-shell)::before,
+html:has(.qs-shell) body *:has(.qs-shell)::after {
+  background: none !important;
+  background-image: none !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.qs-shell) { transition: background-color 0.2s ease; }
+}
+@media (max-width: 700px) {
+  html:has(.qs-shell) { background-size: auto, auto, 56px 56px, auto !important; }
+}

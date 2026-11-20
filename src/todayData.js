@@ -5,6 +5,11 @@ import { Chess } from "chess.js";
 import { dbAll, getSetting, setSetting } from "./storage";
 import { computeLeaks, inWindow, loadReviewedGames } from "./leaks";
 import { SOURCE_LABELS, sourceKey } from "./gamesData";
+import { computeStreak, weekView } from "./features/streak/streakCore"; // QV-STREAK
+import { awardDetailed, readBonusFreezes } from "./features/qc/qcStore"; // QV-QC
+import { celebrate } from "./features/celebrate/celebrate"; // QV-CELEBRATE
+import { track } from "./features/telemetry/track"; // QV-TRACK
+import { PERFECT_BONUS, STEP_REWARD, milestoneReward } from "./features/qc/qcCore"; // QV-QC
 
 export const STREAK_MIN_STEPS = 3; // default; asli threshold aaj ke plan ke steps hain (neeche total)
 
@@ -16,12 +21,6 @@ export function dateKey(date = new Date()) {
   const m = String(date.getMonth() + 1).padStart(2, "0");
   const d = String(date.getDate()).padStart(2, "0");
   return `${y}-${m}-${d}`;
-}
-
-function addDays(date, n) {
-  const copy = new Date(date);
-  copy.setDate(copy.getDate() + n);
-  return copy;
 }
 
 /* ---------- Sample data (jab tak koi game review nahi hui) ---------- */
@@ -195,41 +194,15 @@ async function readStreakDays() {
   return Array.isArray(days) ? days : [];
 }
 
-function countStreak(days) {
-  const set = new Set(days);
-  let cursor = new Date();
-  // Aaj abhi pura nahi hua toh kal se ginti shuru, taaki din bhar streak toot-ti na dikhe
-  if (!set.has(dateKey(cursor))) cursor = addDays(cursor, -1);
-  let count = 0;
-  while (set.has(dateKey(cursor))) {
-    count += 1;
-    cursor = addDays(cursor, -1);
-  }
-  return count;
+// QV-STREAK: hisaab ab features/streak/streakCore.js mein hai (freeze, milestones, week view).
+function streakState(days, bonus = 0) {
+  return { ...computeStreak(days, new Date(), bonus), week: weekView(days, new Date(), bonus) };
 }
 
-function buildWeek(days) {
-  const set = new Set(days);
-  const today = new Date();
-  const mondayOffset = (today.getDay() + 6) % 7; // Monday = 0
-  const monday = addDays(today, -mondayOffset);
-  const labels = ["M", "T", "W", "T", "F", "S", "S"];
-
-  return labels.map((label, i) => {
-    const d = addDays(monday, i);
-    const key = dateKey(d);
-    return {
-      label,
-      key,
-      done: set.has(key),
-      isToday: key === dateKey(today),
-      isFuture: d > today && key !== dateKey(today),
-    };
-  });
-}
-
-function streakState(days) {
-  return { count: countStreak(days), week: buildWeek(days) };
+// Badge (topbar) aur Today dono isse streak padhte hain
+export async function loadStreak() {
+  const [days, bonus] = await Promise.all([readStreakDays(), readBonusFreezes()]);
+  return streakState(days, bonus);
 }
 
 export async function loadToday() {
@@ -245,7 +218,12 @@ export async function loadToday() {
   const { summary, top } = buildLeaks(records);
   const plan = buildPlan(records, top);
 
-  const [row, streakDays, lastGame] = await Promise.all([readRow(key), readStreakDays(), getLastGame(records)]);
+  const [row, streakDays, lastGame, bonusFreezes] = await Promise.all([
+    readRow(key),
+    readStreakDays(),
+    getLastGame(records),
+    readBonusFreezes(),
+  ]);
 
   // Aaj ke plan mein kitne steps hain, wo yaad rakho, taaki streak ka hisaab sahi rahe
   if (row.total !== plan.steps.length) {
@@ -260,8 +238,23 @@ export async function loadToday() {
     doneIds: row.done.filter((id) => validIds.has(id)),
     leaks: summary,
     lastGame,
-    streak: streakState(streakDays),
+    streak: streakState(streakDays, bonusFreezes),
   };
+}
+
+// QV-COACH: Coach drills jaise kaam bhi din ko "active" ginte hain (streak badhti hai), bina daily-plan ka step tick kiye.
+export async function markDayActive() {
+  const key = dateKey();
+  const days = await readStreakDays();
+  if (days.includes(key)) return;
+  const next = [...new Set([...days, key])];
+  await setSetting("streak-days", next);
+  const streak = streakState(next, await readBonusFreezes());
+  try {
+    window.dispatchEvent(new CustomEvent("qelvaris-streak-changed", { detail: streak }));
+  } catch {
+    /* ignore */
+  }
 }
 
 // Dusre pages (Leak Lab, Review, Play) session poora hone par ye call karenge:
@@ -272,13 +265,78 @@ export async function setStepDone(stepId, done = true) {
   const next = done ? [...new Set([...row.done, stepId])] : row.done.filter((id) => id !== stepId);
   await setSetting(`today-${key}`, { done: next, total: row.total });
 
+  // QV-STREAK: koi bhi 1 step = din active. Teeno poore = "perfect day" (alag list, bonus ke liye).
   let days = await readStreakDays();
-  if (next.length >= row.total) {
+  if (next.length >= 1) {
     days = [...new Set([...days, key])];
   } else {
     days = days.filter((d) => d !== key);
   }
   await setSetting("streak-days", days);
 
-  return { doneIds: next, streak: streakState(days) };
+  const perfect = await getSetting("streak-perfect", []);
+  const perfectList = Array.isArray(perfect) ? perfect : [];
+  const isPerfect = row.total > 0 && next.length >= row.total;
+  const nextPerfect = isPerfect
+    ? [...new Set([...perfectList, key])]
+    : perfectList.filter((d) => d !== key);
+  await setSetting("streak-perfect", nextPerfect);
+
+  const streak = streakState(days, await readBonusFreezes());
+
+  // QV-QC: QC rewards (har reward ek din/step ke liye sirf ek baar, dobara tick karne se nahi milta)
+  let qcEarned = 0;
+  if (done) {
+    const entries = [{ id: `step:${key}:${stepId}`, amount: STEP_REWARD, reason: `Completed a daily step (${stepId})` }];
+    if (isPerfect) entries.push({ id: `perfect:${key}`, amount: PERFECT_BONUS, reason: "All of today's steps done" });
+    if (streak.hitMilestone) {
+      entries.push({
+        id: `ms:${streak.hitMilestone}:${key}`,
+        amount: milestoneReward(streak.hitMilestone),
+        reason: `${streak.hitMilestone}-day streak milestone`,
+      });
+    }
+    try {
+      const { gained, granted } = await awardDetailed(entries);
+      qcEarned = gained;
+      const got = new Set(granted);
+      if (got.has(`step:${key}:${stepId}`)) track("step_done", { step: stepId, perfect: isPerfect, streak: streak.count });
+      if (streak.hitMilestone && got.has(`ms:${streak.hitMilestone}:${key}`)) track("streak_milestone", { days: streak.hitMilestone });
+
+      // QV-CELEBRATE: sabse bada moment ek hi celebration dikhao
+      if (streak.hitMilestone && got.has(`ms:${streak.hitMilestone}:${key}`)) {
+        celebrate({
+          kind: "milestone",
+          title: `${streak.hitMilestone}-day streak!`,
+          sub: "You kept showing up. That is how rating gets built.",
+          qc: gained,
+        });
+      } else if (got.has(`perfect:${key}`)) {
+        celebrate({
+          kind: "perfect",
+          title: "Perfect day!",
+          sub: "Every step done. See you tomorrow.",
+          qc: gained,
+        });
+      } else if (got.has(`step:${key}:${stepId}`)) {
+        celebrate({
+          kind: streak.count === 1 && days.length === 1 ? "start" : "step",
+          title: streak.count === 1 && days.length === 1 ? "Streak started!" : "Step complete",
+          sub: streak.count === 1 && days.length === 1 ? "Day 1. Come back tomorrow to keep it going." : "Nice work. Keep going.",
+          qc: gained,
+        });
+      }
+    } catch (error) {
+      console.error("QC award failed:", error);
+    }
+  }
+
+  // Topbar badge ko batao ki streak badli
+  try {
+    window.dispatchEvent(new CustomEvent("qelvaris-streak-changed", { detail: streak }));
+  } catch {
+    /* ignore */
+  }
+
+  return { doneIds: next, streak, perfectToday: isPerfect, qcEarned };
 }

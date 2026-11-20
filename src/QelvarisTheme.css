@@ -1,0 +1,91 @@
+/* =====================================================================
+   QELVARIS SHARED THEME  =  Openings wala theme, har page pe.
+   Ek hi file, ek hi import: src/App.jsx me (ya main.jsx me) sabse last css import ke baad:
+       import "./QelvarisTheme.css";
+   Har page ki apni class ke andar hi chalta hai, isliye Openings page pe koi asar nahi
+   (wo apni shell/Openings*.css use karta hai).
+   Pehle di hui 8 theme files (LeakLabFix, DNATheme, TodayTheme, PlayTheme, GamesTheme, SettingsTheme,
+   ConnectTheme, ProfileTheme) ki ab zarurat nahi: unke import hata do, warna rang mix honge.
+   Layout kahin nahi badla: sirf background, header ka rang aur selected menu ka rang.
+   ===================================================================== */
+
+/* ---------- 1. BACKGROUND: Openings jaisa navy chessboard + neeche teal glow ---------- */
+html:has(.ll-page, .dn-page, .qt-page, .gm-page, .qs-page, .cn-page, .profile-page, .pl-page, .pl-mode-shell, .gm) {
+  background:
+    radial-gradient(60% 50% at 50% 100%, rgba(79, 209, 197, 0.2), transparent 65%),
+    radial-gradient(75% 70% at 50% 40%, transparent 10%, #050a16 82%),
+    conic-gradient(rgba(255, 255, 255, 0.05) 25%, transparent 0 50%, rgba(255, 255, 255, 0.05) 0 75%, transparent 0) 0 0 / 88px 88px,
+    #050a16 !important;
+  background-attachment: fixed !important;
+}
+/* Beech ke wrappers ka purana background (green network, brown, stars) hata do */
+html:has(.ll-page, .dn-page, .qt-page, .gm-page, .qs-page, .cn-page, .profile-page, .pl-page, .pl-mode-shell, .gm) body,
+html:has(.ll-page, .dn-page, .qt-page, .gm-page, .qs-page, .cn-page, .profile-page, .pl-page, .pl-mode-shell, .gm) body *:has(.ll-page, .dn-page, .qt-page, .gm-page, .qs-page, .cn-page, .profile-page, .pl-page, .pl-mode-shell, .gm) {
+  background: transparent !important;
+  background-image: none !important;
+  animation: none !important;
+}
+html:has(.ll-page, .dn-page, .qt-page, .gm-page, .qs-page, .cn-page, .profile-page, .pl-page, .pl-mode-shell, .gm) body *:has(.ll-page, .dn-page, .qt-page, .gm-page, .qs-page, .cn-page, .profile-page, .pl-page, .pl-mode-shell, .gm)::before,
+html:has(.ll-page, .dn-page, .qt-page, .gm-page, .qs-page, .cn-page, .profile-page, .pl-page, .pl-mode-shell, .gm) body *:has(.ll-page, .dn-page, .qt-page, .gm-page, .qs-page, .cn-page, .profile-page, .pl-page, .pl-mode-shell, .gm)::after {
+  background: none !important;
+  background-image: none !important;
+}
+@media (max-width: 700px) {
+  html:has(.ll-page, .dn-page, .qt-page, .gm-page, .qs-page, .cn-page, .profile-page, .pl-page, .pl-mode-shell, .gm) {
+    background-size: auto, auto, 56px 56px, auto !important;
+  }
+}
+
+/* ---------- 2. HEADER BANNERS: Openings ka navy + teal gradient ---------- */
+.ll-page.ll-page .ll-banner,
+.qt-page.qt-page .qt-hero,
+.dn-page .dn2-hero,
+.gm-page.gm-page .gm-header,
+.pl-page.pl-page .pl-hero {
+  background:
+    radial-gradient(38% 130% at 94% 50%, rgba(79, 209, 197, 0.16), transparent 70%),
+    radial-gradient(30% 110% at 6% 0%, rgba(88, 196, 242, 0.1), transparent 70%),
+    linear-gradient(100deg, #07121a 0%, #0a1b24 55%, #0a2326 100%) !important;
+  border: 1px solid rgba(79, 209, 197, 0.22) !important;
+  border-radius: 16px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+}
+/* Leak Lab banner ka bhaari gold checker (brown dikhta tha) band */
+.ll-page.ll-page .ll-banner::after { display: none !important; }
+/* Heading ka last shabd teal (Openings ke "Tree" jaisa) */
+.dn-page .dn2-titles h1 span,
+.cn-page.cn-page .cn-title span { color: #4fd1c5 !important; background: none !important; -webkit-text-fill-color: currentColor !important; }
+
+/* ---------- 3. SIDE MENU: selected item teal (Openings jaisa), gold gradient nahi ---------- */
+.ll-page.ll-page .ll-snav-btn.is-on {
+  color: #fff;
+  background: linear-gradient(145deg, rgba(79, 209, 197, 0.22), rgba(79, 209, 197, 0.06));
+  border-color: rgba(79, 209, 197, 0.6);
+  box-shadow: 0 0 0 1px rgba(79, 209, 197, 0.12), 0 8px 22px rgba(0, 0, 0, 0.25);
+}
+.ll-page.ll-page .ll-snav-btn:focus-visible { outline-color: #4fd1c5; }
+.ll-page.ll-page .ll-goalcard { border-color: rgba(79, 209, 197, 0.3); background: rgba(79, 209, 197, 0.06); }
+.ll-page.ll-page .ll-gbar div { background: linear-gradient(90deg, #2fa89e, #4fd1c5); }
+
+/* ---------- 4. TABS / CHIPS: selected = gold tint (Openings ke "As White 56" jaisa) ---------- */
+.ll-page.ll-page .ll-chip.is-on,
+.ll-page.ll-page .ll-size-btn.is-on {
+  color: #ffd98a;
+  background: rgba(247, 181, 56, 0.14);
+  border-color: rgba(247, 181, 56, 0.45);
+}
+.ll-page.ll-page .ll-chip.is-on .ll-chip-n { background: rgba(247, 181, 56, 0.2); }
+
+/* ---------- 5. TODAY: "Up next" card teal (gold glow nahi) ---------- */
+.qt-page.qt-page .qt-step--current {
+  background: linear-gradient(145deg, rgba(79, 209, 197, 0.1), rgba(255, 255, 255, 0.02));
+  border-color: rgba(79, 209, 197, 0.55);
+  box-shadow: 0 0 0 1px rgba(79, 209, 197, 0.12), 0 0 22px rgba(79, 209, 197, 0.1);
+}
+.qt-page.qt-page .qt-upnext { color: #4fd1c5; }
+.qt-page.qt-page .qt-live-dot { background: #4fd1c5; box-shadow: 0 0 0 4px rgba(79, 209, 197, 0.14), 0 0 10px #4fd1c5; }
+
+/* ---------- 6. Min-height taaki background neeche tak bhare ---------- */
+.ll-page.ll-page, .dn-page, .qt-page.qt-page, .gm-page.gm-page, .qs-page, .cn-page.cn-page, .profile-page {
+  min-height: calc(100vh - 72px);
+}

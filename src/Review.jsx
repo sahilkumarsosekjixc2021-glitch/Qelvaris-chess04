@@ -1,11 +1,26 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { Chess } from "chess.js";
 import Board from "./Board";
+import glassPawn from "./assets/glass-pawn.webp";
+import { requestCoachLesson, TRAIN_MAP } from "./features/blindspot/blindspot"; // QV-BLINDSPOT
+import { useT, getLang } from "./i18n/i18n"; // QV-I18N
+import { rv } from "./i18n/pages/review"; // QV-I18N
+import { lit } from "./i18n/pages/today"; // QV-I18N
+import { bt } from "./features/blindspot/strings";
+import PageLoader, { usePageLoaderDelay } from "./PageLoader";
 import { dbAll, dbGet, dbPut, getSetting, setSetting } from "./storage";
 import { CATEGORIES, CATEGORY_ORDER, parseGame, summarize, winChance } from "./chessUtils";
 import { analyseGame as buildRecord } from "./leaks";
 import { betterLabel, explainMoment, moveLabel, pickTurningPoints } from "./story";
+import { useExplore } from "./useExplore";
+import { setStepDone } from "./todayData"; // QV-STREAK
+import ExplorePanel from "./ExplorePanel";
 import "./Review.css";
+
+
+/* Review khulne par loader kam se kam itni der (ms) dikhega.
+   0 karoge to sirf real loading tak dikhega. */
+const MIN_LOADER_MS = 0; // QV-PERF (pehle 1200)
 
 function goTo(page) {
   window.dispatchEvent(new CustomEvent("qelvaris-navigate", { detail: page }));
@@ -16,31 +31,96 @@ async function loadGameData(game) {
   const review = await dbGet("reviews", game.id);
 
   if (!review || !Array.isArray(review.moves) || review.moves.length !== parsed.moves.length) {
-    throw new Error("This game has no saved review yet.");
+    throw new Error("This game has no saved review yet."); // translated on display
   }
 
   const moves = review.moves;
   return { game, parsed, moves, record: buildRecord(game, parsed, moves), summary: summarize(moves) };
 }
 
-function guessFeedback(tp, guess, lang) {
+function guessFeedback(tp, guess) {
   if (!guess) return "";
+  if (guess.uci === tp.best) return rv("gYes");
+  if (guess.uci === tp.uci) return rv("gPlayed", { san: guess.san });
+  return rv("gChose", { san: guess.san, best: tp.bestSan });
+}
 
-  if (guess.uci === tp.best) {
-    return lang === "hi"
-      ? "Bilkul sahi. Yahi engine ki sabse achhi chaal hai."
-      : "Yes, that is the engine's top move.";
-  }
+/* Move category ke liye chhota round badge (glyph + category ka apna color) */
+const CAT_GLYPH = {
+  Brilliant: "!!",
+  Great: "!",
+  Best: "★",
+  Excellent: "✓",
+  Good: "✓",
+  Book: "B",
+  Inaccuracy: "?!",
+  Mistake: "?",
+  Blunder: "??",
+  Miss: "✕",
+};
 
-  if (guess.uci === tp.uci) {
-    return lang === "hi"
-      ? `${guess.san} wahi chaal hai jo aapne game mein chali thi.`
-      : `${guess.san} is the move you played in the game.`;
-  }
+function CatBadge({ cat }) {
+  const color = (CATEGORIES[cat] || CATEGORIES.Pending || {}).color || "#8c97ab";
+  return (
+    <i className="st-badge" style={{ "--cat": color }} aria-hidden="true">
+      {CAT_GLYPH[cat] || "•"}
+    </i>
+  );
+}
 
-  return lang === "hi"
-    ? `Aapne ${guess.san} chuni. Engine ko ${tp.bestSan} zyada pasand tha.`
-    : `You chose ${guess.san}. The engine preferred ${tp.bestSan}.`;
+/* Accuracy ring: SVG circle, stroke-dasharray se bhara hua */
+function AccRing({ value, tone, label }) {
+  const gid = `st-ring-${useId().replace(/:/g, "")}`;
+  const R = 46;
+  const C = 2 * Math.PI * R;
+  const has = typeof value === "number";
+  const pct = has ? Math.max(0, Math.min(100, value)) : 0;
+
+  return (
+    <div className={`st-ring is-${tone}`} role="img" aria-label={rv("accAria", { who: label, value: has ? value.toFixed(1) : rv("unknown") })}>
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <defs>
+          <linearGradient id={gid} x1="0" y1="0" x2="1" y2="1">
+            {tone === "you" ? (
+              <>
+                <stop offset="0" stopColor="#3df5e6" />
+                <stop offset="1" stopColor="#ff4fd8" />
+              </>
+            ) : (
+              <>
+                <stop offset="0" stopColor="#b6ff6a" />
+                <stop offset="1" stopColor="#2fd37c" />
+              </>
+            )}
+          </linearGradient>
+        </defs>
+        <circle className="st-ring-track" cx="60" cy="60" r={R} />
+        <circle
+          className="st-ring-bar"
+          cx="60"
+          cy="60"
+          r={R}
+          stroke={`url(#${gid})`}
+          strokeDasharray={`${(pct / 100) * C} ${C}`}
+        />
+      </svg>
+      <strong className="st-ring-num">{has ? value.toFixed(1) : "—"}</strong>
+    </div>
+  );
+}
+
+/* Graph line ka color: cyan -> violet -> pink (t = 0..1, game ke saath) */
+function storyColor(t) {
+  const stops = [
+    [0, [61, 245, 230]],
+    [0.55, [143, 155, 255]],
+    [1, [255, 79, 216]],
+  ];
+  const x = Math.max(0, Math.min(1, t));
+  const [a, b] = x <= 0.55 ? [stops[0], stops[1]] : [stops[1], stops[2]];
+  const k = (x - a[0]) / (b[0] - a[0] || 1);
+  const c = a[1].map((v, i) => Math.round(v + (b[1][i] - v) * k));
+  return `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
 }
 
 /* Game ki kahani: aapke jeetne ke chance ka graph, aur uspar 1, 2, 3 turning points */
@@ -61,6 +141,8 @@ function StoryBar({ moves, userColor, tps, cursor, tpIndex, onSelectTp, onSeek }
 
   const known = points.filter(Boolean);
   const line = known.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
+  const area =
+    known.length > 1 ? `${known[0].x.toFixed(1)},100 ${line} ${known[known.length - 1].x.toFixed(1)},100` : "";
 
   function handleClick(event) {
     if (!n) return;
@@ -73,7 +155,19 @@ function StoryBar({ moves, userColor, tps, cursor, tpIndex, onSelectTp, onSeek }
     <div className="st-story" onClick={handleClick}>
       <svg viewBox="0 0 600 100" preserveAspectRatio="none">
         <line x1="0" y1="50" x2="600" y2="50" className="st-story-mid" vectorEffect="non-scaling-stroke" />
-        {line && <polyline points={line} className="st-story-line" vectorEffect="non-scaling-stroke" />}
+        {area && <polygon points={area} className="st-story-area" />}
+        {/* Gradient defs ki jagah har segment ko seedha color diya: har browser me dikhta hai */}
+        {known.slice(1).map((p, i) => {
+          const q = known[i];
+          const color = storyColor((p.x + q.x) / 1200);
+          const seg = `${q.x.toFixed(1)},${q.y.toFixed(1)} ${p.x.toFixed(1)},${p.y.toFixed(1)}`;
+          return (
+            <g key={i}>
+              <polyline points={seg} className="st-story-glow" stroke={color} vectorEffect="non-scaling-stroke" />
+              <polyline points={seg} className="st-story-line" stroke={color} vectorEffect="non-scaling-stroke" />
+            </g>
+          );
+        })}
       </svg>
 
       <span className="st-story-cursor" style={{ left: `${n ? (cursor / n) * 100 : 0}%` }} />
@@ -89,7 +183,7 @@ function StoryBar({ moves, userColor, tps, cursor, tpIndex, onSelectTp, onSeek }
               event.stopPropagation();
               onSelectTp(i);
             }}
-            aria-label={`Turning point ${i + 1}`}
+            aria-label={rv("tpN", { n: i + 1 })}
           >
             {i + 1}
           </button>
@@ -100,6 +194,8 @@ function StoryBar({ moves, userColor, tps, cursor, tpIndex, onSelectTp, onSeek }
 }
 
 export default function Review() {
+  useT(); // QV-I18N: re-render on language change
+  const appLang = getLang();
   const [games, setGames] = useState(null);
   const [gameId, setGameId] = useState(null);
   const [data, setData] = useState(null);
@@ -111,10 +207,18 @@ export default function Review() {
   const [guess, setGuess] = useState(null);
   const [revealed, setRevealed] = useState(false);
   const [selected, setSelected] = useState(null);
-  const [lang, setLang] = useState("en");
   const [showAll, setShowAll] = useState(false);
   const [flipExtra, setFlipExtra] = useState(false);
   const [addedIds, setAddedIds] = useState({});
+  const [tab, setTab] = useState("story");
+
+  /* Loader: minimum time + pehli baar games/data aane tak */
+  const minDone = usePageLoaderDelay(MIN_LOADER_MS);
+  const [booted, setBooted] = useState(false);
+
+  useEffect(() => {
+    if (!booted && games !== null && (games.length === 0 || data || loadError)) setBooted(true);
+  }, [booted, games, data, loadError]);
 
   /* Reviewed games ki list aur language */
   useEffect(() => {
@@ -126,13 +230,11 @@ export default function Review() {
           .filter((g) => g.analysisComplete && g.pgn)
           .sort((a, b) => new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime());
 
-        const savedLang = await getSetting("language", "en");
         const picked = await getSetting("selected-game", null);
         const wanted = picked || (await getSetting("reviewGameId", null));
         if (!alive) return;
 
         setGames(all);
-        setLang(savedLang === "hi" ? "hi" : "en");
 
         const first = all.find((g) => g.id === wanted) || all[0];
         if (first) setGameId(first.id);
@@ -182,7 +284,7 @@ export default function Review() {
         console.error("Could not open game:", error);
         if (alive) {
           setData(null);
-          setLoadError(error.message || "Could not open this game.");
+          setLoadError(lit(error.message || "Could not open this game."));
         }
       });
 
@@ -201,6 +303,30 @@ export default function Review() {
   const currentMove = data && cursor > 0 ? data.moves[cursor - 1] : null;
   const awaitingGuess = Boolean(tp) && guessMode && !revealed;
   const answerShown = Boolean(tp) && !awaitingGuess;
+
+  /* QV-STREAK: Today ka "Review" step tab poora jab user ne turning point par sach mein kuch kiya
+     (guess ya show answer; ya guess-mode band ho to replay / Add to Leak Lab / Next turning point).
+     Sirf page kholne se step complete nahi hota. */
+  const reviewMarked = useRef(false);
+  const markReview = useCallback(() => {
+    if (reviewMarked.current) return;
+    reviewMarked.current = true;
+    setStepDone("review", true).catch(() => {
+      reviewMarked.current = false;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (tp && revealed) markReview();
+  }, [tp, revealed, markReview]);
+
+  /* Explore: guess karne se pehle band rehta hai, warna engine jawab bata deta */
+  const showExplore = tab === "explore" && !awaitingGuess;
+  const ex = useExplore(fen, showExplore);
+
+  useEffect(() => {
+    if (awaitingGuess && tab === "explore") setTab("story");
+  }, [awaitingGuess, tab]);
 
   /* Kya ye position Leak Lab mein pehle se hai? */
   useEffect(() => {
@@ -257,7 +383,10 @@ export default function Review() {
       const tag = event.target?.tagName;
       if (tag === "TEXTAREA" || tag === "INPUT" || tag === "SELECT") return;
 
-      if (event.key === "ArrowLeft") seek(Math.max(0, cursor - 1));
+      if (event.key === "ArrowLeft") {
+        if (ex.active && ex.trail.length) ex.back();
+        else seek(Math.max(0, cursor - 1));
+      }
       else if (event.key === "ArrowRight") seek(Math.min(total, cursor + 1));
       else return;
 
@@ -266,10 +395,11 @@ export default function Review() {
 
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [data, cursor, total, seek]);
+  }, [data, cursor, total, seek, ex.active, ex.trail.length, ex.back]);
 
   function nextTurningPoint() {
     if (!tps.length) return;
+    if (tp && !guessMode) markReview(); // QV-STREAK
 
     if (tpIndex !== null) {
       selectTp((tpIndex + 1) % tps.length);
@@ -310,6 +440,7 @@ export default function Review() {
 
   function replayPosition() {
     if (!tp) return;
+    markReview(); // QV-STREAK
     setCursor(tp.ply - 1);
     setGuess(null);
     setRevealed(false);
@@ -342,6 +473,7 @@ export default function Review() {
     try {
       await dbPut("training", item);
       setAddedIds((prev) => ({ ...prev, [id]: true }));
+      markReview(); // QV-STREAK
     } catch (error) {
       console.error("Could not add to Leak Lab:", error);
     }
@@ -353,18 +485,15 @@ export default function Review() {
     setSetting("reviewGameId", id).catch(() => {});
   }
 
-  function changeLang(next) {
-    setLang(next);
-    setSetting("language", next).catch(() => {});
-  }
-
   /* ---------- Empty and loading states ---------- */
 
-  if (games === null) {
+  if (!booted || !minDone) {
     return (
-      <div className="st-page">
-        <p className="q-muted">Loading your games…</p>
-      </div>
+      <PageLoader
+        page="review"
+        title={rv("loadTitle")}
+        messages={[rv("load1"), rv("load2"), rv("load3")]}
+      />
     );
   }
 
@@ -372,12 +501,12 @@ export default function Review() {
     return (
       <div className="st-page">
         <section className="q-card st-blank">
-          <h1 className="q-title">No reviewed games yet</h1>
+          <h1 className="q-title">{rv("blankTitle")}</h1>
           <p className="q-muted">
-            Review shows three turning points from a game you played. Add your games and let the engine check them first.
+            {rv("blankText")}
           </p>
           <button className="q-btn q-btn--primary" onClick={() => goTo("Connect")}>
-            Add games
+            {rv("addGames")}
           </button>
         </section>
       </div>
@@ -385,7 +514,8 @@ export default function Review() {
   }
 
   const evalNow = data ? (cursor === 0 ? data.moves[0]?.evalBefore : data.moves[cursor - 1]?.evalAfter) : null;
-  const whiteShare = typeof evalNow === "number" ? winChance(evalNow) : 50;
+  const baseShare = typeof evalNow === "number" ? winChance(evalNow) : 50;
+  const whiteShare = ex.active && ex.whiteShare !== null ? ex.whiteShare : baseShare;
 
   const opponentOf = (g) => (g.userColor === "b" ? g.white : g.black);
   const lastMove = currentMove ? { from: currentMove.from, to: currentMove.to } : null;
@@ -398,13 +528,12 @@ export default function Review() {
   const myAcc = data ? data.summary.acc[userColor] : null;
   const oppAcc = data ? data.summary.acc[userColor === "w" ? "b" : "w"] : null;
   const myCounts = data ? data.summary.counts[userColor] : {};
-  const sideName = userColor === "w" ? "White" : "Black";
+  const sideName = userColor === "w" ? rv("gWhite") : rv("gBlack");
 
   const rows = [];
   if (data) for (let i = 0; i < data.moves.length; i += 2) rows.push([data.moves[i], data.moves[i + 1]]);
 
   const tpDone = tp && answerShown;
-  const otherLang = lang === "hi" ? "en" : "hi";
 
   return (
     <div className="st-page">
@@ -419,57 +548,60 @@ export default function Review() {
           {/* Left: board */}
           <section className="q-card st-boardcard">
             <div className="st-boardrow">
-              <div className="st-evalbar" title={`White ${Math.round(whiteShare)}%`} aria-hidden="true">
+              <div className="st-evalbar" title={rv("whiteShare", { pct: Math.round(whiteShare) })} aria-hidden="true">
                 <div style={{ height: `${whiteShare}%`, [flipped ? "top" : "bottom"]: 0 }} />
               </div>
               <Board
-                fen={fen}
+                fen={ex.active ? ex.fen : fen}
                 flipped={flipped}
-                lastMove={lastMove}
-                arrow={arrow}
-                selected={selected}
-                targets={targets}
-                onSquareClick={awaitingGuess ? handleSquare : null}
+                lastMove={ex.active && ex.trail.length ? ex.lastMove : lastMove}
+                arrow={ex.active ? ex.arrow : arrow}
+                selected={ex.active ? ex.selected : selected}
+                targets={ex.active ? ex.targets : targets}
+                onSquareClick={ex.active ? ex.squareClick : awaitingGuess ? handleSquare : null}
               />
             </div>
 
             <div className="st-controls">
-              <button className="st-ctl" onClick={() => seek(0)} disabled={cursor === 0} aria-label="Start">
+              <button className="st-ctl" onClick={() => seek(0)} disabled={cursor === 0} aria-label={rv("start")}>
                 ⏮
               </button>
-              <button className="st-ctl" onClick={() => seek(Math.max(0, cursor - 1))} disabled={cursor === 0} aria-label="Previous move">
+              <button className="st-ctl" onClick={() => seek(Math.max(0, cursor - 1))} disabled={cursor === 0} aria-label={rv("prev")}>
                 ◀
               </button>
-              <button className="st-ctl" onClick={() => seek(Math.min(total, cursor + 1))} disabled={cursor === total} aria-label="Next move">
+              <button className="st-ctl" onClick={() => seek(Math.min(total, cursor + 1))} disabled={cursor === total} aria-label={rv("next")}>
                 ▶
               </button>
-              <button className="st-ctl" onClick={() => seek(total)} disabled={cursor === total} aria-label="End">
+              <button className="st-ctl" onClick={() => seek(total)} disabled={cursor === total} aria-label={rv("end")}>
                 ⏭
               </button>
-              <button className="st-ctl" onClick={() => setFlipExtra((v) => !v)} aria-label="Flip board">
+              <button className="st-ctl" onClick={() => setFlipExtra((v) => !v)} aria-label={rv("flip")}>
                 ⇅
               </button>
               <button className="st-next" onClick={nextTurningPoint} disabled={!tps.length}>
-                Next turning point
+                {rv("nextTp")}
               </button>
             </div>
           </section>
 
           {/* Middle: story + turning point */}
           <section className="st-mid">
-            <select className="st-select" value={gameId || ""} onChange={changeGame} aria-label="Choose a game">
-              {games.map((g) => (
-                <option key={g.id} value={g.id}>
-                  {g.date ? new Date(g.date).toLocaleDateString() : "—"} · vs {opponentOf(g) || "Opponent"} ·{" "}
-                  {g.opening || g.event || "Game"} · {g.result || "*"}
-                </option>
-              ))}
-            </select>
+            <div className="st-gamebar">
+              <select className="st-select" value={gameId || ""} onChange={changeGame} aria-label={rv("chooseGame")}>
+                {games.map((g) => (
+                  <option key={g.id} value={g.id}>
+                    {g.date ? new Date(g.date).toLocaleDateString() : "—"} · {rv("vsOpp", { name: opponentOf(g) || lit("Opponent") })} ·{" "}
+                    {g.opening || g.event || lit("Game")} · {g.result || "*"}
+                  </option>
+                ))}
+              </select>
+              <img className="st-gamebar-pawn" src={glassPawn} alt="" draggable="false" />
+            </div>
 
             <div className="q-card st-storycard">
               <div className="st-storyhead">
-                <span className="q-eyebrow">The story of this game</span>
-                <span className="st-jump">Click to jump</span>
+                <span className="q-eyebrow">{rv("story")}</span>
+                <span className="st-jump">{rv("jump")}</span>
               </div>
               <StoryBar
                 moves={data.moves}
@@ -482,64 +614,82 @@ export default function Review() {
               />
             </div>
 
-            {tp ? (
+            <div className="st-tabs" role="tablist" aria-label={rv("reviewView")}>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={!showExplore}
+                className={`st-tab ${!showExplore ? "is-on" : ""}`}
+                onClick={() => setTab("story")}
+              >
+                {rv("tabStory")}
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={showExplore}
+                className={`st-tab ${showExplore ? "is-on" : ""}`}
+                disabled={awaitingGuess}
+                title={awaitingGuess ? rv("guessFirst") : rv("exploreTip")}
+                onClick={() => setTab("explore")}
+              >
+                {rv("tabExplore")}
+              </button>
+            </div>
+
+            {showExplore ? (
+              <ExplorePanel ex={ex} />
+            ) : tp ? (
               <div className="q-card st-tp">
                 <div className="st-tp-head">
                   <span className="q-eyebrow">
-                    Turning point {tpIndex + 1} of {tps.length} · Move {tp.moveNumber}
+                    {rv("tpOf", { n: tpIndex + 1, total: tps.length, move: tp.moveNumber })}
                   </span>
                   {tpDone && (
                     <span className="st-cat" style={{ "--cat": CATEGORIES[tp.cat].color }}>
-                      {tp.cat}
+                      {lit(tp.cat)}
                     </span>
                   )}
                 </div>
 
                 {awaitingGuess ? (
                   <>
-                    <h2 className="st-h2">{sideName} to move. What would you play?</h2>
+                    <h2 className="st-h2">{rv("toMove", { side: sideName })}</h2>
                     <p className="st-note">
-                      Guess first mode is on: click a piece, then a square. The answer appears after you commit.
+                      {rv("guessOn")}
                     </p>
                     <div className="st-actions">
                       <button className="st-btn st-btn--primary" onClick={() => setRevealed(true)}>
-                        Show answer
+                        {rv("showAnswer")}
                       </button>
                     </div>
                   </>
                 ) : (
                   <>
                     <h2 className="st-h2">
-                      You played {tp.san}
-                      {tp.kind === "mistake" && tp.bestSan && <span className="st-better">Better: {betterLabel(tp)}</span>}
+                      {rv("youPlayed", { san: tp.san })}
+                      {tp.kind === "mistake" && tp.bestSan && <span className="st-better">{rv("better", { move: betterLabel(tp) })}</span>}
                     </h2>
 
-                    {guessMode && <p className="st-note">Guess first mode is on: try to find the better move before this reveals.</p>}
-                    {guess && <p className="st-guess">{guessFeedback(tp, guess, lang)}</p>}
+                    {guessMode && <p className="st-note">{rv("guessOnReveal")}</p>}
+                    {guess && <p className="st-guess">{guessFeedback(tp, guess)}</p>}
 
                     <div className="st-why-head">
-                      <span className="st-label">Why</span>
-                      <button className={`st-lang ${lang === "en" ? "is-on" : ""}`} onClick={() => changeLang("en")}>
-                        English
-                      </button>
-                      <button className={`st-lang ${lang === "hi" ? "is-on" : ""}`} onClick={() => changeLang("hi")}>
-                        Hindi
-                      </button>
+                      <span className="st-label">{rv("why")}</span>
                     </div>
 
                     <p className="st-why">
-                      {lang === "hi" ? explanation.hi : explanation.en} {lang === "hi" ? explanation.askHi : explanation.askEn}
+                      {explanation[appLang] ?? explanation.en} {explanation["ask" + appLang[0].toUpperCase() + appLang[1]] ?? explanation.askEn}
                     </p>
 
-                    <div className="st-other">
-                      <span className="st-label">
-                        {otherLang === "hi" ? "Hindi (shown here in roman letters)" : "English"}
-                      </span>
-                      <p>
-                        {otherLang === "hi" ? explanation.hi : explanation.en}{" "}
-                        {otherLang === "hi" ? explanation.askHi : explanation.askEn}
-                      </p>
-                    </div>
+                    {appLang !== "en" && (
+                      <div className="st-other">
+                        <span className="st-label">{rv("inEnglish")}</span>
+                        <p>
+                          {explanation.en} {explanation.askEn}
+                        </p>
+                      </div>
+                    )}
 
                     <div className="st-actions">
                       <button
@@ -547,13 +697,18 @@ export default function Review() {
                         onClick={addToLab}
                         disabled={addedIds[`${data.game.id}:${tp.ply}`]}
                       >
-                        {addedIds[`${data.game.id}:${tp.ply}`] ? "Added to Leak Lab ✓" : "Add to Leak Lab"}
+                        {addedIds[`${data.game.id}:${tp.ply}`] ? rv("addedLab") : rv("addLab")}
                       </button>
                       <button className="st-btn" onClick={replayPosition}>
-                        Replay position
+                        {rv("replay")}
                       </button>
+                      {tp.kind === "mistake" && TRAIN_MAP[tp.leak] && (
+                        <button className="st-btn" onClick={() => requestCoachLesson(tp.leak)}>
+                          {bt("trainPattern")}
+                        </button>
+                      )}
                       <button className="st-btn" onClick={() => setCursor(tp.ply)}>
-                        Show my move
+                        {rv("showMine")}
                       </button>
                     </div>
                   </>
@@ -561,30 +716,30 @@ export default function Review() {
 
                 <label className="st-toggle">
                   <input type="checkbox" checked={guessMode} onChange={(e) => setGuessMode(e.target.checked)} />
-                  Guess first mode
+                  {rv("guessMode")}
                 </label>
               </div>
             ) : (
               <div className="q-card st-tp">
                 {tps.length === 0 && (
                   <>
-                    <h2 className="st-h2">A clean game</h2>
-                    <p className="st-note">No big turning points here. Step through the moves with the arrow keys.</p>
+                    <h2 className="st-h2">{rv("clean")}</h2>
+                    <p className="st-note">{rv("cleanText")}</p>
                   </>
                 )}
 
                 {tps.length > 0 && (
                   <>
-                    <h2 className="st-h2">Browsing the game</h2>
-                    <p className="st-note">Click a numbered marker on the story graph, or press Next turning point.</p>
+                    <h2 className="st-h2">{rv("browsing")}</h2>
+                    <p className="st-note">{rv("browsingText")}</p>
                   </>
                 )}
 
                 {currentMove && (
                   <div className="st-current">
-                    <span className="st-dot" style={{ background: (CATEGORIES[currentMove.cat] || CATEGORIES.Pending).color }} />
+                    <CatBadge cat={currentMove.cat} />
                     <span>
-                      {moveLabel(currentMove)} · {currentMove.cat}
+                      {moveLabel(currentMove)} · {lit(currentMove.cat)}
                     </span>
                   </div>
                 )}
@@ -594,21 +749,25 @@ export default function Review() {
 
           {/* Right: accuracy + moves */}
           <aside className="q-card st-side">
-            <span className="st-label">You</span>
-            <strong className="st-acc-num is-you">{typeof myAcc === "number" ? myAcc.toFixed(1) : "—"}</strong>
+            <div className="st-acc-row">
+              <span className="st-label">{rv("you")}</span>
+              <AccRing value={myAcc} tone="you" label={rv("yours")} />
+            </div>
 
-            <span className="st-label st-gap">Opponent</span>
-            <strong className="st-acc-num is-opp">{typeof oppAcc === "number" ? oppAcc.toFixed(1) : "—"}</strong>
-            <p className="st-acc-note">Accuracy, per side</p>
+            <div className="st-acc-row">
+              <span className="st-label">{rv("opponent")}</span>
+              <AccRing value={oppAcc} tone="opp" label={rv("opponent")} />
+            </div>
+            <p className="st-acc-note">{rv("accNote")}</p>
 
             <div className="st-divider" />
 
-            <span className="st-label">Your moves</span>
+            <span className="st-label">{rv("yourMoves")}</span>
             <ul className="st-counts">
               {CATEGORY_ORDER.filter((cat) => myCounts[cat]).map((cat) => (
-                <li key={cat}>
+                <li key={cat} style={{ "--cat": CATEGORIES[cat].color }}>
                   <span className="st-count-name">
-                    <i className="st-dot" style={{ background: CATEGORIES[cat].color }} /> {cat}
+                    <CatBadge cat={cat} /> {lit(cat)}
                   </span>
                   <strong>{myCounts[cat]}</strong>
                 </li>
@@ -618,9 +777,9 @@ export default function Review() {
             <div className="st-divider" />
 
             <button className="st-all" onClick={() => setShowAll((v) => !v)} aria-expanded={showAll}>
-              All {total} moves {showAll ? "▴" : "▾"}
+              {rv("allMoves", { n: total })} {showAll ? "▴" : "▾"}
             </button>
-            <p className="st-acc-note">Full list stays one click away.</p>
+            <p className="st-acc-note">{rv("listNote")}</p>
 
             {showAll && (
               <div className="st-moves">

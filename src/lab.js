@@ -85,8 +85,15 @@ export async function seedTraining(records, now = Date.now()) {
 const INTERVALS = { 1: 1, 2: 3, 3: 7, 4: 14 };
 
 export function afterSolve(item, now = Date.now()) {
+  const solved = (item.solved || 0) + 1;
+  const attempts = (item.attempts || 0) + 1;
+
+  // Box sirf tab badhta hai jab position due ho. "Practise anyway" se ek hi din me 3 baar solve karke
+  // position "learned" nahi ban sakti (spaced repetition ka matlab hi gap hai).
+  if (!isDue(item, now)) return { ...item, solved, attempts };
+
   const box = Math.min(4, (item.box || 0) + 1);
-  return { ...item, box, dueAt: now + INTERVALS[box] * DAY, status: box >= 3 ? "learned" : "learning", solved: (item.solved || 0) + 1, attempts: (item.attempts || 0) + 1 };
+  return { ...item, box, dueAt: now + INTERVALS[box] * DAY, status: box >= 3 ? "learned" : "learning", solved, attempts };
 }
 
 // Galat ya "Show answer": aaj hi wapas aayegi
@@ -130,6 +137,21 @@ export function comingBack(items, now = Date.now()) {
 
   return rows;
 }
+
+/* ---------- Practice progress (leak card ki bar) ---------- */
+
+// Ek position "learned" tab maani jati hai jab box 3 tak pahunch jaye (1, 3, 7 din ke gap ke baad)
+export const MASTERY_BOX = 3;
+
+// Leak ki saari positions ka average: har position ka box (0 se 3) -> 0 se 100%.
+// Sahi solve hote hi badhta hai. Galat ya "Show answer" par us position ka box 0 ho jata hai, to bar neeche aati hai.
+export function masteryOf(items) {
+  if (!items.length) return 0;
+  const got = items.reduce((sum, item) => sum + Math.min(MASTERY_BOX, item.box || 0), 0);
+  return Math.round((100 * got) / (MASTERY_BOX * items.length));
+}
+
+export const masteryTone = (pct) => (pct >= 67 ? "good" : pct >= 34 ? "warn" : "bad");
 
 /* ---------- Proof: asli games mein leak band hua ya nahi ---------- */
 

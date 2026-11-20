@@ -1,0 +1,526 @@
+/* PRACTICE PUZZLES: glass theme (Profile/Games jaisa). Sab rules .pp-page.pp-page ke andar scoped. */
+.pp-page.pp-page{
+  --pp-gold:#f7b538;
+  --pp-gold-soft:#ffd98a;
+  --pp-teal:#4fd1c5;
+  --pp-good:#61d69a;
+  --pp-bad:#ff7d7d;
+  --pp-text:#eef1f6;
+  --pp-muted:#8c97ab;
+  --pp-line:rgba(130,170,190,.16);
+  --pp-glass:linear-gradient(145deg,rgba(22,34,52,.82),rgba(11,17,28,.9));
+  display:grid;
+  gap:18px;
+  width:100%;
+  max-width:1360px;
+  min-width:0;
+  box-sizing:border-box;
+  color:var(--pp-text);
+  animation:ppFadeIn .35s ease}
+@keyframes ppFadeIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.pp-page.pp-page .pp-hero{
+  padding:6px 4px 0}
+.pp-page.pp-page .pp-eyebrow{
+  display:block;
+  color:var(--pp-gold);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.2em}
+.pp-page.pp-page .pp-hero h1{
+  margin:8px 0 6px;
+  color:#fff;
+  font-size:clamp(30px,4vw,44px);
+  line-height:1.1;
+  letter-spacing:-.03em}
+.pp-page.pp-page .pp-hero p{
+  margin:0;
+  max-width:620px;
+  color:var(--pp-muted);
+  font-size:15px;
+  line-height:1.6}
+.pp-page.pp-page .pp-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1.55fr) minmax(250px,.72fr);
+  align-items:start;
+  gap:20px}
+.pp-page.pp-page .pp-main-card,.pp-page.pp-page .pp-panel{
+  position:relative;
+  background:var(--pp-glass);
+  border:1px solid var(--pp-line);
+  border-radius:16px;
+  box-shadow:0 18px 44px rgba(0,0,0,.28)}
+.pp-page.pp-page .pp-main-card::before,.pp-page.pp-page .pp-panel::before{
+  content:"";
+  position:absolute;
+  inset:7px;
+  border:1px solid rgba(247,181,56,.06);
+  border-radius:11px;
+  pointer-events:none}
+.pp-page.pp-page .pp-main-card{
+  min-width:0;
+  padding:24px}
+.pp-page.pp-page .pp-panel{
+  padding:20px}
+.pp-page.pp-page .pp-board-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  margin-bottom:14px}
+.pp-page.pp-page .pp-label{
+  color:var(--pp-gold);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.16em}
+.pp-page.pp-page .pp-board-header h2{
+  margin:7px 0 0;
+  color:#fff;
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:-.02em}
+.pp-page.pp-page .pp-rating{
+  padding:8px 13px;
+  color:var(--pp-gold-soft);
+  background:rgba(247,181,56,.08);
+  border:1px solid rgba(247,181,56,.35);
+  border-radius:999px;
+  font-size:13px;
+  font-weight:800}
+.pp-page.pp-page .pp-strip{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  flex-wrap:wrap;
+  max-width:552px;
+  margin:0 auto 12px}
+.pp-page.pp-page .pp-turn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 13px 6px 9px;
+  border:1px solid var(--pp-line);
+  border-radius:999px;
+  background:rgba(255,255,255,.03);
+  color:#dfe5ee;
+  font-size:12px;
+  font-weight:700}
+.pp-page.pp-page .pp-turn i{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.4)}
+.pp-page.pp-page .pp-turn--w i{
+  background:#f4f1e8}
+.pp-page.pp-page .pp-turn--b i{
+  background:#1b2230}
+.pp-page.pp-page .pp-steps{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex:1;
+  min-width:150px;
+  justify-content:flex-end}
+.pp-page.pp-page .pp-steps small{
+  color:var(--pp-muted);
+  font-size:11px;
+  white-space:nowrap}
+.pp-page.pp-page .pp-steps-bar{
+  flex:1;
+  max-width:160px;
+  height:5px;
+  overflow:hidden;
+  border-radius:99px;
+  background:rgba(255,255,255,.08)}
+.pp-page.pp-page .pp-steps-bar div{
+  height:100%;
+  background:linear-gradient(90deg,#f7c45f,#d99a32);
+  border-radius:inherit;
+  transition:width .35s ease}
+.pp-page.pp-page .pp-board-wrapper{
+  position:relative;
+  width:100%;
+  max-width:552px;
+  margin:auto;
+  padding:6px;
+  overflow:hidden;
+  background:#070c14;
+  border:1px solid rgba(247,181,56,.32);
+  border-radius:13px;
+  box-shadow:0 18px 40px rgba(0,0,0,.35),0 0 0 5px rgba(247,181,56,.04),inset 0 0 0 1px rgba(255,255,255,.03);
+  box-sizing:border-box}
+.pp-page.pp-page .pp-board-wrapper>.qb-board{
+  width:100%}
+.pp-page.pp-page .pp-overlay{
+  position:absolute;
+  inset:0;
+  z-index:5;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:12px;
+  color:var(--pp-text);
+  background:rgba(7,12,20,.88);
+  font-size:13px;
+  font-weight:600;
+  backdrop-filter:blur(5px)}
+.pp-page.pp-page .pp-loader{
+  width:30px;
+  height:30px;
+  border:3px solid rgba(247,181,56,.18);
+  border-top-color:var(--pp-gold);
+  border-radius:50%;
+  animation:ppSpin .8s linear infinite}
+@keyframes ppSpin{to{transform:rotate(360deg)}}
+.pp-page.pp-page .pp-promo{
+  position:absolute;
+  inset:0;
+  z-index:20;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:16px;
+  background:rgba(5,9,16,.82);
+  backdrop-filter:blur(5px)}
+.pp-page.pp-page .pp-promo-box{
+  width:min(100%,320px);
+  padding:20px;
+  text-align:center;
+  background:linear-gradient(145deg,#182436,#0d1420);
+  border:1px solid rgba(247,181,56,.35);
+  border-radius:16px;
+  box-shadow:0 18px 50px rgba(0,0,0,.55)}
+.pp-page.pp-page .pp-promo-title{
+  color:#fff;
+  font-size:17px;
+  font-weight:800;
+  margin-bottom:6px}
+.pp-page.pp-page .pp-promo-sub{
+  color:var(--pp-muted);
+  font-size:12px;
+  margin-bottom:16px}
+.pp-page.pp-page .pp-promo-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px}
+.pp-page.pp-page .pp-promo-btn{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
+  min-width:0;
+  padding:12px 4px;
+  color:#eef1f6;
+  font-family:inherit;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--pp-line);
+  border-radius:10px;
+  cursor:pointer;
+  transition:border-color .2s,background .2s,transform .2s}
+.pp-page.pp-page .pp-promo-btn:hover{
+  border-color:var(--pp-gold);
+  background:rgba(247,181,56,.1);
+  transform:translateY(-2px)}
+.pp-page.pp-page .pp-promo-btn span{
+  font-size:31px;
+  line-height:1;
+  color:var(--pp-gold-soft)}
+.pp-page.pp-page .pp-promo-btn small{
+  font-size:10px;
+  font-weight:700}
+.pp-page.pp-page .pp-status{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  max-width:552px;
+  min-height:44px;
+  margin:14px auto 0;
+  padding:10px 14px;
+  color:#c9d2df;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--pp-line);
+  border-radius:11px;
+  font-size:13px;
+  line-height:1.5;
+  box-sizing:border-box}
+.pp-page.pp-page .pp-status-dot{
+  flex-shrink:0;
+  width:9px;
+  height:9px;
+  background:var(--pp-teal);
+  border-radius:50%;
+  box-shadow:0 0 10px rgba(79,209,197,.55)}
+.pp-page.pp-page .pp-status-solved{
+  border-color:rgba(97,214,154,.4);
+  background:rgba(97,214,154,.07)}
+.pp-page.pp-page .pp-status-solved .pp-status-dot{
+  background:var(--pp-good);
+  box-shadow:0 0 10px rgba(97,214,154,.6)}
+.pp-page.pp-page .pp-status-error{
+  border-color:rgba(255,125,125,.4);
+  background:rgba(255,125,125,.07)}
+.pp-page.pp-page .pp-status-error .pp-status-dot{
+  background:var(--pp-bad);
+  box-shadow:0 0 10px rgba(255,125,125,.6)}
+.pp-page.pp-page .pp-status-revealed .pp-status-dot{
+  background:var(--pp-gold);
+  box-shadow:0 0 10px rgba(247,181,56,.6)}
+.pp-page.pp-page .pp-controls{
+  position:relative;
+  display:flex;
+  gap:10px;
+  max-width:552px;
+  margin:14px auto 0;
+  flex-wrap:wrap}
+.pp-page.pp-page .pp-btn{
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+  min-height:44px;
+  padding:0 16px;
+  border:1px solid var(--pp-line);
+  border-radius:11px;
+  font-family:inherit;
+  font-size:13px;
+  font-weight:800;
+  cursor:pointer;
+  transition:transform .2s,background .2s,border-color .2s,box-shadow .2s}
+.pp-page.pp-page .pp-btn:hover:not(:disabled){
+  transform:translateY(-2px)}
+.pp-page.pp-page .pp-btn:disabled{
+  opacity:.5;
+  cursor:not-allowed}
+.pp-page.pp-page .pp-btn-secondary{
+  flex:1;
+  color:#dfe5ee;
+  background:rgba(255,255,255,.04)}
+.pp-page.pp-page .pp-btn-secondary:hover:not(:disabled){
+  border-color:var(--pp-gold);
+  background:rgba(247,181,56,.08)}
+.pp-page.pp-page .pp-btn-gold{
+  flex:1.3;
+  color:#211607;
+  background:linear-gradient(135deg,#f7c45f,#d99a32);
+  border-color:#e6aa44;
+  box-shadow:0 8px 22px rgba(217,154,50,.22)}
+.pp-page.pp-page .pp-btn-gold:hover:not(:disabled){
+  box-shadow:0 12px 28px rgba(217,154,50,.34)}
+.pp-page.pp-page .pp-solution-navigation{
+  position:relative;
+  max-width:552px;
+  margin:14px auto 0;
+  padding:14px;
+  background:rgba(247,181,56,.05);
+  border:1px solid rgba(247,181,56,.28);
+  border-radius:12px;
+  box-sizing:border-box}
+.pp-page.pp-page .pp-solution-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px}
+.pp-page.pp-page .pp-solution-heading>div{
+  display:grid;
+  gap:5px}
+.pp-page.pp-page .pp-solution-heading strong{
+  color:#fff;
+  font-size:14px}
+.pp-page.pp-page .pp-move-counter{
+  color:var(--pp-gold-soft);
+  font-size:12px;
+  font-weight:800}
+.pp-page.pp-page .pp-solution-move{
+  margin-top:10px;
+  padding:10px 12px;
+  color:var(--pp-gold-soft);
+  background:rgba(255,255,255,.04);
+  border-radius:9px;
+  font-size:13px;
+  font-weight:700;
+  font-variant-numeric:tabular-nums}
+.pp-page.pp-page .pp-navigation-buttons{
+  display:flex;
+  gap:10px;
+  margin-top:10px}
+.pp-page.pp-page .pp-nav-arrow{
+  flex:1;
+  min-height:38px;
+  color:var(--pp-text);
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--pp-line);
+  border-radius:9px;
+  font-family:inherit;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.2s ease}
+.pp-page.pp-page .pp-nav-arrow:hover:not(:disabled){
+  color:var(--pp-gold-soft);
+  border-color:var(--pp-gold);
+  background:rgba(247,181,56,.1)}
+.pp-page.pp-page .pp-nav-arrow:disabled{
+  opacity:.3;
+  cursor:not-allowed}
+.pp-page.pp-page .pp-sidebar{
+  display:grid;
+  gap:16px;
+  min-width:0}
+.pp-page.pp-page .pp-description{
+  margin:12px 0 0;
+  color:var(--pp-muted);
+  font-size:13px;
+  line-height:1.7}
+.pp-page.pp-page .pp-tags{
+  position:relative;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:14px}
+.pp-page.pp-page .pp-tags span{
+  padding:7px 11px;
+  color:var(--pp-gold-soft);
+  background:rgba(247,181,56,.08);
+  border:1px solid rgba(247,181,56,.25);
+  border-radius:999px;
+  font-size:11px;
+  font-weight:700;
+  text-transform:capitalize}
+.pp-page.pp-page .pp-performance-value{
+  position:relative;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:16px 0 14px}
+.pp-page.pp-page .pp-performance-value div{
+  display:grid;
+  gap:4px}
+.pp-page.pp-page .pp-performance-value strong{
+  color:var(--pp-teal);
+  font-size:32px;
+  letter-spacing:-.04em}
+.pp-page.pp-page .pp-performance-value div span{
+  color:var(--pp-muted);
+  font-size:12px}
+.pp-page.pp-page .pp-performance-icon{
+  display:grid;
+  place-items:center;
+  width:42px;
+  height:42px;
+  color:var(--pp-gold);
+  background:rgba(247,181,56,.1);
+  border-radius:12px;
+  font-size:21px}
+.pp-page.pp-page .pp-progress-track{
+  position:relative;
+  height:7px;
+  overflow:hidden;
+  background:rgba(255,255,255,.08);
+  border-radius:99px}
+.pp-page.pp-page .pp-progress-track div{
+  height:100%;
+  background:linear-gradient(90deg,#f7c45f,#d99a32);
+  border-radius:inherit;
+  transition:width .35s ease}
+.pp-page.pp-page .pp-performance-footer{
+  position:relative;
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  margin-top:10px;
+  color:var(--pp-muted);
+  font-size:12px}
+.pp-page.pp-page .pp-session-stats{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px}
+.pp-page.pp-page .pp-stat{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  min-width:0;
+  padding:12px;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--pp-line);
+  border-radius:12px}
+.pp-page.pp-page .pp-stat-icon{
+  display:grid;
+  place-items:center;
+  flex-shrink:0;
+  width:34px;
+  height:34px;
+  color:var(--pp-gold);
+  background:rgba(247,181,56,.1);
+  border-radius:10px;
+  font-size:16px;
+  font-weight:800}
+.pp-page.pp-page .pp-stat div{
+  display:grid;
+  gap:3px}
+.pp-page.pp-page .pp-stat strong{
+  color:#fff;
+  font-size:20px;
+  line-height:1}
+.pp-page.pp-page .pp-stat div span{
+  color:var(--pp-muted);
+  font-size:11px}
+@media (max-width:1050px){
+.pp-page.pp-page .pp-layout{
+  grid-template-columns:minmax(0,1.3fr) minmax(220px,.75fr);
+  gap:14px}
+.pp-page.pp-page .pp-main-card{
+  padding:18px}
+.pp-page.pp-page .pp-panel{
+  padding:16px}
+}
+@media (max-width:850px){
+.pp-page.pp-page .pp-layout{
+  grid-template-columns:1fr}
+.pp-page.pp-page .pp-sidebar{
+  grid-template-columns:repeat(2,minmax(0,1fr))}
+.pp-page.pp-page .pp-performance{
+  grid-column:1/-1}
+.pp-page.pp-page .pp-session-stats{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  grid-column:1/-1}
+}
+@media (max-width:560px){
+.pp-page.pp-page{
+  gap:14px}
+.pp-page.pp-page .pp-main-card{
+  padding:13px;
+  border-radius:14px}
+.pp-page.pp-page .pp-board-header h2{
+  font-size:18px}
+.pp-page.pp-page .pp-board-wrapper{
+  max-width:100%;
+  padding:4px;
+  border-radius:10px}
+.pp-page.pp-page .pp-status,.pp-page.pp-page .pp-controls,.pp-page.pp-page .pp-solution-navigation,.pp-page.pp-page .pp-strip{
+  max-width:100%}
+.pp-page.pp-page .pp-controls{
+  gap:8px}
+.pp-page.pp-page .pp-btn{
+  min-height:42px;
+  padding:0 10px;
+  font-size:12px}
+.pp-page.pp-page .pp-sidebar{
+  grid-template-columns:1fr}
+.pp-page.pp-page .pp-performance{
+  grid-column:auto}
+.pp-page.pp-page .pp-session-stats{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-column:auto}
+.pp-page.pp-page .pp-steps{
+  justify-content:flex-start}
+}
+@media (prefers-reduced-motion:reduce){
+.pp-page.pp-page,.pp-page.pp-page .pp-loader{
+  animation:none}
+.pp-page.pp-page .pp-btn,.pp-page.pp-page .pp-progress-track div,.pp-page.pp-page .pp-steps-bar div{
+  transition:none}
+}

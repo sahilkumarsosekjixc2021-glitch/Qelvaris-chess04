@@ -1,0 +1,1013 @@
+/* FOG OF WAR: glass theme + naya layout (board ke upar/neeche players aur clock, neeche toolbar). Sab rules .fog-page.fog-page ke andar scoped. */
+.fog-page.fog-page{
+  --fg-gold:#f7b538;
+  --fg-gold-soft:#ffd98a;
+  --fg-teal:#4fd1c5;
+  --fg-good:#61d69a;
+  --fg-bad:#ff7d7d;
+  --fg-text:#eef1f6;
+  --fg-muted:#8c97ab;
+  --fg-line:rgba(130,170,190,.16);
+  --fg-glass:linear-gradient(145deg,rgba(22,34,52,.82),rgba(11,17,28,.9));
+  --board-light:#8ea3b9;
+  --board-dark:#26364f;
+  --board-highlight:rgba(247,181,56,.32);
+  --fog-light:#2f3f58;
+  --fog-dark:#0e1522;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  width:100%;
+  max-width:1240px;
+  margin:0 auto;
+  padding:18px 24px 34px;
+  box-sizing:border-box;
+  color:var(--fg-text);
+  font-family:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif}
+.fog-page.fog-page *,.fog-page.fog-page *::before,.fog-page.fog-page *::after{
+  box-sizing:border-box}
+.fog-page.fog-page.fog-theme-alt{
+  --board-light:#d9c4a1;
+  --board-dark:#8b6a4a;
+  --fog-light:#4a4034;
+  --fog-dark:#1c1712}
+.fog-page.fog-page .fog-arena-topbar{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  align-items:center;
+  min-height:54px;
+  padding:0 16px;
+  background:var(--fg-glass);
+  border:1px solid var(--fg-line);
+  border-radius:14px}
+.fog-page.fog-page .fog-back-button{
+  justify-self:start;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:9px 13px;
+  color:var(--fg-muted);
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--fg-line);
+  border-radius:10px;
+  font:inherit;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s ease}
+.fog-page.fog-page .fog-back-button:hover{
+  color:var(--fg-gold-soft);
+  border-color:rgba(247,181,56,.45);
+  background:rgba(247,181,56,.08)}
+.fog-page.fog-page .fog-mode-heading{
+  display:flex;
+  align-items:center;
+  justify-self:center;
+  gap:11px}
+.fog-page.fog-page .fog-mode-indicator{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--fg-teal);
+  box-shadow:0 0 13px rgba(79,209,197,.6)}
+.fog-page.fog-page .fog-mode-heading strong{
+  display:block;
+  color:#fff;
+  font-size:16px;
+  font-weight:800}
+.fog-page.fog-page .fog-mode-heading small{
+  display:block;
+  margin-top:2px;
+  color:var(--fg-muted);
+  font-size:11px}
+.fog-page.fog-page .fog-live-label{
+  justify-self:end;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--fg-muted);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.14em}
+.fog-page.fog-page .fog-live-label span{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--fg-good);
+  box-shadow:0 0 8px var(--fg-good)}
+.fog-page.fog-page .fog-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 330px;
+  gap:22px;
+  align-items:start;
+  width:100%}
+.fog-page.fog-page .fog-center-panel{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px}
+.fog-page.fog-page .fog-center-panel>*{
+  width:min(100%,max(520px,calc(100vh - 262px)));
+  max-width:780px}
+.fog-page.fog-page .fog-player-bar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:6px 12px;
+  background:var(--fg-glass);
+  border:1px solid var(--fg-line);
+  border-radius:13px;
+  transition:border-color .2s,box-shadow .2s}
+.fog-page.fog-page .fog-player-bar.on-turn{
+  border-color:rgba(79,209,197,.55);
+  box-shadow:0 0 0 3px rgba(79,209,197,.08)}
+.fog-page.fog-page .p-avatar{
+  display:grid;
+  place-items:center;
+  flex:none;
+  width:36px;
+  height:36px;
+  color:#fff;
+  background:#24344c;
+  border:2px solid transparent;
+  border-radius:11px;
+  font-size:21px}
+.fog-page.fog-page .p-avatar.ai{
+  background:#18222f}
+.fog-page.fog-page .on-turn .p-avatar{
+  border-color:var(--fg-teal)}
+.fog-page.fog-page .fog-player-meta{
+  flex:1;
+  min-width:0;
+  display:grid;
+  gap:2px}
+.fog-page.fog-page .fog-player-meta strong{
+  overflow:hidden;
+  color:#fff;
+  font-size:14px;
+  text-overflow:ellipsis;
+  white-space:nowrap}
+.fog-page.fog-page .fog-player-meta small{
+  color:var(--fg-muted);
+  font-size:11px}
+.fog-page.fog-page .fog-clock{
+  min-width:84px;
+  padding:7px 12px;
+  color:var(--fg-muted);
+  background:rgba(5,10,18,.55);
+  border:1px solid var(--fg-line);
+  border-radius:10px;
+  font:700 20px ui-monospace,SFMono-Regular,Menlo,monospace;
+  text-align:center;
+  font-variant-numeric:tabular-nums}
+.fog-page.fog-page .fog-clock.on{
+  color:#fff;
+  border-color:rgba(79,209,197,.5);
+  box-shadow:0 0 12px rgba(79,209,197,.2)}
+.fog-page.fog-page .fog-clock.low{
+  color:var(--fg-bad);
+  border-color:rgba(255,125,125,.5)}
+.fog-page.fog-page .fog-board-wrapper{
+  position:relative;
+  aspect-ratio:1;
+  overflow:hidden;
+  background:#070c14;
+  border:1px solid rgba(247,181,56,.32);
+  border-radius:13px;
+  box-shadow:0 22px 50px rgba(0,0,0,.4),0 0 0 5px rgba(247,181,56,.04)}
+.fog-page.fog-page .fog-board-wrapper>*:first-child{
+  width:100%;
+  height:100%}
+.fog-page.fog-page .qb-piece--w{
+  fill:#f5f5ed;
+  stroke:#18212f;
+  stroke-width:5px}
+.fog-page.fog-page .qb-piece--b{
+  fill:#1b2433;
+  stroke:#c4d0de;
+  stroke-width:3px}
+.fog-page.fog-page .qb-coord{
+  opacity:.65;
+  font-size:18px}
+.fog-page.fog-page .fog-tool{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  min-height:40px;
+  padding:0 13px;
+  color:#d6dde8;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--fg-line);
+  border-radius:10px;
+  font:inherit;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.2s ease}
+.fog-page.fog-page .fog-tool svg{
+  width:16px;
+  height:16px}
+.fog-page.fog-page .fog-tool:hover:not(:disabled){
+  color:var(--fg-gold-soft);
+  border-color:rgba(247,181,56,.5);
+  background:rgba(247,181,56,.08)}
+.fog-page.fog-page .fog-tool.on{
+  color:var(--fg-gold-soft);
+  border-color:rgba(247,181,56,.45);
+  background:rgba(247,181,56,.1)}
+.fog-page.fog-page .fog-tool--danger:hover:not(:disabled){
+  color:var(--fg-bad);
+  border-color:rgba(255,125,125,.5);
+  background:rgba(255,125,125,.08)}
+.fog-page.fog-page .fog-tool:disabled{
+  opacity:.4;
+  cursor:not-allowed}
+.fog-page.fog-page .fog-pending-draw{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:9px 13px;
+  color:var(--fg-gold-soft);
+  background:rgba(247,181,56,.07);
+  border:1px solid rgba(247,181,56,.25);
+  border-radius:10px;
+  font-size:12px}
+.fog-page.fog-page .fog-pending-draw button{
+  padding:4px 8px;
+  color:var(--fg-muted);
+  background:transparent;
+  border:0;
+  font:inherit;
+  cursor:pointer}
+.fog-page.fog-page .fog-pending-draw button:hover{
+  color:var(--fg-bad)}
+.fog-page.fog-page .fog-side-panel{
+  display:grid;
+  gap:14px;
+  min-width:0}
+.fog-page.fog-page .fog-card{
+  position:relative;
+  padding:16px 18px;
+  background:var(--fg-glass);
+  border:1px solid var(--fg-line);
+  border-radius:16px;
+  box-shadow:0 16px 38px rgba(0,0,0,.26)}
+.fog-page.fog-page .fog-section-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:12px;
+  color:var(--fg-gold);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.16em}
+.fog-page.fog-page .fog-status-live{
+  color:var(--fg-teal);
+  font-size:9px;
+  letter-spacing:.1em}
+.fog-page.fog-page .status-line{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:#fff;
+  font-size:14px;
+  font-weight:700}
+.fog-page.fog-page .turn-dot{
+  display:inline-block;
+  flex:0 0 auto;
+  width:11px;
+  height:11px;
+  border:1px solid #8c97ab;
+  border-radius:50%}
+.fog-page.fog-page .turn-dot.w{
+  background:#f4f5ef;
+  border-color:#f4f5ef}
+.fog-page.fog-page .turn-dot.b{
+  background:#1b2230;
+  border-color:#b4c0cf}
+.fog-page.fog-page .status-sub{
+  margin-top:8px;
+  color:var(--fg-muted);
+  font-size:12px}
+.fog-page.fog-page .fog-visibility-meter{
+  height:5px;
+  margin-top:11px;
+  overflow:hidden;
+  border-radius:10px;
+  background:rgba(255,255,255,.08)}
+.fog-page.fog-page .fog-visibility-meter div{
+  height:100%;
+  border-radius:inherit;
+  background:linear-gradient(90deg,#4fd1c5,#f7c45f);
+  transition:width .25s ease}
+.fog-page.fog-page .fog-hint{
+  margin:12px 0 0;
+  padding-top:11px;
+  color:var(--fg-muted);
+  border-top:1px solid var(--fg-line);
+  font-size:11px;
+  line-height:1.6}
+.fog-page.fog-page .move-list-card{
+  display:flex;
+  flex-direction:column;
+  height:min(460px,calc(100vh - 460px));
+  min-height:260px;
+  padding:14px}
+.fog-page.fog-page .fog-panel-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5px;
+  padding:4px;
+  background:rgba(5,10,18,.45);
+  border:1px solid var(--fg-line);
+  border-radius:11px}
+.fog-page.fog-page .fog-panel-tabs button{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  min-height:36px;
+  color:var(--fg-muted);
+  background:transparent;
+  border:0;
+  border-radius:8px;
+  font:inherit;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.2s ease}
+.fog-page.fog-page .fog-panel-tabs button.active{
+  color:var(--fg-gold-soft);
+  background:rgba(247,181,56,.12)}
+.fog-page.fog-page .fog-panel-tabs button svg{
+  width:15px;
+  height:15px}
+.fog-page.fog-page .fog-chat-count{
+  display:grid;
+  place-items:center;
+  min-width:17px;
+  height:17px;
+  padding:0 4px;
+  color:#211607;
+  background:var(--fg-gold);
+  border-radius:20px;
+  font-size:9px;
+  font-weight:800}
+.fog-page.fog-page .fog-move-summary{
+  display:flex;
+  justify-content:space-between;
+  margin:14px 2px 8px;
+  color:var(--fg-muted);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.12em}
+.fog-page.fog-page .moves-box,.fog-page.fog-page .fog-chat-messages{
+  flex:1;
+  min-height:0;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  padding-right:3px}
+.fog-page.fog-page .moves-box::-webkit-scrollbar,.fog-page.fog-page .fog-chat-messages::-webkit-scrollbar{
+  width:4px}
+.fog-page.fog-page .moves-box::-webkit-scrollbar-thumb,.fog-page.fog-page .fog-chat-messages::-webkit-scrollbar-thumb{
+  border-radius:5px;
+  background:rgba(255,255,255,.16)}
+.fog-page.fog-page .moves-empty{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  color:var(--fg-muted);
+  text-align:center}
+.fog-page.fog-page .moves-empty span{
+  color:var(--fg-gold);
+  font-size:28px}
+.fog-page.fog-page .moves-empty strong{
+  color:#fff;
+  font-size:13px}
+.fog-page.fog-page .moves-empty small{
+  font-size:11px}
+.fog-page.fog-page .move-row{
+  display:grid;
+  grid-template-columns:32px 1fr 1fr;
+  padding:8px 9px;
+  color:var(--fg-text);
+  border-radius:7px;
+  font-size:13px}
+.fog-page.fog-page .move-row:nth-child(even){
+  background:rgba(255,255,255,.035)}
+.fog-page.fog-page .move-no{
+  color:var(--fg-muted)}
+.fog-page.fog-page .fog-chat-messages{
+  gap:10px;
+  padding:5px 2px 10px}
+.fog-page.fog-page .fog-chat-message{
+  max-width:95%;
+  padding:9px 11px;
+  align-self:flex-start;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--fg-line);
+  border-radius:10px}
+.fog-page.fog-page .fog-chat-message strong{
+  display:block;
+  margin-bottom:4px;
+  color:var(--fg-teal);
+  font-size:10px}
+.fog-page.fog-page .fog-chat-message strong.b{
+  color:var(--fg-gold)}
+.fog-page.fog-page .fog-chat-message p{
+  margin:0;
+  overflow-wrap:anywhere;
+  color:var(--fg-text);
+  font-size:12px;
+  line-height:1.5}
+.fog-page.fog-page .fog-chat-message.system{
+  max-width:100%;
+  align-self:center;
+  padding:7px 11px;
+  border:0;
+  background:rgba(79,209,197,.07);
+  text-align:center}
+.fog-page.fog-page .fog-chat-message.system p{
+  color:var(--fg-muted);
+  font-size:10px}
+.fog-page.fog-page .fog-chat-form{
+  display:flex;
+  gap:7px;
+  margin-top:9px;
+  padding-top:10px;
+  border-top:1px solid var(--fg-line)}
+.fog-page.fog-page .fog-chat-form input{
+  width:100%;
+  min-width:0;
+  height:38px;
+  padding:0 11px;
+  outline:none;
+  color:var(--fg-text);
+  background:rgba(5,10,18,.55);
+  border:1px solid var(--fg-line);
+  border-radius:9px;
+  font:inherit;
+  font-size:12px}
+.fog-page.fog-page .fog-chat-form input:focus{
+  border-color:rgba(247,181,56,.5)}
+.fog-page.fog-page .fog-chat-form input::placeholder{
+  color:#657087}
+.fog-page.fog-page .fog-chat-form button{
+  display:grid;
+  place-items:center;
+  flex:0 0 auto;
+  width:40px;
+  height:38px;
+  color:#211607;
+  background:linear-gradient(135deg,#f7c45f,#d99a32);
+  border:0;
+  border-radius:9px;
+  cursor:pointer}
+.fog-page.fog-page .fog-chat-form button:disabled{
+  opacity:.4;
+  cursor:not-allowed}
+.fog-page.fog-page .promo-overlay,.fog-page.fog-page .fog-dialog-overlay,.fog-page.fog-page .fog-result-overlay{
+  position:absolute;
+  inset:0;
+  z-index:10;
+  display:grid;
+  place-items:center;
+  padding:15px;
+  background:rgba(5,9,16,.8);
+  backdrop-filter:blur(5px)}
+.fog-page.fog-page .fog-dialog-overlay--page{
+  position:fixed}
+.fog-page.fog-page .promo-box{
+  padding:18px;
+  color:var(--fg-muted);
+  background:linear-gradient(145deg,#182436,#0d1420);
+  border:1px solid rgba(247,181,56,.35);
+  border-radius:14px;
+  text-align:center;
+  font-size:13px}
+.fog-page.fog-page .promo-row{
+  display:flex;
+  gap:9px;
+  margin-top:12px}
+.fog-page.fog-page .promo-row button{
+  width:54px;
+  height:54px;
+  color:#fff;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--fg-line);
+  border-radius:10px;
+  font-size:32px;
+  cursor:pointer;
+  transition:.2s ease}
+.fog-page.fog-page .promo-row button:hover{
+  border-color:var(--fg-gold);
+  background:rgba(247,181,56,.1)}
+.fog-page.fog-page .fog-result-card,.fog-page.fog-page .fog-dialog-card{
+  width:min(100%,340px);
+  padding:28px 24px;
+  background:linear-gradient(145deg,#182436,#0d1420);
+  border:1px solid rgba(247,181,56,.3);
+  border-radius:18px;
+  box-shadow:0 20px 65px rgba(0,0,0,.5);
+  text-align:center}
+.fog-page.fog-page .fog-result-symbol,.fog-page.fog-page .fog-dialog-symbol{
+  margin-bottom:12px;
+  font-size:37px}
+.fog-page.fog-page .fog-result-eyebrow{
+  color:var(--fg-gold);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.18em}
+.fog-page.fog-page .fog-result-card h2,.fog-page.fog-page .fog-dialog-card h3{
+  margin:10px 0 7px;
+  color:#fff;
+  font-size:24px}
+.fog-page.fog-page .fog-dialog-card h3{
+  font-size:19px}
+.fog-page.fog-page .fog-result-card p,.fog-page.fog-page .fog-dialog-card p{
+  margin:0 0 20px;
+  color:var(--fg-muted);
+  font-size:13px;
+  line-height:1.6}
+.fog-page.fog-page .fog-primary-button,.fog-page.fog-page .fog-secondary-button,.fog-page.fog-page .fog-danger-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-height:42px;
+  padding:0 16px;
+  border:1px solid transparent;
+  border-radius:10px;
+  font:inherit;
+  font-size:13px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.2s ease}
+.fog-page.fog-page .fog-primary-button{
+  color:#211607;
+  background:linear-gradient(135deg,#f7c45f,#d99a32);
+  border-color:#e6aa44;
+  box-shadow:0 8px 22px rgba(217,154,50,.22)}
+.fog-page.fog-page .fog-primary-button:hover{
+  transform:translateY(-1px);
+  box-shadow:0 12px 28px rgba(217,154,50,.34)}
+.fog-page.fog-page .fog-secondary-button{
+  color:var(--fg-text);
+  background:rgba(255,255,255,.05);
+  border-color:var(--fg-line)}
+.fog-page.fog-page .fog-secondary-button:hover{
+  border-color:var(--fg-gold)}
+.fog-page.fog-page .fog-danger-button{
+  color:#fff;
+  background:#c4504b}
+.fog-page.fog-page .fog-danger-button:hover{
+  background:#d9605a}
+.fog-page.fog-page .fog-dialog-actions{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:9px}
+.fog-page.fog-page .fog-setup{
+  display:flex;
+  justify-content:center;
+  padding:10px 0}
+.fog-page.fog-page .fog-setup-card{
+  position:relative;
+  width:100%;
+  max-width:580px;
+  padding:32px;
+  background:var(--fg-glass);
+  border:1px solid var(--fg-line);
+  border-radius:18px;
+  box-shadow:0 20px 50px rgba(0,0,0,.3)}
+.fog-page.fog-page .fog-setup-card::before{
+  content:"";
+  position:absolute;
+  inset:7px;
+  border:1px solid rgba(247,181,56,.06);
+  border-radius:12px;
+  pointer-events:none}
+.fog-page.fog-page .fog-eyebrow{
+  display:block;
+  color:var(--fg-gold);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.2em}
+.fog-page.fog-page .fog-setup-card h1{
+  margin:8px 0 6px;
+  color:#fff;
+  font-size:34px;
+  letter-spacing:-.03em}
+.fog-page.fog-page .fog-setup-sub{
+  margin:0 0 22px;
+  color:var(--fg-muted);
+  font-size:14px;
+  line-height:1.6}
+.fog-page.fog-page .fog-setup-label{
+  margin:20px 0 10px;
+  color:var(--fg-gold);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase}
+.fog-page.fog-page .fog-side.is-on{
+  border:2px solid var(--fg-gold);
+  box-shadow:0 0 0 3px rgba(247,181,56,.14)}
+.fog-page.fog-page .fog-setup-note{
+  margin:12px 0 0;
+  color:var(--fg-muted);
+  font-size:12px}
+.fog-page.fog-page .fog-setup-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:20px 0 0}
+.fog-page.fog-page .fog-setup-meta span{
+  padding:5px 11px;
+  color:var(--fg-muted);
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--fg-line);
+  border-radius:999px;
+  font-size:11px;
+  font-weight:600}
+.fog-page.fog-page .fog-start{
+  width:100%;
+  margin-top:18px;
+  min-height:48px;
+  font-size:15px}
+.fog-page.fog-page .fog-link-button{
+  display:block;
+  margin:14px auto 0;
+  color:var(--fg-muted);
+  background:none;
+  border:0;
+  font:inherit;
+  font-size:13px;
+  cursor:pointer}
+.fog-page.fog-page .fog-link-button:hover{
+  color:var(--fg-gold-soft)}
+.fog-page.fog-page .fog-back-button:focus-visible,.fog-page.fog-page .fog-tool:focus-visible,.fog-page.fog-page .fog-pick:focus-visible,.fog-page.fog-page .fog-chip:focus-visible,.fog-page.fog-page .fog-tab:focus-visible,.fog-page.fog-page .fog-primary-button:focus-visible{
+  outline:2px solid var(--fg-gold);
+  outline-offset:3px}
+@media (max-width:1000px){
+.fog-page.fog-page .fog-layout{
+  grid-template-columns:minmax(0,1fr)}
+.fog-page.fog-page .fog-center-panel>*{
+  width:min(100%,700px)}
+.fog-page.fog-page .move-list-card{
+  height:420px}
+}
+@media (max-width:600px){
+.fog-page.fog-page{
+  padding:12px 12px 24px;
+  gap:12px}
+.fog-page.fog-page .fog-arena-topbar{
+  grid-template-columns:1fr auto;
+  min-height:54px;
+  padding:0 12px}
+.fog-page.fog-page .fog-live-label{
+  display:none}
+.fog-page.fog-page .fog-mode-heading{
+  justify-self:end}
+.fog-page.fog-page .fog-mode-heading strong{
+  font-size:14px}
+.fog-page.fog-page .fog-back-button{
+  padding:8px 10px;
+  font-size:12px}
+.fog-page.fog-page .fog-clock{
+  min-width:70px;
+  font-size:17px}
+.fog-page.fog-page .fog-tool{
+  padding:0 11px}
+.fog-page.fog-page .fog-tool span{
+  font-size:11px}
+.fog-page.fog-page .fog-setup-card{
+  padding:22px 18px}
+.fog-page.fog-page .fog-setup-card h1{
+  font-size:28px}
+}
+@media (prefers-reduced-motion:reduce){
+.fog-page.fog-page *{
+  transition-duration:.01ms!important}
+}
+
+/* ---------- pre-game (tabs, picks, chips, level) ---------- */
+.fog-page.fog-page .fog-setup-card{
+  max-width:460px;
+  padding:22px}
+.fog-page.fog-page .fog-setup-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px}
+.fog-page.fog-page .fog-setup-card h1{
+  margin:8px 0 6px;
+  font-size:30px}
+.fog-page.fog-page .fog-setup-sub{
+  margin:0 0 16px;
+  font-size:13px}
+.fog-page.fog-page .fog-tool--icon{
+  flex:none;
+  justify-content:center;
+  width:36px;
+  min-height:36px;
+  padding:0;
+  border-radius:999px}
+.fog-page.fog-page .fog-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:4px;
+  padding:4px;
+  background:rgba(5,10,18,.45);
+  border:1px solid var(--fg-line);
+  border-radius:12px}
+.fog-page.fog-page .fog-tab{
+  padding:9px 4px;
+  color:var(--fg-muted);
+  background:none;
+  border:0;
+  border-radius:9px;
+  font:inherit;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.2s ease}
+.fog-page.fog-page .fog-tab[aria-selected="true"]{
+  color:var(--fg-gold-soft);
+  background:rgba(247,181,56,.12);
+  box-shadow:inset 0 0 0 1px rgba(247,181,56,.35)}
+.fog-page.fog-page .fog-field{
+  margin-top:16px}
+.fog-page.fog-page .fog-lbl{
+  margin:0 0 8px;
+  color:var(--fg-gold);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase}
+.fog-page.fog-page .fog-picks{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px}
+.fog-page.fog-page .fog-pick{
+  display:grid;
+  justify-items:center;
+  gap:6px;
+  padding:9px 4px 8px;
+  color:var(--fg-text);
+  background:rgba(255,255,255,.03);
+  border:1.5px solid var(--fg-line);
+  border-radius:12px;
+  font:inherit;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.2s ease}
+.fog-page.fog-page .fog-pick:hover{
+  border-color:rgba(247,181,56,.4)}
+.fog-page.fog-page .fog-pick[aria-pressed="true"]{
+  border-color:var(--fg-gold);
+  background:rgba(247,181,56,.08);
+  box-shadow:0 0 0 3px rgba(247,181,56,.1)}
+.fog-page.fog-page .fog-tile{
+  display:grid;
+  place-items:center;
+  flex:none;
+  width:40px;
+  height:40px;
+  border-radius:9px;
+  font-size:26px;
+  line-height:1}
+.fog-page.fog-page .fog-tile--w{
+  color:#fff;
+  background:#aebdd0;
+  text-shadow:0 0 2px #000,0 0 1px #000}
+.fog-page.fog-page .fog-tile--b{
+  color:#0b0f17;
+  background:#3b4f6d}
+.fog-page.fog-page .fog-tile--r{
+  color:#fff;
+  background:linear-gradient(135deg,#aebdd0 50%,#3b4f6d 50%);
+  font-size:22px;
+  font-weight:800}
+.fog-page.fog-page .fog-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px}
+.fog-page.fog-page .fog-chip{
+  padding:7px 13px;
+  color:var(--fg-text);
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--fg-line);
+  border-radius:999px;
+  font:inherit;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.2s ease}
+.fog-page.fog-page .fog-chip:hover{
+  border-color:rgba(247,181,56,.4)}
+.fog-page.fog-page .fog-chip[aria-pressed="true"]{
+  color:#211607;
+  background:linear-gradient(135deg,#f7c45f,#d99a32);
+  border-color:#e6aa44}
+.fog-page.fog-page .fog-panel-box{
+  display:grid;
+  gap:10px;
+  margin-top:16px;
+  padding-top:14px;
+  border-top:1px dashed var(--fg-line)}
+.fog-page.fog-page .fog-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px}
+.fog-page.fog-page .fog-row .fog-lbl{
+  margin:0}
+.fog-page.fog-page .fog-row strong{
+  color:#fff;
+  font-size:14px}
+.fog-page.fog-page .fog-range{
+  width:100%;
+  accent-color:var(--fg-gold)}
+.fog-page.fog-page .fog-hint-text{
+  margin:0;
+  color:var(--fg-muted);
+  font-size:12px;
+  line-height:1.55}
+.fog-page.fog-page .fog-status-text{
+  min-height:16px;
+  margin:10px 0 0;
+  color:var(--fg-muted);
+  font-size:12px;
+  text-align:center}
+.fog-page.fog-page .fog-start{
+  margin-top:20px}
+
+/* ---------- game actions (side panel) ---------- */
+.fog-page.fog-page .fog-actions-card{
+  padding:14px 16px}
+.fog-page.fog-page .fog-actions-card .fog-section-heading{
+  margin-bottom:10px}
+.fog-page.fog-page .fog-actions-main{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px}
+.fog-page.fog-page .fog-actions-sub{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:8px}
+.fog-page.fog-page .fog-actions-card .fog-tool{
+  justify-content:center;
+  padding:0 8px}
+.fog-page.fog-page .fog-actions-main .fog-tool--danger{
+  color:var(--fg-bad);
+  border-color:rgba(255,125,125,.3)}
+.fog-page.fog-page .fog-mini-link{
+  padding:0;
+  color:var(--fg-teal);
+  background:none;
+  border:0;
+  font:inherit;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.08em;
+  cursor:pointer}
+.fog-page.fog-page .fog-actions-card .fog-pending-draw{
+  margin-top:10px}
+
+/* ---------- post-match ---------- */
+.fog-page.fog-page .fog-post-card{
+  --tone:var(--fg-muted);
+  position:relative;
+  display:grid;
+  gap:14px;
+  width:min(100%,400px);
+  max-height:calc(100vh - 30px);
+  overflow:auto;
+  padding:18px;
+  background:linear-gradient(145deg,#182436,#0d1420);
+  border:1px solid rgba(247,181,56,.3);
+  border-radius:18px;
+  box-shadow:0 20px 65px rgba(0,0,0,.5)}
+.fog-page.fog-page .fog-post-card[data-tone="win"]{
+  --tone:var(--fg-good)}
+.fog-page.fog-page .fog-post-card[data-tone="loss"]{
+  --tone:var(--fg-bad)}
+.fog-page.fog-page .fog-post-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  color:var(--fg-muted);
+  font-size:12px;
+  font-weight:700}
+.fog-page.fog-page .fog-post-res{
+  padding:4px 0 10px;
+  border-bottom:3px solid var(--tone);
+  text-align:center}
+.fog-page.fog-page .fog-post-res h2{
+  margin:0;
+  color:var(--tone);
+  font-size:30px;
+  font-weight:800;
+  letter-spacing:-.02em}
+.fog-page.fog-page .fog-post-res p{
+  margin:4px 0 0;
+  color:var(--fg-muted);
+  font-size:13px}
+.fog-page.fog-page .fog-post-players{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:8px}
+.fog-page.fog-page .fog-post-pl{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  min-width:0}
+.fog-page.fog-page .fog-post-pl--r{
+  flex-direction:row-reverse;
+  text-align:right}
+.fog-page.fog-page .fog-post-pl b{
+  display:block;
+  overflow:hidden;
+  color:#fff;
+  font-size:13px;
+  text-overflow:ellipsis;
+  white-space:nowrap}
+.fog-page.fog-page .fog-post-pl small{
+  color:var(--fg-muted);
+  font-size:11px}
+.fog-page.fog-page .fog-post-score{
+  color:#fff;
+  font-size:17px;
+  font-weight:800;
+  white-space:nowrap}
+.fog-page.fog-page .fog-post-stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px}
+.fog-page.fog-page .fog-post-stats div{
+  padding:9px 6px;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--fg-line);
+  border-radius:12px;
+  text-align:center}
+.fog-page.fog-page .fog-post-stats b{
+  display:block;
+  color:#fff;
+  font-size:17px;
+  font-weight:800}
+.fog-page.fog-page .fog-post-stats small{
+  color:var(--fg-muted);
+  font-size:11px;
+  font-weight:700}
+.fog-page.fog-page .fog-post-actions{
+  display:grid;
+  gap:10px}
+.fog-page.fog-page .fog-post-actions>.fog-primary-button{
+  width:100%;
+  min-height:46px;
+  font-size:15px}
+.fog-page.fog-page .fog-swap{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  color:var(--fg-muted);
+  font-size:12px;
+  cursor:pointer}
+.fog-page.fog-page .fog-swap input{
+  accent-color:var(--fg-gold)}
+.fog-page.fog-page .fog-post-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px}
+.fog-page.fog-page .fog-post-grid .fog-secondary-button{
+  min-height:40px;
+  padding:0 8px}
+.fog-page.fog-page .fog-post-card .fog-status-text{
+  margin:0}
+@media (max-width:1000px){
+.fog-page.fog-page .fog-side-panel{
+  gap:12px}
+.fog-page.fog-page .move-list-card{
+  height:360px}
+}
+@media (max-width:600px){
+.fog-page.fog-page .fog-center-panel>*{
+  width:100%}
+.fog-page.fog-page .fog-setup-card{
+  padding:18px 14px}
+.fog-page.fog-page .fog-post-card{
+  padding:14px}
+}

@@ -1,0 +1,128 @@
+/* PRACTICE: naya layout (stat strip + chhota board + Your turn card) + teal theme.
+   PracticePuzzles.jsx mein SABSE LAST import hoti hai.
+   Gold sirf primary buttons (Show Solution, Next Puzzle, Train my weak themes) mein. */
+
+.pp-page.pp-page {
+  --pp-gold: #4fd1c5;
+  --pp-gold-soft: #9be8df;
+  --pp-teal: #4fd1c5;
+  --pp-line: rgba(79, 209, 197, .14);
+  --pp-glass: radial-gradient(90% 60% at 0% 0%, rgba(79, 209, 197, .07), transparent 60%), linear-gradient(145deg, rgba(12, 26, 36, .92), rgba(7, 15, 23, .96));
+  gap: 12px;
+}
+
+/* ---------- Mode tabs ---------- */
+.pp-page.pp-page .pp-tabs { gap: 8px; margin: 0; }
+.pp-page.pp-page .pp-tab { padding: 9px 20px; font-size: 13px; }
+.pp-page.pp-page .pp-tab.is-on { color: #4fd1c5; background: rgba(79, 209, 197, .14); border-color: #4fd1c5; }
+.pp-page.pp-page .pp-tab:hover:not(.is-on) { border-color: rgba(79, 209, 197, .5); }
+
+/* ---------- Stat strip (rating, goal, streak, accuracy) ---------- */
+.pp-page.pp-page .pp-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.pp-page.pp-page .pp-kpi { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-width: 0; padding: 13px 16px; background: var(--pp-glass); border: 1px solid var(--pp-line); border-radius: 14px; box-shadow: 0 14px 34px rgba(0, 0, 0, .25); }
+.pp-page.pp-page .pp-kpi--col { flex-direction: column; align-items: stretch; justify-content: center; gap: 0; }
+.pp-page.pp-page .pp-kpi .pp-label { color: var(--pp-gold); }
+.pp-page.pp-page .pp-kpi-val { display: flex; align-items: baseline; gap: 8px; margin: 4px 0 0; }
+.pp-page.pp-page .pp-kpi-val strong { color: #fff; font-size: 26px; line-height: 1; letter-spacing: -.03em; }
+.pp-page.pp-page .pp-kpi small,
+.pp-page.pp-page .pp-kpi-val small { color: var(--pp-muted); font-size: 11px; }
+.pp-page.pp-page .pp-kpi > div > small { display: block; margin-top: 4px; }
+.pp-page.pp-page .pp-kpi .pp-progress-track { margin-top: 9px; }
+
+/* ---------- Main row: chhota board | right side (barabar height) ---------- */
+.pp-page.pp-page .pp-layout { grid-template-columns: minmax(0, 520px) minmax(0, 1fr); gap: 16px; align-items: stretch; }
+.pp-page.pp-page .pp-main-card { padding: 14px; border-radius: 14px; }
+.pp-page.pp-page .pp-main-card::before,
+.pp-page.pp-page .pp-panel::before { border-color: rgba(79, 209, 197, .06); }
+
+.pp-page.pp-page .pp-board-header { margin-bottom: 8px; }
+.pp-page.pp-page .pp-board-header h2 { margin: 3px 0 0; font-size: 17px; }
+.pp-page.pp-page .pp-rating { padding: 5px 11px; font-size: 12px; color: #9be8df; background: rgba(79, 209, 197, .1); border-color: rgba(79, 209, 197, .35); }
+
+.pp-page.pp-page .pp-strip,
+.pp-page.pp-page .pp-board-wrapper,
+.pp-page.pp-page .pp-status,
+.pp-page.pp-page .pp-controls,
+.pp-page.pp-page .pp-solution-navigation { max-width: 480px; }
+.pp-page.pp-page .pp-strip { margin-bottom: 8px; }
+.pp-page.pp-page .pp-turn { padding: 4px 11px 4px 8px; font-size: 11px; }
+.pp-page.pp-page .pp-board-wrapper { padding: 5px; border-color: rgba(79, 209, 197, .32); box-shadow: 0 18px 40px rgba(0, 0, 0, .35), 0 0 0 5px rgba(79, 209, 197, .04), inset 0 0 0 1px rgba(255, 255, 255, .03); }
+.pp-page.pp-page .pp-status { min-height: 38px; margin-top: 10px; padding: 8px 12px; font-size: 12px; }
+.pp-page.pp-page .pp-controls { gap: 8px; margin-top: 10px; }
+.pp-page.pp-page .pp-btn { min-height: 42px; padding: 0 14px; font-size: 13px; }
+.pp-page.pp-page .pp-btn-secondary:hover:not(:disabled) { border-color: #4fd1c5; background: rgba(79, 209, 197, .08); }
+.pp-page.pp-page .pp-solution-navigation { margin-top: 10px; padding: 10px 12px; border-color: rgba(79, 209, 197, .3); background: rgba(79, 209, 197, .05); }
+.pp-page.pp-page .pp-solution-move { margin-top: 8px; padding: 8px 10px; }
+.pp-page.pp-page .pp-navigation-buttons { margin-top: 8px; }
+.pp-page.pp-page .pp-nav-arrow { min-height: 36px; }
+.pp-page.pp-page .pp-nav-arrow:hover:not(:disabled) { border-color: #4fd1c5; background: rgba(79, 209, 197, .1); }
+
+/* ---------- Right side ---------- */
+.pp-page.pp-page .pp-side { display: grid; grid-template-rows: 1.15fr auto auto; gap: 12px; min-width: 0; }
+.pp-page.pp-page .pp-panel { display: flex; flex-direction: column; gap: 10px; padding: 16px; border-radius: 14px; }
+.pp-page.pp-page .pp-panel .pp-label { color: var(--pp-gold); }
+.pp-page.pp-page .pp-description { margin: 0; font-size: 12px; line-height: 1.6; }
+.pp-page.pp-page .pp-block { width: 100%; margin-top: auto; }
+
+/* Your turn card */
+.pp-page.pp-page .pp-turncard { justify-content: center; gap: 8px; padding: 20px 22px; border-color: rgba(79, 209, 197, .3); background: radial-gradient(70% 90% at 100% 0%, rgba(79, 209, 197, .16), transparent 70%), var(--pp-glass); }
+.pp-page.pp-page .pp-turncard h2 { margin: 2px 0 0; color: #fff; font-size: 26px; line-height: 1.15; letter-spacing: -.02em; }
+.pp-page.pp-page .pp-turncard .pp-description { font-size: 13px; max-width: 520px; }
+.pp-page.pp-page .pp-turncard .pp-result { margin: 2px 0 0; }
+.pp-page.pp-page .pp-fine { margin: 6px 0 0; color: var(--pp-muted); font-size: 12px; }
+.pp-page.pp-page .pp-tags { margin-top: 8px; gap: 6px; }
+.pp-page.pp-page .pp-tags span { padding: 6px 11px; font-size: 11px; color: #9be8df; background: rgba(79, 209, 197, .08); border-color: rgba(79, 209, 197, .25); }
+
+/* Weak themes + Review queue: ek row */
+.pp-page.pp-page .pp-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.pp-page.pp-page .pp-bignum { display: flex; align-items: baseline; gap: 8px; }
+.pp-page.pp-page .pp-bignum strong { color: #fff; font-size: 30px; line-height: 1; letter-spacing: -.03em; }
+.pp-page.pp-page .pp-bignum span { color: var(--pp-muted); font-size: 12px; }
+
+/* Recent puzzles */
+.pp-page.pp-page .pp-recent-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.pp-page.pp-page .pp-recent-head small { color: var(--pp-muted); font-size: 11px; }
+.pp-page.pp-page .pp-dots { display: flex; flex-wrap: wrap; gap: 8px; }
+.pp-page.pp-page .pp-dot { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; font-size: 14px; font-weight: 800; }
+.pp-page.pp-page .pp-dot.is-win { color: #4fd1c5; background: rgba(79, 209, 197, .16); border: 1px solid rgba(79, 209, 197, .45); }
+.pp-page.pp-page .pp-dot.is-miss { color: #ff9d94; background: rgba(255, 138, 128, .12); border: 1px solid rgba(255, 138, 128, .45); }
+
+/* ---------- Teal: bars, labels, glow ---------- */
+.pp-page.pp-page .pp-steps-bar div,
+.pp-page.pp-page .pp-progress-track div { background: linear-gradient(90deg, #2fa89e, #4fd1c5); }
+.pp-page.pp-page .pp-loader { border-color: rgba(79, 209, 197, .18); border-top-color: #4fd1c5; }
+.pp-page.pp-page .pp-promo-box { border-color: rgba(79, 209, 197, .35); }
+.pp-page.pp-page .pp-promo-btn:hover { border-color: #4fd1c5; background: rgba(79, 209, 197, .1); }
+.pp-page.pp-page .pp-status-revealed .pp-status-dot { background: #58c4f2; box-shadow: 0 0 10px rgba(88, 196, 242, .6); }
+
+/* ---------- BUTTONS: primary gold hi rahenge ---------- */
+.pp-page.pp-page .pp-btn-gold {
+  color: #1b1204;
+  background: linear-gradient(180deg, #ffd06a, #f0a92e);
+  border-color: #f0a92e;
+  box-shadow: 0 6px 18px -8px #f5b73e;
+}
+
+/* ---------- Chhoti screen ---------- */
+@media (max-width: 1100px) {
+  .pp-page.pp-page .pp-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pp-page.pp-page .pp-layout { grid-template-columns: minmax(0, 1fr); }
+  .pp-page.pp-page .pp-side { grid-template-rows: none; }
+  .pp-page.pp-page .pp-strip,
+  .pp-page.pp-page .pp-board-wrapper,
+  .pp-page.pp-page .pp-status,
+  .pp-page.pp-page .pp-controls,
+  .pp-page.pp-page .pp-solution-navigation { max-width: 480px; margin-left: auto; margin-right: auto; }
+}
+@media (max-width: 640px) {
+  .pp-page.pp-page .pp-pair { grid-template-columns: minmax(0, 1fr); }
+  .pp-page.pp-page .pp-turncard h2 { font-size: 21px; }
+}
+@media (max-width: 560px) {
+  .pp-page.pp-page .pp-kpis { grid-template-columns: minmax(0, 1fr); }
+  .pp-page.pp-page .pp-strip,
+  .pp-page.pp-page .pp-board-wrapper,
+  .pp-page.pp-page .pp-status,
+  .pp-page.pp-page .pp-controls,
+  .pp-page.pp-page .pp-solution-navigation { max-width: 100%; }
+}

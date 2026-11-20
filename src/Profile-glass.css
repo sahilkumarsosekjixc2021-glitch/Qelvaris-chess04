@@ -1,0 +1,482 @@
+/* =====================================================
+   QELVARIS PROFILE: glass layout (sirf "My Profile" screen)
+   Friends page pe koi asar nahi. Classes "pf-" se shuru hoti hain.
+   Colours yahin ek jagah se badal sakte ho (neeche :root jaisa block).
+===================================================== */
+
+.pf-page {
+  --pf-gold: #f7b538;
+  --pf-gold-soft: #ffd98a;
+  --pf-teal: #4fd1c5;
+  --pf-text: #eef1f6;
+  --pf-muted: #8c97ab;
+  --pf-line: rgba(130, 170, 190, 0.16);
+  --pf-glass: linear-gradient(145deg, rgba(22, 34, 52, 0.82), rgba(11, 17, 28, 0.9));
+  max-width: 1360px;
+}
+
+/* ---------- Hero ---------- */
+
+.pf-hero {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 34px;
+  align-items: start;
+  padding: 6px 4px 0;
+}
+
+/* Glass bubble avatar */
+.pf-avatar {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin-top: 4px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(247, 181, 56, 0.35);
+  background:
+    radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.22), transparent 34%),
+    radial-gradient(circle at 50% 60%, rgba(79, 209, 197, 0.18), transparent 62%),
+    linear-gradient(160deg, rgba(30, 48, 70, 0.7), rgba(10, 16, 26, 0.85));
+  box-shadow:
+    inset 0 0 38px rgba(79, 209, 197, 0.14),
+    0 0 0 6px rgba(247, 181, 56, 0.05),
+    0 18px 44px rgba(0, 0, 0, 0.4);
+}
+
+.pf-avatar img {
+  width: 74%;
+  height: 74%;
+  object-fit: contain;
+  user-select: none;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45));
+}
+
+.pf-avatar-letter {
+  color: var(--pf-gold);
+  font-size: 72px;
+  font-weight: 900;
+}
+
+.pf-hero-main {
+  min-width: 0;
+  display: grid;
+  gap: 18px;
+}
+
+.pf-hero-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 520px);
+  gap: 28px;
+  align-items: center;
+}
+
+/* ---------- Name ---------- */
+
+.pf-name-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.pf-identity h1 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  overflow-wrap: anywhere;
+}
+
+.pf-player-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 7px;
+  border: 1px solid rgba(247, 181, 56, 0.4);
+  border-radius: 999px;
+  background: rgba(247, 181, 56, 0.08);
+  color: var(--pf-gold-soft);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.pf-player-pill b {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: linear-gradient(145deg, #f7c45f, #bd7e1d);
+  color: #211607;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.pf-hex {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  color: var(--pf-teal);
+  font-size: 18px;
+  border: 1px solid rgba(79, 209, 197, 0.4);
+  background: rgba(79, 209, 197, 0.08);
+  clip-path: polygon(25% 4%, 75% 4%, 100% 50%, 75% 96%, 25% 96%, 0 50%);
+}
+
+.pf-handle {
+  margin: 8px 0 0;
+  color: var(--pf-muted);
+  font-size: 15px;
+}
+
+/* ---------- Connect card ---------- */
+
+.pf-connect {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  padding: 14px;
+  text-align: left;
+  color: var(--pf-text);
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid var(--pf-line);
+  border-radius: 14px;
+  background: var(--pf-glass);
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.pf-connect:hover {
+  border-color: rgba(247, 181, 56, 0.55);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.pf-connect:focus-visible {
+  outline: 2px solid var(--pf-gold);
+  outline-offset: 3px;
+}
+
+.pf-connect-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pf-connect-head strong {
+  font-size: 16px;
+}
+
+.pf-connect-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: rgba(247, 181, 56, 0.12);
+  color: var(--pf-gold);
+  font-size: 19px;
+}
+
+.pf-connect-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  border: 1px solid rgba(247, 181, 56, 0.3);
+  border-radius: 9px;
+  background: linear-gradient(90deg, rgba(247, 181, 56, 0.16), rgba(247, 181, 56, 0.05));
+  color: var(--pf-gold-soft);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* ---------- Stats strip ---------- */
+
+.pf-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid var(--pf-line);
+  border-radius: 14px;
+  background: var(--pf-glass);
+  overflow: hidden;
+}
+
+.pf-stat {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 22px;
+  min-width: 0;
+}
+
+.pf-stat + .pf-stat {
+  border-left: 1px solid var(--pf-line);
+}
+
+.pf-stat-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(247, 181, 56, 0.1);
+  color: var(--pf-gold);
+  font-size: 23px;
+}
+
+.pf-stat strong {
+  display: block;
+  color: #fff;
+  font-size: 25px;
+  line-height: 1.1;
+}
+
+.pf-stat small {
+  display: block;
+  margin-top: 3px;
+  color: var(--pf-muted);
+  font-size: 12px;
+}
+
+/* ---------- Bottom panels ---------- */
+
+.pf-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 26px;
+}
+
+.pf-panel {
+  position: relative;
+  min-height: 280px;
+  padding: 24px 26px;
+  border: 1px solid var(--pf-line);
+  border-radius: 16px;
+  background: var(--pf-glass);
+}
+
+/* patli andar wali frame line (mockup ki feel, halki) */
+.pf-panel::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid rgba(247, 181, 56, 0.08);
+  border-radius: 11px;
+  pointer-events: none;
+}
+
+.pf-panel h2 {
+  margin: 0 0 18px;
+  color: #fff;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+}
+
+.pf-details {
+  display: grid;
+  gap: 14px;
+}
+
+.pf-detail {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.pf-detail-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: rgba(247, 181, 56, 0.1);
+  color: var(--pf-gold);
+  font-size: 19px;
+}
+
+.pf-detail > div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.pf-detail small {
+  color: var(--pf-muted);
+  font-size: 12px;
+}
+
+.pf-detail strong {
+  color: var(--pf-text);
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+.pf-logout {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 22px;
+  padding: 9px 15px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ff8585;
+  cursor: pointer;
+  border: 1px solid rgba(255, 100, 100, 0.3);
+  border-radius: 9px;
+  background: rgba(255, 85, 85, 0.08);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.pf-logout:hover {
+  background: rgba(255, 85, 85, 0.17);
+  border-color: #ff8585;
+}
+
+/* ---------- Recent games ---------- */
+
+.pf-history {
+  display: grid;
+  gap: 10px;
+}
+
+.pf-game {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 16px;
+  border: 1px solid var(--pf-line);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.03);
+  color: #c4ccd9;
+  font-size: 14px;
+}
+
+.pf-game b {
+  color: #fff;
+}
+
+.pf-game em {
+  font-style: normal;
+  color: var(--pf-muted);
+}
+
+.pf-result--win {
+  color: #61d69a;
+  font-weight: 700;
+}
+
+.pf-result--loss {
+  color: #ff7d7d;
+  font-weight: 700;
+}
+
+.pf-result--draw {
+  color: var(--pf-gold);
+  font-weight: 700;
+}
+
+.pf-game-date {
+  flex: none;
+  color: var(--pf-muted);
+  font-size: 11px;
+}
+
+.pf-history-empty {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 34px 10px;
+  text-align: center;
+}
+
+.pf-history-empty strong {
+  color: var(--pf-text);
+  font-size: 15px;
+}
+
+.pf-history-empty p {
+  max-width: 300px;
+  margin: 0;
+  color: var(--pf-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1000px) {
+  .pf-hero {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .pf-avatar {
+    width: 140px;
+    height: 140px;
+  }
+
+  .pf-hero-top {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .pf-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pf-stat:nth-child(3) {
+    border-left: 0;
+  }
+
+  .pf-stat:nth-child(n + 3) {
+    border-top: 1px solid var(--pf-line);
+  }
+
+  .pf-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  .pf-avatar {
+    width: 110px;
+    height: 110px;
+  }
+
+  .pf-stat {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .pf-stat-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 19px;
+  }
+
+  .pf-stat strong {
+    font-size: 21px;
+  }
+
+  .pf-panel {
+    padding: 20px 18px;
+  }
+
+  .pf-game {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 13px;
+  }
+}

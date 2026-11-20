@@ -1,0 +1,64 @@
+/* PLAY PAGE: Leak Lab / DNA / Today jaisa background (navy checker + teal glow).
+   Play.jsx me sabse LAST import karo:
+   import "./Play-hub.css";
+   import "./PlayTheme.css";   // naya
+   Play-bg.css ki stars wali animation isse band ho jaati hai (file delete bhi kar sakte ho,
+   par Play.jsx me uska import hata dena). Game cards (GameModes / Play-hub.css) ko haath nahi lagaya:
+   unke alag-alag rang (gold, cyan, pink, green) jaan-bujhkar waise hi hain. */
+
+/* ---------- 1. Background: stars hatao, navy checker lagao ---------- */
+.qv-main.qv-main:has(.gm),
+.qv-main.qv-main:has(.pl-page),
+.qv-main.qv-main:has(.pl-mode-shell) {
+  background-color: #070c14 !important;
+  background-image:
+    radial-gradient(ellipse 70% 40% at 50% 100%, rgba(79, 209, 197, 0.14), transparent 70%),
+    repeating-conic-gradient(rgba(255, 255, 255, 0.022) 0% 25%, transparent 0% 50%) !important;
+  background-size: 100% 100%, 110px 110px !important;
+  background-position: 0 0, 0 0 !important;
+  background-attachment: fixed !important;
+  animation: none !important;
+}
+.qv-main.qv-main:has(.gm)::before,
+.qv-main.qv-main:has(.gm)::after,
+.qv-main.qv-main:has(.pl-page)::before,
+.qv-main.qv-main:has(.pl-page)::after,
+.qv-main.qv-main:has(.pl-mode-shell)::before,
+.qv-main.qv-main:has(.pl-mode-shell)::after {
+  display: none !important;
+}
+
+/* ---------- 2. Classic Missions page (.pl-page): Leak Lab jaisa frame ---------- */
+.pl-page.pl-page {
+  --pl-glass: linear-gradient(145deg, rgba(20, 32, 50, 0.9), rgba(9, 14, 24, 0.94));
+  max-width: 1480px;
+  padding-top: 16px;
+}
+.pl-page.pl-page .pl-hero {
+  border: 1px solid rgba(247, 181, 56, 0.22);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 88% 15%, rgba(79, 209, 197, 0.12), transparent 46%),
+    linear-gradient(135deg, rgba(20, 32, 50, 0.94), rgba(9, 14, 24, 0.97));
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+}
+.pl-page.pl-page .pl-grid .q-card {
+  background: var(--pl-glass);
+  border-color: var(--pl-line);
+  border-radius: 16px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+}
+.pl-page.pl-page .pl-grid .q-card:hover { border-color: rgba(247, 181, 56, 0.28); }
+
+/* Buttons: primary = Leak Lab wala gold */
+.pl-page.pl-page .pl-btn--primary {
+  color: #211607;
+  background: linear-gradient(135deg, #f7c45f, #d99a32);
+  border-color: #e6aa44;
+  box-shadow: 0 8px 22px rgba(217, 154, 50, 0.22);
+}
+.pl-page.pl-page .pl-btn--primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ffd479, #e6aa44);
+  border-color: #ffd479;
+  box-shadow: 0 12px 28px rgba(217, 154, 50, 0.34);
+}

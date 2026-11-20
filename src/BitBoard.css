@@ -1,0 +1,34 @@
+.bt-board{position:relative;width:100%;aspect-ratio:1;user-select:none;background:#02100a}
+.bt-gl,.bt-bits,.bt-fx{position:absolute;inset:0;width:100%;height:100%}
+.bt-bits{pointer-events:none}
+.bt-fx{pointer-events:none;z-index:8}
+.bt-inner{position:absolute;inset:5%}
+.bt-sqs{position:absolute;inset:0;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr)}
+.bt-sq{position:relative;cursor:pointer}
+.bt-sq.last{box-shadow:inset 0 0 0 1px rgba(57,255,136,.9),inset 0 0 16px rgba(57,255,136,.3)}
+.bt-sq.sel{box-shadow:inset 0 0 0 2px #00e5ff,inset 0 0 22px rgba(0,229,255,.45);background:rgba(0,229,255,.08)}
+.bt-sq.dot::after{content:"";position:absolute;left:38%;top:38%;width:24%;height:24%;background:#39ff88;box-shadow:0 0 10px #39ff88;animation:bt-dp 2s ease-in-out infinite}
+@keyframes bt-dp{50%{opacity:.55}}
+.bt-sq.cap::after{content:"";position:absolute;inset:8%;border:2px solid #ff2bd6;box-shadow:0 0 12px #ff2bd6,inset 0 0 12px rgba(255,43,214,.5);animation:bt-cp 1.6s ease-in-out infinite}
+@keyframes bt-cp{50%{inset:11%}}
+.bt-pcs{position:absolute;inset:0;pointer-events:none}
+.bt-pc{position:absolute;left:0;top:0;width:12.5%;height:12.5%;transition:transform .45s cubic-bezier(.2,.9,.3,1)}
+.bt-pc svg{width:100%;height:100%;overflow:visible}
+.bt-pc use{stroke-width:1.8;stroke-linejoin:round}
+.bt-pc.w use.a{fill:url(#btGW);fill-opacity:.62;stroke:#dffff9}
+.bt-pc.w use.v{fill:url(#btScD);opacity:.55;stroke:none}
+.bt-pc.b use.a{fill:url(#btGB);stroke:#39ff88}
+.bt-pc.b use.v{fill:url(#btScG);opacity:.35;stroke:none}
+.bt-pc.w svg{filter:drop-shadow(-1.5px 0 rgba(0,229,255,.55)) drop-shadow(1.5px 0 rgba(255,43,214,.4)) drop-shadow(0 0 6px rgba(160,255,240,.7))}
+.bt-pc.b svg{filter:drop-shadow(-1px 0 rgba(0,229,255,.3)) drop-shadow(1px 0 rgba(255,43,214,.3)) drop-shadow(0 0 5px rgba(57,255,136,.7))}
+.bt-pc svg.hop{animation:bt-hop .45s steps(3,end)}
+@keyframes bt-hop{0%{transform:translateX(-3px)}33%{transform:translateX(3px) skewX(-6deg)}66%{transform:translateX(-2px)}100%{transform:none}}
+.bt-pc.gl svg{animation:bt-gl .9s steps(1,end)}
+@keyframes bt-gl{0%{transform:translate(-6px,0) skewX(14deg);opacity:.2}12%{transform:translate(5px,-2px);opacity:1;filter:hue-rotate(120deg) brightness(2)}24%{transform:translate(-3px,1px) scaleY(.6);opacity:.4}36%{transform:translate(4px,0) skewX(-10deg);opacity:1}50%{transform:none;filter:brightness(2.2)}100%{transform:none}}
+.bt-pc.ghost{z-index:3}
+.bt-pc.ghost svg{animation:bt-ghost .8s forwards}
+@keyframes bt-ghost{0%{opacity:.85;filter:drop-shadow(-7px 0 #00e5ff) drop-shadow(7px 0 #ff2bd6)}100%{opacity:0;transform:translateX(10px) scaleX(1.15);filter:drop-shadow(-12px 0 #00e5ff) drop-shadow(12px 0 #ff2bd6)}}
+.bt-pc.die{z-index:9}
+.bt-pc.die svg{animation:bt-die .75s steps(1,end) forwards}
+@keyframes bt-die{0%{opacity:1}12%{opacity:.2;transform:translateX(-5px)}24%{opacity:1;transform:translateX(4px) scaleY(.5);filter:hue-rotate(140deg) brightness(2)}36%{opacity:.3}48%{opacity:.9;transform:scale(1.1,.3)}60%{opacity:.2}80%{opacity:.5;transform:scale(.6,.1)}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.bt-pc svg,.bt-sq::after{animation:none!important}}

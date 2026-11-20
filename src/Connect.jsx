@@ -6,12 +6,17 @@ import { listGames, makeGameRecord, saveReviewedGame } from "./library";
 import { fetchChessComGames, fetchLichessGames, colorFor, gamesFromPgn } from "./sources";
 import { getSetting, setSetting } from "./storage";
 import { gradeAll, parseGame } from "./chessUtils";
+import { FEATURES } from "./features/flags"; // QV-LANDING
+import { track } from "./features/telemetry/track"; // QV-TRACK
+import { tx } from "./i18n/pages/connect"; // QV-I18N
+import { lit } from "./i18n/pages/today"; // QV-I18N
 import "./Connect.css";
+
 
 const SOURCES = [
   { id: "lichess", label: "Lichess" },
   { id: "chesscom", label: "Chess.com" },
-  { id: "pgn", label: "Upload PGN" },
+  { id: "pgn", label: "Upload PGN" }, // shown through tx()
 ];
 
 function goTo(page) {
@@ -21,9 +26,9 @@ function goTo(page) {
 function friendlyError(error, cancelled) {
   if (cancelled || error?.message === "stopped" || error?.name === "AbortError") return "";
   if (error?.message === "Stockfish could not start") {
-    return "Stockfish could not start. Check that public/stockfish/stockfish-19-lite-single.js exists.";
+    return lit("Stockfish could not start. Check that public/stockfish/stockfish-19-lite-single.js exists.");
   }
-  return error?.message || "Something went wrong. Please try again.";
+  return lit(error?.message || "Something went wrong. Please try again.");
 }
 
 // Finding ke tag se rang: Leak = laal, Opening gap = neela, baaki = amber
@@ -59,8 +64,21 @@ export default function Connect() {
 
     (async () => {
       try {
-        const savedName = await getSetting("connectUsername", "");
-        const savedSource = await getSetting("connectSource", "lichess");
+        let savedName = await getSetting("connectUsername", "");
+        let savedSource = await getSetting("connectSource", "lichess");
+
+        // QV-LANDING: landing page par jo source/username dala tha wo yahan bhar do (ek baar)
+        try {
+          const pending = JSON.parse(localStorage.getItem("qv_pending") || "null");
+          if (pending && ["lichess", "chesscom", "pgn"].includes(pending.source)) {
+            savedSource = pending.source;
+            if (pending.username) savedName = String(pending.username).slice(0, 60);
+          }
+          localStorage.removeItem("qv_pending");
+        } catch {
+          /* ignore */
+        }
+
         if (alive) {
           setUsername(savedName || "");
           setSource(savedSource || "lichess");
@@ -105,6 +123,7 @@ export default function Connect() {
     setTotal(0);
     setEta(null);
     setStage("fetching");
+    track("connect_started", { source });
 
     try {
       setSetting("connectUsername", username.trim()).catch(() => {});
@@ -187,12 +206,14 @@ export default function Connect() {
       engine.stop();
       engineRef.current = null;
       setStage(cancelRef.current ? "stopped" : "done");
+      track(cancelRef.current ? "connect_stopped" : "connect_done", { source, games: prepared.length, analysed });
     } catch (err) {
       console.error("Connect failed:", err);
       if (engineRef.current) engineRef.current.stop();
       engineRef.current = null;
 
       const message = friendlyError(err, cancelRef.current);
+      if (message) track("connect_error", { source, message: String(message).slice(0, 100) });
       if (message) {
         setError(message);
         setStage("error");
@@ -208,7 +229,7 @@ export default function Connect() {
 
     const reader = new FileReader();
     reader.onload = () => setPgnText(String(reader.result || ""));
-    reader.onerror = () => setError("Could not read the selected file.");
+    reader.onerror = () => setError(lit("Could not read the selected file."));
     reader.readAsText(file);
     event.target.value = "";
   }
@@ -223,12 +244,14 @@ export default function Connect() {
       <div className="cn-grid">
         {/* ---------- Left panel: form + progress ---------- */}
         <section className="cn-panel cn-left">
-          <div>
-            <span className="q-eyebrow">Step 1 of 2</span>
-            <h1 className="cn-title">See what is costing you rating points.</h1>
+          <div className="cn-hero">
+            <span className="q-eyebrow">{tx("Step 1 of 2")}</span>
+            <h1 className="cn-title">
+              {tx("See what is costing you")} <span>{tx("rating points.")}</span>
+            </h1>
           </div>
           <p className="q-muted cn-lead">
-            Type your username. We read your public games, so there is no password and nothing is posted anywhere.
+            {tx("Type your username. We read your public games, so we never ask for your Lichess or Chess.com password, and nothing is posted anywhere.")}
           </p>
 
           <div className="cn-sources">
@@ -239,7 +262,7 @@ export default function Connect() {
                 onClick={() => setSource(item.id)}
                 disabled={busy}
               >
-                {item.label}
+                {item.id === "pgn" ? tx(item.label) : item.label}
               </button>
             ))}
 
@@ -249,12 +272,12 @@ export default function Connect() {
                 value={count}
                 onChange={(e) => setCount(Number(e.target.value))}
                 disabled={busy}
-                aria-label="Number of games"
+                aria-label={tx("Number of games")}
               >
-                <option value={20}>Last 20 games</option>
-                <option value={30}>Last 30 games</option>
-                <option value={50}>Last 50 games</option>
-                <option value={100}>Last 100 games</option>
+                <option value={20}>{tx("Last {n} games", { n: 20 })}</option>
+                <option value={30}>{tx("Last {n} games", { n: 30 })}</option>
+                <option value={50}>{tx("Last {n} games", { n: 50 })}</option>
+                <option value={100}>{tx("Last {n} games", { n: 100 })}</option>
               </select>
             )}
           </div>
@@ -266,24 +289,24 @@ export default function Connect() {
                 rows={5}
                 value={pgnText}
                 onChange={(e) => setPgnText(e.target.value)}
-                placeholder="Paste one or more PGN games here, or choose a file."
+                placeholder={tx("Paste one or more PGN games here, or choose a file.")}
                 disabled={busy}
               />
               <div className="q-row">
                 <label className="q-btn cn-file">
-                  Choose file
+                  {tx("Choose file")}
                   <input type="file" accept=".pgn,.txt" onChange={handleFile} hidden disabled={busy} />
                 </label>
                 <input
                   className="cn-input cn-input--small"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Your name in these games"
+                  placeholder={tx("Your name in these games")}
                   disabled={busy}
                 />
               </div>
               <p className="q-muted cn-note">
-                Your name tells us which side you played. If it is empty, we assume White.
+                {tx("Your name tells us which side you played. If it is empty, we assume White.")}
               </p>
             </>
           )}
@@ -295,7 +318,7 @@ export default function Connect() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && canStart && run()}
-                placeholder={source === "lichess" ? "Lichess username" : "Chess.com username"}
+                placeholder={source === "lichess" ? tx("Lichess username") : tx("Chess.com username")}
                 autoCapitalize="off"
                 autoCorrect="off"
                 spellCheck={false}
@@ -305,19 +328,19 @@ export default function Connect() {
 
             {busy ? (
               <button className="q-btn" onClick={stop}>
-                Stop
+                {tx("Stop")}
               </button>
             ) : (
               <button className="q-btn q-btn--primary" onClick={run} disabled={!canStart}>
-                {finished ? "Analyse again" : "Analyse my games"}
+                {finished ? tx("Analyse again") : tx("Analyse my games")}
               </button>
             )}
           </div>
 
           <p className="q-muted cn-note">
             {source === "pgn"
-              ? "Games stay on this device."
-              : `Reads your last ${count} public games. Free, no card needed.`}
+              ? tx("Games stay on this device.")
+              : tx("Reads your last {n} public games. Free, no card needed.", { n: count })}
           </p>
 
           {error && (
@@ -329,10 +352,10 @@ export default function Connect() {
           {showProgress && (
             <div className="cn-progress">
               <div className="cn-progress-head">
-                <span className="q-eyebrow">{stage === "fetching" ? "Fetching games" : "Analysing"}</span>
+                <span className="q-eyebrow">{stage === "fetching" ? tx("Fetching games") : tx("Analysing")}</span>
                 {total > 0 && (
                   <strong className="cn-count">
-                    {done} of {total} games
+                    {tx("{done} of {total} games", { done, total })}
                   </strong>
                 )}
               </div>
@@ -343,16 +366,15 @@ export default function Connect() {
 
               <div className="cn-progress-head">
                 <p className="q-muted cn-note">
-                  Each game is checked once by the engine in your browser, so it stays fast and private. Keep this tab
-                  open.
+                  {tx("Each game is checked once by the engine in your browser, so it stays fast and private. Keep this tab open.")}
                 </p>
                 {stage === "analysing" && eta !== null && eta > 0 && (
                   <span className="q-muted cn-note">
-                    about {eta >= 90 ? `${Math.round(eta / 60)} min` : `${eta} sec`} left
+                    {tx("about {t} left", { t: eta >= 90 ? tx("{n} min", { n: Math.round(eta / 60) }) : tx("{n} sec", { n: eta }) })}
                   </span>
                 )}
-                {stage === "done" && <span className="q-badge q-badge--good">Done</span>}
-                {stage === "stopped" && <span className="q-badge">Stopped</span>}
+                {stage === "done" && <span className="q-badge q-badge--good">{tx("Done")}</span>}
+                {stage === "stopped" && <span className="q-badge">{tx("Stopped")}</span>}
               </div>
             </div>
           )}
@@ -361,8 +383,14 @@ export default function Connect() {
         {/* ---------- Right panel: live findings + Pro banner ---------- */}
         <section className="cn-panel cn-right">
           <div className="cn-right-head">
-            <span className="q-eyebrow">Your first findings{busy ? ", building live" : ""}</span>
-            {busy && <span className="q-badge q-badge--good">Live</span>}
+            <div>
+              <span className="q-eyebrow">{tx("Your first findings")}{busy ? tx(", building live") : ""}</span>
+            </div>
+            {busy && (
+              <span className="q-badge q-badge--good cn-live">
+                <i aria-hidden="true" /> {tx("Live")}
+              </span>
+            )}
           </div>
 
           <ol className="cn-findings">
@@ -370,10 +398,10 @@ export default function Connect() {
               <li key={item.key} className={`cn-finding cn-finding--${toneOf(item.tag)}`}>
                 <span className="cn-finding-no">{i + 1}</span>
                 <div className="cn-finding-main">
-                  <strong>{item.title}</strong>
-                  <span className="q-muted">{item.sub}</span>
+                  <strong>{lit(item.title)}</strong>
+                  <span className="q-muted">{lit(item.sub)}</span>
                 </div>
-                <span className="q-badge">{item.tag}</span>
+                <span className="q-badge">{lit(item.tag)}</span>
               </li>
             ))}
 
@@ -385,7 +413,7 @@ export default function Connect() {
                     <i />
                     <i />
                   </div>
-                  <span className="q-muted cn-note">{n === 1 ? "Findings appear here" : ""}</span>
+                  <span className="q-muted cn-note">{n === 1 ? tx("Findings appear here") : ""}</span>
                 </li>
               ))}
 
@@ -393,8 +421,8 @@ export default function Connect() {
               <li className="cn-finding is-empty">
                 <span className="cn-finding-no">–</span>
                 <div className="cn-finding-main">
-                  <strong>No repeating habits found yet</strong>
-                  <span className="q-muted">More games will make this clearer.</span>
+                  <strong>{tx("No repeating habits found yet")}</strong>
+                  <span className="q-muted">{tx("More games will make this clearer.")}</span>
                 </div>
                 <span />
               </li>
@@ -404,7 +432,7 @@ export default function Connect() {
               <li className="cn-finding is-waiting">
                 <span className="cn-finding-no">{findings.length + 1}</span>
                 <div className="cn-finding-main">
-                  <strong>Checking the remaining games…</strong>
+                  <strong>{tx("Checking the remaining games…")}</strong>
                 </div>
                 <span />
               </li>
@@ -413,22 +441,23 @@ export default function Connect() {
 
           {finished && report.total > 0 && (
             <p className="cn-total">
-              Estimated cost of these habits: <strong>−{report.total} rating points</strong>
-              <span className="q-muted"> (an estimate from how often each habit decides a game)</span>
+              {tx("Estimated cost of these habits:")} <strong>{tx("−{n} rating points", { n: report.total })}</strong>
+              <span className="q-muted">{tx(" (an estimate from how often each habit decides a game)")}</span>
             </p>
           )}
 
           {finished && (
             <div className="q-row cn-actions">
               <button className="q-btn q-btn--primary" onClick={() => goTo("DNA")}>
-                See my DNA
+                {tx("See my DNA")}
               </button>
               <button className="q-btn" onClick={() => goTo("Review")}>
-                Review a game
+                {tx("Review a game")}
               </button>
             </div>
           )}
 
+          {FEATURES.pricing && (
           <div className="cn-pro">
             <span className="cn-pro-icon" aria-hidden="true">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
@@ -436,20 +465,21 @@ export default function Connect() {
               </svg>
             </span>
             <div className="cn-pro-text">
-              <strong>The full report is a Pro feature</strong>
+              <strong>{tx("The full report is a Pro feature")}</strong>
               <span className="q-muted">
-                Free shows your top finding. Pro unlocks all six skills, five ranked leaks and a daily training plan.
+                {tx("Free shows your top finding. Pro unlocks all six skills, five ranked leaks and a daily training plan.")}
               </span>
             </div>
             <div className="cn-pro-cta">
               <button className="q-btn q-btn--primary" onClick={() => goTo("Settings")}>
-                Founding Member ₹999 a year
+                {tx("Founding Member ₹999 a year")}
               </button>
               <button className="q-btn" onClick={() => goTo("Settings")}>
-                See all plans
+                {tx("See all plans")}
               </button>
             </div>
           </div>
+          )}
         </section>
       </div>
     </div>

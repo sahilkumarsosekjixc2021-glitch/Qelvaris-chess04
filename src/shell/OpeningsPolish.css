@@ -1,0 +1,18 @@
+/* Qelvaris — Openings page polish: har section ka header/cards ek jaisa. Sabse last import hota hai. */
+
+/* Section header (Explore / Repertoire / Study / Practice) */
+.qo-page--workspace-only .qo-work-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  margin: 0 0 18px; padding: 0 0 16px; border-bottom: 1px solid var(--border);
+}
+.qo-page--workspace-only .qo-work-head h2 { margin: 6px 0 4px; font-size: clamp(24px, 2.4vw, 30px); letter-spacing: -.025em; }
+.qo-page--workspace-only .qo-work-head .qo-note { margin: 0; max-width: 620px; }
+.qo-page--workspace-only .qo-back-btn { flex: none; min-height: 38px; padding: 0 16px; border-radius: 99px; white-space: nowrap; }
+
+/* "Gaps worth fixing" list: text kate nahi, wrap hota hai */
+.qo-gaps .qo-gap { align-items: flex-start; flex-wrap: wrap; row-gap: 2px; }
+.qo-gaps .qo-gap-name { flex: 1 1 160px; min-width: 0; overflow-wrap: anywhere; }
+.qo-gaps .qo-gap .qo-meta { flex: 1 1 100%; padding-left: 22px; white-space: normal; }
+
+/* Tree page: scroll area hamesha dikhe, page ke neeche faltu gap nahi */
+.qo-page > :last-child { margin-bottom: 0; }

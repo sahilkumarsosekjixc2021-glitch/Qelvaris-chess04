@@ -1,0 +1,38 @@
+/* Qelvaris — Opening Tree: ring fix + ~30% deeper (darker) tree colours.
+   Ye file Openings.jsx mein sabse last import hoti hai, isliye purane CSS ko override karti hai.
+   Rang wapas halka karna ho toh --qt-dim ko 1 ke paas le jao ya Openings.jsx ke gradient colours badlo. */
+
+/* ---------- Stat rings (games / score / accuracy) ---------- */
+.qo-stats .qo-ring svg {
+  display: block;
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 6px;
+  overflow: visible;
+}
+.qo-stats .qo-ring svg circle { fill: none !important; }
+.qo-stats .qo-ring-bg { stroke: rgba(255, 255, 255, 0.09); stroke-width: 5; }
+.qo-stats .qo-ring-fg {
+  stroke-width: 5;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 26px 26px;
+  transition: stroke-dasharray 0.5s ease;
+}
+.qo-stats .qo-ring--good .qo-ring-fg { stroke: #2fb4bf; }
+.qo-stats .qo-ring--mid .qo-ring-fg { stroke: #c29a3a; }
+.qo-stats .qo-ring--bad .qo-ring-fg { stroke: #c4417a; }
+.qo-stats .qo-ring--few .qo-ring-fg { stroke: #62758a; }
+
+/* ---------- Tree: darker nodes, softer glow ---------- */
+.qo-treewrap .qo-svg .qo-c { opacity: 0.92; }
+.qo-treewrap .qo-svg .qo-edge { opacity: 0.7; }
+.qo-treewrap .qo-svg .qo-edge--good { stroke: #27a2ac; }
+.qo-treewrap .qo-svg .qo-edge--mid { stroke: #a98934; }
+.qo-treewrap .qo-svg .qo-edge--bad { stroke: #b2376c; }
+.qo-treewrap .qo-svg .qo-edge--few { stroke: #576776; }
+.qo-treewrap .qo-svg .qo-halo { opacity: 0.8; }
+.qo-dot--good { background: #27a2ac; }
+.qo-dot--mid { background: #a98934; }
+.qo-dot--bad { background: #b2376c; }
+.qo-dot--few { background: #576776; }

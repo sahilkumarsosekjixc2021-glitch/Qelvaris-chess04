@@ -1,0 +1,36 @@
+.qlg {
+  min-height: 100vh;
+  padding: 28px 18px 60px;
+  color: #eef1f6;
+  background: #080a0f;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+.qlg-wrap { max-width: 760px; margin: 0 auto; }
+.qlg-back {
+  padding: 0;
+  margin-bottom: 18px;
+  color: #8c97ab;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+}
+.qlg-back:hover { color: #f7b538; }
+.qlg h1 { margin: 0 0 6px; color: #fff; font-size: clamp(28px, 5vw, 38px); letter-spacing: -0.03em; }
+.qlg-date { margin: 0 0 26px; color: #8c97ab; font-size: 13px; }
+.qlg h2 { margin: 28px 0 8px; color: #f7b538; font-size: 16px; letter-spacing: 0.01em; }
+.qlg p, .qlg li { color: #c3ccdb; font-size: 15px; line-height: 1.7; }
+.qlg ul { padding-left: 20px; }
+.qlg a { color: #4fd1c5; }
+.qlg-tabs { display: flex; gap: 10px; margin-bottom: 22px; }
+.qlg-tabs a {
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  color: #8c97ab;
+  border: 1px solid rgba(130, 170, 190, 0.25);
+  border-radius: 999px;
+}
+.qlg-tabs a.is-on { color: #f7b538; border-color: rgba(247, 181, 56, 0.5); background: rgba(247, 181, 56, 0.1); }
