@@ -1,0 +1,61 @@
+/* Qelvaris — Middlegame lessons (Lab). Prefix qm-. Existing styles ko nahi chhedta. */
+
+.qm-home { display: grid; gap: 16px; }
+.qm-intro { margin: 0; }
+
+.qm-tabs { display: flex; gap: 6px; padding: 5px; width: fit-content; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-2); }
+.qm-tab { border: 0; background: transparent; color: var(--muted); font: inherit; font-weight: 600; padding: 0 16px; min-height: 40px; border-radius: 9px; cursor: pointer; }
+.qm-tab:hover { color: var(--text); }
+.qm-tab.is-on { background: var(--accent-soft); color: var(--text); box-shadow: inset 0 0 0 1px var(--accent); }
+
+.qm-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.qm-filter { border: 1px solid var(--border); background: var(--surface-2); color: var(--muted); font: inherit; font-size: 13px; padding: 0 14px; min-height: 36px; border-radius: 99px; cursor: pointer; }
+.qm-filter.is-on { color: var(--text); border-color: var(--accent); background: var(--accent-soft); }
+
+.qm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.qm-lesson { display: flex; flex-direction: column; gap: 8px; padding: 18px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface-2); }
+.qm-lesson h4 { margin: 0; font-size: 17px; line-height: 1.25; color: var(--text); }
+.qm-lesson p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.qm-lesson-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.qm-open { font: 700 12px/1 var(--font-mono); color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+.qm-lesson-meta { display: flex; gap: 14px; font-size: 13px; color: var(--muted); }
+.qm-done-badge { color: #7fd6a6; font-weight: 600; }
+.qm-lesson-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 6px; }
+
+/* Lesson player */
+.qm-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; padding-bottom: 16px; margin-bottom: 18px; border-bottom: 1px solid var(--border); }
+.qm-top h3 { margin: 6px 0 4px; font-size: 22px; letter-spacing: -.02em; color: var(--text); }
+.qm-top .qo-note { margin: 0; }
+
+.qm-layout { display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 1fr); gap: 22px; align-items: start; }
+@media (max-width: 1000px) { .qm-layout { grid-template-columns: 1fr; } }
+
+.qm-board { display: grid; gap: 12px; }
+.qm-progress { display: flex; gap: 6px; flex-wrap: wrap; }
+.qm-dot { width: 22px; height: 6px; border-radius: 3px; background: var(--border); }
+.qm-dot.is-done { background: var(--accent); }
+.qm-dot.is-now { background: var(--muted); }
+
+.qm-panel { display: grid; gap: 14px; min-width: 0; }
+.qm-card { padding: 18px; border: 1px solid var(--border); border-radius: 13px; background: var(--surface-2); min-width: 0; }
+.qm-card h4 { margin: 8px 0 6px; font-size: 18px; color: var(--text); line-height: 1.3; }
+.qm-card p { margin: 8px 0; color: var(--text); line-height: 1.55; }
+.qm-card .qo-note { color: var(--muted); }
+.qm-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+.qm-wrong { padding: 10px 12px; border-radius: 10px; border: 1px solid var(--bad, #dc5a5a); background: rgba(220, 90, 90, .1); font-size: 14px; }
+
+.qm-reason { margin-top: 12px; padding: 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface-1, rgba(0,0,0,.18)); }
+.qm-reason.is-user { border-color: #36b98a; background: rgba(54, 185, 138, .1); }
+.qm-reason.is-opp { border-color: var(--accent); background: var(--accent-soft); }
+.qm-reason-head { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; color: var(--muted); }
+.qm-reason-head b { font: 700 15px/1 var(--font-mono); color: var(--text); }
+.qm-reason p { margin: 8px 0 0; }
+
+.qm-take ul { margin: 8px 0 0; padding-left: 20px; display: grid; gap: 8px; line-height: 1.5; }
+.qm-take b { color: var(--text); }
+
+.qm-log { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.qm-chip { border: 1px solid var(--border); background: transparent; color: var(--muted); font: 700 13px/1 var(--font-mono); padding: 0 10px; min-height: 34px; border-radius: 8px; cursor: pointer; }
+.qm-chip.is-user { color: var(--text); }
+.qm-chip.is-current { border-color: var(--accent); background: var(--accent-soft); color: var(--text); }

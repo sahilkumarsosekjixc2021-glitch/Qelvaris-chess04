@@ -1,0 +1,37 @@
+/* Play page background: Today ke loader jaisa (navy + teal/gold glow + drifting stars).
+   Today.css mein page ka background nahi hai, sirf loader ka hai (#070c14 + radial glows + stars),
+   isliye wahi look yahan page-level pe laga rahe hain.
+   Import: Play.jsx mein "./Play-hub.css" ke baad  ->  import "./Play-bg.css";
+   Same pattern jo Today.css use karta hai: .qv-main:has(...) */
+
+.qv-main:has(.gm),
+.qv-main:has(.pl-page),
+.qv-main:has(.pl-mode-shell) {
+  background-color: #070c14;
+  background-image:
+    /* stars */
+    radial-gradient(circle, rgba(79, 209, 197, 0.55) 1px, transparent 1.6px),
+    radial-gradient(circle, rgba(247, 181, 56, 0.45) 1px, transparent 1.6px),
+    /* glows */
+    radial-gradient(circle at 50% 18%, rgba(79, 209, 197, 0.14), transparent 60%),
+    radial-gradient(circle at 85% 75%, rgba(247, 181, 56, 0.08), transparent 55%),
+    radial-gradient(circle at 10% 85%, rgba(150, 110, 255, 0.06), transparent 50%);
+  background-size: 64px 64px, 96px 96px, 100% 100%, 100% 100%, 100% 100%;
+  background-position: 0 0, 30px 40px, 0 0, 0 0, 0 0;
+  background-attachment: fixed;
+  animation: pl-bg-stars 60s linear infinite;
+}
+
+@keyframes pl-bg-stars {
+  to {
+    background-position: 0 -256px, 30px -152px, 0 0, 0 0, 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qv-main:has(.gm),
+  .qv-main:has(.pl-page),
+  .qv-main:has(.pl-mode-shell) {
+    animation: none;
+  }
+}

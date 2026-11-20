@@ -1,0 +1,29 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Tests (i18n, coach lessons, backup/sync rules, billing webhook, security checks)
+        run: node --test "tests/*.test.mjs"
+      - name: Lint (reported, not blocking yet - turn on once the existing warnings are cleaned up)
+        run: npm run lint
+        continue-on-error: true
+      - name: Build
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: https://example.supabase.co
+          VITE_SUPABASE_ANON_KEY: ci-placeholder
+      - name: Dependency audit (high severity and up)
+        run: npm audit --audit-level=high
+        continue-on-error: true

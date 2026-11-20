@@ -1,0 +1,465 @@
+/* =========================================
+   QELVARIS — CHESS DNA: compact layout
+   DNA.jsx mein sabse last import hota hai, isliye purani CSS ko override karta hai.
+   Naye kaam ki sab classes "dn2-" se shuru hoti hain.
+========================================= */
+
+.qv-main .dn-page.dn2-page {
+  box-sizing: border-box;
+  gap: 16px;
+  padding-top: 18px;
+}
+
+/* ---------- HERO: patla, ek hi row ---------- */
+
+.dn2-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  min-height: 0;
+  padding: 12px 16px 12px 14px;
+  overflow: hidden;
+  border: 1px solid rgba(60, 232, 242, 0.2);
+  border-radius: 18px;
+  background: linear-gradient(110deg, rgba(10, 40, 46, 0.84), rgba(7, 22, 27, 0.84));
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+}
+
+.dn2-hero::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(60, 232, 242, 0.7), rgba(255, 77, 141, 0.55), transparent 80%);
+  pointer-events: none;
+}
+
+.dn2-id {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.dn2-photo {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
+  padding: 2px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3ce8f2, #ff4d8d);
+  box-shadow: 0 0 18px rgba(60, 232, 242, 0.25);
+}
+
+.dn2-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #0b2a30;
+  /* cursor ke saath halka parallax (trackGlow --px / --py set karta hai) */
+  transform: translate(calc(var(--px, 0) * 3px), calc(var(--py, 0) * 3px)) scale(1.1);
+  transition: transform 0.2s ease-out;
+}
+
+.dn2-titles {
+  min-width: 0;
+}
+
+.dn2-kicker {
+  display: block;
+  color: #3ce8f2;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.qv-main .dn2-hero h1 {
+  margin: 2px 0 0;
+  color: #f4fbfb;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.qv-main .dn2-hero h1 span {
+  color: transparent;
+  background: linear-gradient(90deg, #3ce8f2, #ff4d8d);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.dn2-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid rgba(60, 232, 242, 0.28);
+  border-radius: 999px;
+  color: #cfe6e8;
+  background: rgba(60, 232, 242, 0.07);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.dn2-chip i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 8px #4ade80;
+}
+
+.dn2-tabs {
+  flex: 0 0 auto;
+}
+
+/* ---------- Stats strip ---------- */
+
+.dn2-page .dn-metrics {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.dn2-page .dn-metric {
+  padding: 14px 16px;
+}
+
+.dn2-page .dn-metric-value {
+  margin-top: 10px;
+  font-size: clamp(20px, 2vw, 26px);
+}
+
+.dn2-page .dn-metric-detail {
+  margin-top: 3px;
+}
+
+/* ---------- Main grid: radar | leaks, dono barabar height ---------- */
+
+.dn2-page .dn-main-grid.dn2-grid {
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.dn2-page .dn-panel {
+  padding: 22px;
+}
+
+.dn2-skills .dn-panel-heading {
+  align-items: flex-start;
+}
+
+.dn2-skills .dn-chart-wrap {
+  flex: 1 1 auto;
+  padding-top: 4px;
+}
+
+.dn2-skills .dn-radar {
+  max-width: 560px;
+}
+
+.dn2-skills .dn-legend {
+  justify-content: center;
+  margin: 0 0 12px;
+}
+
+/* ---------- Download button (hexagon ke saath) ---------- */
+
+.dn2-dl {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  padding: 9px 15px;
+  border: 1px solid rgba(60, 232, 242, 0.45);
+  border-radius: 999px;
+  color: #e9fbfc;
+  background: linear-gradient(135deg, rgba(60, 232, 242, 0.2), rgba(255, 77, 141, 0.14));
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.dn2-dl:hover {
+  transform: translateY(-1px);
+  border-color: #3ce8f2;
+  box-shadow: 0 8px 22px rgba(60, 232, 242, 0.18);
+}
+
+.dn2-dl:focus-visible,
+.dn2-train-skill:focus-visible,
+.dn2-btn:focus-visible,
+.dn2-x:focus-visible {
+  outline: 2px solid #3ce8f2;
+  outline-offset: 3px;
+}
+
+/* ---------- Weakest-skill training button ---------- */
+
+.dn2-train-skill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  margin: 0 0 12px;
+  padding: 11px 16px;
+  border: 1px solid rgba(60, 232, 242, 0.34);
+  border-radius: 12px;
+  color: #3ce8f2;
+  background: rgba(60, 232, 242, 0.08);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.dn2-train-skill:hover {
+  border-color: #3ce8f2;
+  background: rgba(60, 232, 242, 0.15);
+}
+
+/* ---------- Bottom row ---------- */
+
+.dn2-page .dn-bottom-grid.dn2-bottom {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+
+.dn2-bottom .dn-clock {
+  margin-top: 18px;
+}
+
+.dn2-bottom .dn-compare-content {
+  margin-top: 8px;
+}
+
+/* ---------- Preview popup (body mein portal hota hai, isliye alag scope) ---------- */
+
+.dn2-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(2, 8, 10, 0.8);
+  backdrop-filter: blur(6px);
+  font-family: var(--font-sans, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif);
+}
+
+.dn2-modal-box {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: min(520px, 100%);
+  max-height: calc(100vh - 40px);
+  padding: 16px;
+  color: #eef7f7;
+  border: 1px solid rgba(60, 232, 242, 0.3);
+  border-radius: 20px;
+  background: #07181d;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+}
+
+.dn2-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dn2-modal-head h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 750;
+}
+
+.dn2-x {
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(120, 220, 230, 0.2);
+  border-radius: 10px;
+  color: #9fc0c3;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.dn2-x:hover {
+  color: #fff;
+  border-color: rgba(120, 220, 230, 0.5);
+}
+
+.dn2-preview {
+  display: grid;
+  place-items: center;
+  min-height: 220px;
+  overflow: auto;
+  border-radius: 12px;
+  background: #031014;
+}
+
+.dn2-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: calc(100vh - 220px);
+  object-fit: contain;
+}
+
+.dn2-loading {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  color: #9fc0c3;
+  font-size: 13px;
+}
+
+.dn2-loading i {
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(60, 232, 242, 0.2);
+  border-top-color: #3ce8f2;
+  border-radius: 50%;
+  animation: dn2-spin 0.8s linear infinite;
+}
+
+@keyframes dn2-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.dn2-error {
+  margin: 0;
+  padding: 24px;
+  color: #ff8fb3;
+  font-size: 13px;
+  text-align: center;
+}
+
+.dn2-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.dn2-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid rgba(120, 220, 230, 0.28);
+  border-radius: 10px;
+  color: #eef7f7;
+  background: rgba(255, 255, 255, 0.04);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.dn2-btn:hover {
+  border-color: rgba(120, 220, 230, 0.6);
+}
+
+.dn2-btn--primary {
+  border-color: #f7c948;
+  color: #1c1303;
+  background: linear-gradient(135deg, #ffd873, #f7b538);
+  font-weight: 800;
+}
+
+.dn2-btn--primary:hover {
+  filter: brightness(1.07);
+}
+
+.dn2-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: none;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1150px) {
+  .dn2-page .dn-main-grid.dn2-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .dn2-page .dn-bottom-grid.dn2-bottom {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dn2-page .dn-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dn2-hero {
+    padding: 12px;
+  }
+
+  .dn2-tabs {
+    width: 100%;
+  }
+
+  .dn2-tabs .dn-win {
+    flex: 1;
+  }
+}
+
+@media (max-width: 560px) {
+  .qv-main .dn2-hero h1 {
+    font-size: 24px;
+  }
+
+  .dn2-photo {
+    width: 46px;
+    height: 46px;
+    flex-basis: 46px;
+  }
+
+  .dn2-chip {
+    display: none;
+  }
+
+  .dn2-skills .dn-panel-heading {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .dn2-dl {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .dn2-page .dn-panel {
+    padding: 17px;
+  }
+
+  .dn2-modal {
+    padding: 12px;
+  }
+}

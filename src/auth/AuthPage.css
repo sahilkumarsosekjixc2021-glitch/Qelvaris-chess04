@@ -1,0 +1,273 @@
+.auth-screen {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 30px 18px;
+  position: relative;
+  overflow: hidden;
+  background: #080a0f;
+  color: #eef1f6;
+  font-family: inherit;
+}
+
+.auth-glow {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  filter: blur(110px);
+  pointer-events: none;
+  opacity: 0.12;
+}
+
+.auth-glow-one {
+  background: #f7b538;
+  top: -200px;
+  left: -150px;
+}
+
+.auth-glow-two {
+  background: #a66cff;
+  bottom: -230px;
+  right: -150px;
+}
+
+.auth-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 460px;
+  padding: 38px;
+  border: 1px solid #293143;
+  border-radius: 22px;
+  background: linear-gradient(145deg, #121925, #0c111b);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.42);
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 38px;
+}
+
+.auth-brand-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: #f7b538;
+  color: #1c1303;
+  font-size: 29px;
+}
+
+.auth-brand h1 {
+  margin: 0;
+  font-size: 19px;
+  letter-spacing: 3px;
+}
+
+.auth-brand p {
+  margin: 4px 0 0;
+  color: #8c97ab;
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
+.auth-eyebrow {
+  color: #f7b538;
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+.auth-heading h2 {
+  margin: 12px 0 8px;
+  font-size: 30px;
+  letter-spacing: -1px;
+}
+
+.auth-heading p {
+  margin: 0;
+  color: #8c97ab;
+  font-size: 13px;
+}
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  padding: 5px;
+  margin: 27px 0;
+  border-radius: 12px;
+  background: #080d15;
+}
+
+.auth-tabs button {
+  border: 0;
+  border-radius: 9px;
+  padding: 12px 6px;
+  background: transparent;
+  color: #8c97ab;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.auth-tabs button.active {
+  background: #222c3d;
+  color: #f7b538;
+}
+
+.auth-form {
+  display: grid;
+  gap: 17px;
+}
+
+.auth-form label {
+  display: grid;
+  gap: 8px;
+  color: #dce2ec;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.auth-form input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #293143;
+  border-radius: 10px;
+  outline: none;
+  padding: 13px 14px;
+  background: #090e17;
+  color: #eef1f6;
+  font: inherit;
+  font-size: 13px;
+}
+
+.auth-form input:focus {
+  border-color: #f7b538;
+  box-shadow: 0 0 0 3px rgba(247, 181, 56, 0.1);
+}
+
+.auth-form input::placeholder {
+  color: #657087;
+}
+
+.auth-form small {
+  color: #7f8ba1;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.auth-submit {
+  margin-top: 5px;
+  border: 0;
+  border-radius: 10px;
+  padding: 14px;
+  background: #f7b538;
+  color: #1c1303;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.auth-submit:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}
+
+.auth-submit:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: none;
+}
+
+.auth-error,
+.auth-success {
+  padding: 11px 12px;
+  border-radius: 9px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.auth-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ff9999;
+}
+
+.auth-success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #86e6a6;
+}
+
+.auth-footer {
+  margin: 25px 0 0;
+  color: #68748a;
+  font-size: 10px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 26px 21px;
+  }
+
+  .auth-heading h2 {
+    font-size: 25px;
+  }
+}
+.qelvaris-account-control {
+  position: fixed;
+  top: 12px;
+  right: 20px;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 7px 5px 12px;
+  border: 1px solid #293143;
+  border-radius: 12px;
+  background: #111827;
+}
+
+.qelvaris-account-email {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #aab4c5;
+  font-size: 11px;
+}
+
+.qelvaris-account-control button {
+  border: 1px solid rgba(247, 181, 56, 0.35);
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: rgba(247, 181, 56, 0.12);
+  color: #f7b538;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.qelvaris-account-control button:hover {
+  background: #f7b538;
+  color: #1c1303;
+}
+
+@media (max-width: 600px) {
+  .qelvaris-account-control {
+    top: 8px;
+    right: 8px;
+  }
+
+  .qelvaris-account-email {
+    max-width: 90px;
+  }
+}

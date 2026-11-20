@@ -3,6 +3,7 @@
 //   "board-theme"    -> "default" | "slate" | "sand" | "midnight"   (Board ke rang, turant apply hote hain)
 //   "language"       -> "en" | "hi"                                  (Review page padh sakta hai: getSetting("language", "en"))
 //   "analysis-depth" -> 8 | 10 | 14 | 18                             (engine.js padh sakta hai: getSetting("analysis-depth", 10))
+//   "sound"          -> true | false                                 (game sounds on/off; code mein isSoundEnabled() se check karo)
 
 import { getSetting, setSetting } from "./storage";
 
@@ -19,6 +20,19 @@ export const LANGUAGES = [
 ];
 
 export const DEPTHS = [8, 10, 14, 18];
+
+/* ---------- Sound on/off ----------
+   Koi bhi sound bajane se pehle: if (isSoundEnabled()) { ...bajao... }
+   Value app start par applySavedSettings() se aur Settings page se update hoti hai. */
+let soundOn = true;
+
+export function isSoundEnabled() {
+  return soundOn;
+}
+
+export function setSoundEnabled(value) {
+  soundOn = value !== false;
+}
 
 export function applyBoardTheme(id) {
   const root = document.documentElement;
@@ -37,18 +51,21 @@ export function applyBoardTheme(id) {
 export async function applySavedSettings() {
   try {
     applyBoardTheme(await getSetting("board-theme", "default"));
+    setSoundEnabled(await getSetting("sound", true));
   } catch (error) {
     console.error("Could not apply settings:", error);
   }
 }
 
 export async function loadSettings() {
-  const [boardTheme, language, depth] = await Promise.all([
+  const [boardTheme, language, depth, sound] = await Promise.all([
     getSetting("board-theme", "default"),
     getSetting("language", "en"),
     getSetting("analysis-depth", 10),
+    getSetting("sound", true),
   ]);
-  return { boardTheme, language, depth };
+  setSoundEnabled(sound);
+  return { boardTheme, language, depth, sound: sound !== false };
 }
 
 export function saveSetting(key, value) {

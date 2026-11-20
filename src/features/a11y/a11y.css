@@ -1,0 +1,32 @@
+/* QV-A11Y: keyboard aur motion ke liye global safety. :where() se specificity zero, toh kisi ki styling nahi todta. */
+:where(a, button, input, select, textarea, [role="button"], [tabindex]):focus-visible {
+  outline: 2px solid #f7b538;
+  outline-offset: 2px;
+}
+
+.qa-skip {
+  position: fixed;
+  left: 12px;
+  top: -60px;
+  z-index: 100000;
+  padding: 10px 16px;
+  color: #211607;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  border-radius: 10px;
+  background: #f7b538;
+  transition: top 0.15s;
+}
+.qa-skip:focus { top: 12px; }
+
+#qv-content:focus { outline: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

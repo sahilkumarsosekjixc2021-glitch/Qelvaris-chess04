@@ -1,0 +1,91 @@
+/* LEAK LAB: side menu + naya layout. Theme wahi (gold, teal, dark glass). Purani CSS ko haath nahi lagaya. */
+
+.ll-page.ll-page { max-width: 1480px; }
+
+.ll-page.ll-page .ll-shell { display: grid; grid-template-columns: 216px minmax(0, 1fr); gap: 22px; align-items: start; }
+.ll-page.ll-page .ll-content { display: grid; gap: 18px; min-width: 0; }
+
+/* ---------- Side menu ---------- */
+.ll-page.ll-page .ll-snav { position: sticky; top: 16px; display: grid; gap: 6px; padding: 12px; background: var(--ll-glass); border: 1px solid var(--ll-line); border-radius: 16px; box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28); }
+.ll-page.ll-page .ll-snav-btn { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 14px; color: var(--ll-muted); background: transparent; border: 1px solid transparent; border-radius: 12px; font: inherit; font-size: 14px; font-weight: 700; text-align: left; cursor: pointer; transition: 0.2s ease; }
+.ll-page.ll-page .ll-snav-btn:hover:not(.is-on) { color: var(--ll-text); background: rgba(255, 255, 255, 0.05); }
+.ll-page.ll-page .ll-snav-btn.is-on { color: #211607; background: linear-gradient(135deg, #f7c45f, #d99a32); border-color: #e6aa44; box-shadow: 0 8px 22px rgba(217, 154, 50, 0.22); }
+.ll-page.ll-page .ll-snav-btn:focus-visible { outline: 2px solid var(--ll-gold); outline-offset: 2px; }
+
+.ll-page.ll-page .ll-goalcard { display: grid; gap: 8px; margin-top: 10px; padding: 14px; border: 1px solid rgba(247, 181, 56, 0.3); border-radius: 14px; background: rgba(247, 181, 56, 0.06); }
+.ll-page.ll-page .ll-goalcard .ll-label { margin: 0; }
+.ll-page.ll-page .ll-goalcard strong { color: #fff; font-size: 24px; line-height: 1; }
+.ll-page.ll-page .ll-goalcard small { color: var(--ll-muted); font-size: 12px; line-height: 1.4; }
+.ll-page.ll-page .ll-gbar { height: 7px; overflow: hidden; border-radius: 99px; background: rgba(255, 255, 255, 0.08); }
+.ll-page.ll-page .ll-gbar div { height: 100%; border-radius: inherit; background: linear-gradient(90deg, #f7c45f, #d99a32); transition: width 0.35s ease; }
+
+/* ---------- Banner ---------- */
+.ll-page.ll-page .ll-banner { position: relative; overflow: hidden; display: grid; gap: 8px; padding: 30px 32px; border: 1px solid rgba(247, 181, 56, 0.28); border-radius: 18px; background: radial-gradient(circle at 88% 15%, rgba(247, 181, 56, 0.22), transparent 46%), linear-gradient(135deg, rgba(22, 34, 52, 0.92), rgba(9, 14, 24, 0.96)); box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28); }
+.ll-page.ll-page .ll-banner::after { content: ""; position: absolute; right: -50px; top: -30px; width: 440px; height: 280px; opacity: 0.14; pointer-events: none; transform: rotate(-8deg); background: repeating-conic-gradient(#f7b538 0% 25%, transparent 0% 50%) 0 0 / 56px 56px; -webkit-mask-image: linear-gradient(to left, #000, transparent); mask-image: linear-gradient(to left, #000, transparent); }
+.ll-page.ll-page .ll-banner > * { position: relative; z-index: 1; }
+.ll-page.ll-page .ll-banner h1 { margin: 2px 0 0; color: #fff; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.12; letter-spacing: -0.03em; }
+.ll-page.ll-page .ll-banner p { margin: 0; max-width: 560px; color: var(--ll-muted); font-size: 15px; line-height: 1.6; }
+.ll-page.ll-page .ll-banner-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.ll-page.ll-page .ll-banner-actions .ll-btn { flex: none; padding: 0 22px; }
+
+/* Stats strip ab content ke andar */
+.ll-page.ll-page .ll-strip { margin-bottom: 0; }
+
+/* ---------- Leak cards ---------- */
+.ll-page.ll-page .ll-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.ll-page.ll-page .ll-cards--wide { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+.ll-page.ll-page .ll-card { position: relative; display: grid; gap: 12px; align-content: start; min-width: 0; padding: 20px; background: var(--ll-glass); border: 1px solid var(--ll-line); border-radius: 16px; box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28); transition: 0.2s ease; }
+.ll-page.ll-page .ll-card:hover { transform: translateY(-3px); border-color: rgba(247, 181, 56, 0.4); }
+.ll-page.ll-page .ll-card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.ll-page.ll-page .ll-card h3 { margin: 0; color: #fff; font-size: 19px; line-height: 1.25; letter-spacing: -0.01em; }
+.ll-page.ll-page .ll-card p { margin: 0; color: var(--ll-muted); font-size: 13px; line-height: 1.6; }
+.ll-page.ll-page .ll-card .ll-label { margin: 4px 0 -4px; }
+.ll-page.ll-page .ll-card .ll-chart { height: 90px; margin-top: 4px; }
+.ll-page.ll-page .ll-card .ll-proof { margin: 0; }
+.ll-page.ll-page .ll-tag { padding: 5px 10px; color: var(--ll-gold-soft); background: rgba(247, 181, 56, 0.1); border: 1px solid rgba(247, 181, 56, 0.28); border-radius: 999px; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+.ll-page.ll-page .ll-card-actions { display: flex; gap: 10px; margin-top: 4px; }
+.ll-page.ll-page .ll-card-actions .ll-btn { min-height: 42px; padding: 0 12px; }
+.ll-page.ll-page .ll-card-actions .ll-btn--primary { flex: 1.1; }
+
+.ll-page.ll-page .ll-footbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; padding: 12px 14px 12px 20px; background: var(--ll-glass); border: 1px solid var(--ll-line); border-radius: 14px; color: var(--ll-muted); font-size: 13px; font-weight: 700; }
+.ll-page.ll-page .ll-footbar .ll-btn { flex: none; padding: 0 22px; }
+
+/* ---------- Session bar (back + chips + size) ---------- */
+.ll-page.ll-page .ll-sessionbar { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding: 12px 14px; background: var(--ll-glass); border: 1px solid var(--ll-line); border-radius: 14px; }
+.ll-page.ll-page .ll-back { flex: none; min-height: 38px; padding: 0 14px; font-size: 12px; }
+.ll-page.ll-page .ll-chips { display: flex; flex-wrap: wrap; flex: 1; gap: 8px; min-width: 0; }
+.ll-page.ll-page .ll-chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; color: var(--ll-muted); background: rgba(255, 255, 255, 0.04); border: 1px solid var(--ll-line); border-radius: 999px; font: inherit; font-size: 12px; font-weight: 750; cursor: pointer; transition: 0.2s ease; }
+.ll-page.ll-page .ll-chip:hover:not(.is-on) { color: var(--ll-text); border-color: var(--ll-teal); }
+.ll-page.ll-page .ll-chip.is-on { color: #211607; background: linear-gradient(135deg, #f7c45f, #d99a32); border-color: #e6aa44; }
+.ll-page.ll-page .ll-chip-n { padding: 1px 7px; border-radius: 999px; background: rgba(255, 255, 255, 0.12); color: inherit; font-size: 11px; }
+.ll-page.ll-page .ll-chip.is-on .ll-chip-n { background: rgba(33, 22, 7, 0.18); }
+.ll-page.ll-page .ll-sessionbar .ll-size { margin: 0; }
+.ll-page.ll-page .ll-sessionbar .ll-size > span { margin-right: 6px; }
+
+/* Session ka grid: board + proof (leaks ki list ab upar chips me hai) */
+.ll-page.ll-page .ll-grid.ll-grid--session { grid-template-columns: minmax(0, 1.55fr) minmax(260px, 0.85fr); }
+
+.ll-page.ll-page .ll-comingcard { max-width: 560px; }
+
+/* ---------- Chhoti screen ---------- */
+@media (max-width: 1100px) {
+  .ll-page.ll-page .ll-grid.ll-grid--session { grid-template-columns: minmax(0, 1fr); }
+  .ll-page.ll-page .ll-grid.ll-grid--session .ll-side { grid-column: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+  .ll-page.ll-page .ll-shell { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .ll-page.ll-page .ll-snav { position: static; display: flex; gap: 6px; padding: 8px; overflow-x: auto; }
+  .ll-page.ll-page .ll-snav-btn { flex: none; width: auto; padding: 10px 14px; white-space: nowrap; }
+  .ll-page.ll-page .ll-goalcard { display: none; }
+}
+@media (max-width: 640px) {
+  .ll-page.ll-page .ll-banner { padding: 22px 18px; }
+  .ll-page.ll-page .ll-banner-actions .ll-btn { flex: 1; padding: 0 12px; }
+  .ll-page.ll-page .ll-cards, .ll-page.ll-page .ll-cards--wide { grid-template-columns: minmax(0, 1fr); }
+  .ll-page.ll-page .ll-grid.ll-grid--session .ll-side { grid-template-columns: minmax(0, 1fr); }
+  .ll-page.ll-page .ll-footbar { padding: 12px; }
+  .ll-page.ll-page .ll-footbar .ll-btn { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ll-page.ll-page .ll-card, .ll-page.ll-page .ll-snav-btn, .ll-page.ll-page .ll-gbar div { transition: none; }
+}

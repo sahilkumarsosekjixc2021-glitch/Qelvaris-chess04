@@ -1,0 +1,76 @@
+/* Openings: button ke alawa sab kuch navy + teal. Review page jaisa board.
+   Sirf .qs-shell ke andar chalta hai, baaki site pe koi asar nahi.
+   Ye file Openings.jsx mein SABSE LAST import honi chahiye. */
+
+.qs-shell {
+  --accent: #4fd1c5;
+  --accent-soft: rgba(79, 209, 197, .14);
+  --accent-ink: #04201d;
+  --ql-amber: #4fd1c5;
+  --gold-1: #ffd06a;
+  --gold-2: #f0a92e;
+}
+
+/* ---------- BOARDS: Settings wale board theme se (yahan kuch override nahi) ---------- */
+/* Library ke chhote thumbnails */
+.qs-shell .ql-board {
+  background: conic-gradient(var(--board-dark) 25%, var(--board-light) 0 50%, var(--board-dark) 0 75%, var(--board-light) 0) 0 0 / 25% 25%;
+  box-shadow: 0 8px 18px -8px rgba(0, 0, 0, .75), 0 0 0 1px var(--border-strong);
+}
+
+/* ---------- HEADERS / SIDEBAR ---------- */
+.qs-shell .qs-head { background: linear-gradient(100deg, #07121a 0%, #0a1b24 55%, #0a2326 100%); }
+.qs-shell .qs-head::after {
+  background:
+    radial-gradient(38% 130% at 94% 50%, rgba(79, 209, 197, .16), transparent 70%),
+    radial-gradient(30% 110% at 6% 0%, rgba(88, 196, 242, .10), transparent 70%);
+}
+.qs-shell .qs-head h2 span,
+.qs-shell .ld-hero h2 span { color: #4fd1c5; }
+.qs-shell .ld-hero-glow {
+  background: radial-gradient(40% 70% at 84% 40%, rgba(79, 209, 197, .18), transparent 70%),
+              radial-gradient(30% 60% at 10% 100%, rgba(88, 196, 242, .10), transparent 70%);
+}
+.qs-shell .ld-king { filter: drop-shadow(0 0 28px rgba(79, 209, 197, .5)) drop-shadow(0 18px 30px rgba(0, 0, 0, .6)); }
+.qs-shell .qs-mile { background: radial-gradient(120% 90% at 50% 0%, rgba(79, 209, 197, .16), transparent 70%), rgba(255, 255, 255, .03); }
+.qs-shell .qs-cup { filter: hue-rotate(115deg) saturate(.8) drop-shadow(0 4px 12px rgba(79, 209, 197, .35)); }
+.qs-shell .qs-bar span { background: linear-gradient(90deg, #2fa89e, #4fd1c5); }
+
+/* ---------- CARDS (gold glow -> teal) ---------- */
+.qs-shell .ql-card,
+.qs-shell .ld-card,
+.qs-shell .qa-pcard { background: radial-gradient(90% 60% at 0% 0%, rgba(79, 209, 197, .07), transparent 60%), var(--surface); }
+.qs-shell .ql-card:hover,
+.qs-shell .ld-card:hover,
+.qs-shell .qa-pcard:hover { border-color: rgba(79, 209, 197, .5); }
+.qs-shell .qa-setup-card { background: radial-gradient(100% 50% at 50% 0%, rgba(79, 209, 197, .08), transparent 70%), var(--surface); }
+.qs-shell .ld-plan,
+.qs-shell .qa-diff { border-color: rgba(79, 209, 197, .5); }
+.qs-shell .qa-banner { border-color: rgba(79, 209, 197, .35); background: rgba(79, 209, 197, .07); }
+.qs-shell .qa-resume { border-color: rgba(79, 209, 197, .55); }
+
+/* ---------- Level / status pills ---------- */
+.qs-shell .ql-intermediate { background: rgba(88, 196, 242, .13); color: #7fd0f5; border-color: rgba(88, 196, 242, .35); }
+
+/* ---------- Opening Tree (data colour: yellow nahi) ---------- */
+.qs-shell .qo-c--mid { fill: #58c4f2; }
+.qs-shell .qo-dot--mid { background: #58c4f2; }
+
+/* ---------- Dropdown / chips / tabs: on-state teal ---------- */
+.qs-shell .ld-chip.is-on,
+.qs-shell .ld-mode.is-on,
+.qs-shell .ld-pager button.is-on,
+.qs-shell .ld-back:hover { border-color: #4fd1c5; }
+.qs-shell .ld-save.is-on { color: #4fd1c5; }
+
+/* ---------- BUTTONS: ye gold hi rahenge ---------- */
+.qs-shell .qo-btn--primary,
+.qs-shell .ql-btn-primary,
+.qs-shell .ld-learn,
+.qs-shell .ld-continue,
+.qs-shell .qa-go {
+  background: linear-gradient(180deg, var(--gold-1), var(--gold-2));
+  border-color: var(--gold-2);
+  color: #1b1204;
+  box-shadow: 0 6px 18px -8px #f5b73e;
+}

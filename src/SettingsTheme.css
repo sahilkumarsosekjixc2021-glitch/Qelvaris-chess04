@@ -1,0 +1,59 @@
+/* SETTINGS PAGE: sirf background + rang (Leak Lab jaisa). Layout bilkul purana hai.
+   Settings.jsx me sabse LAST import karo:
+   import "./Settings.css";
+   import "./SettingsTheme.css";   // naya */
+
+/* ---------- 1. Background: green network hatao, navy checker lagao ---------- */
+.qv-main--net:has(.qs-page) { background: #070c14 !important; }
+.qv-main--net:has(.qs-page)::before,
+.qv-main--net:has(.qs-page)::after { display: none !important; }
+
+.qs-page {
+  --qs-glass: linear-gradient(145deg, rgba(20, 32, 50, 0.9), rgba(9, 14, 24, 0.94));
+  position: relative;
+  isolation: isolate;
+  min-height: calc(100vh - 72px);
+}
+.qs-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  z-index: -1;
+  pointer-events: none;
+  background-color: #070c14;
+  background-image:
+    radial-gradient(ellipse 70% 40% at 50% 100%, rgba(79, 209, 197, 0.14), transparent 70%),
+    repeating-conic-gradient(rgba(255, 255, 255, 0.022) 0% 25%, transparent 0% 50%);
+  background-size: 100% 100%, 110px 110px;
+}
+body:has(.qs-page) { overflow-x: clip; }
+
+/* ---------- 2. Cards ---------- */
+.qs-page .qs-card {
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+}
+.qs-page .qs-card:hover { border-color: rgba(247, 181, 56, 0.25); }
+
+/* ---------- 3. Selected options: Leak Lab ka gold gradient ---------- */
+.qs-page .qs-seg { background: var(--qs-glass); }
+.qs-page .qs-seg-btn.is-active {
+  color: #211607;
+  background: linear-gradient(135deg, #f7c45f, #d99a32);
+  border-color: #e6aa44;
+}
+.qs-page .qs-switch.is-on { border-color: rgba(247, 181, 56, 0.5); }
+
+/* Buttons */
+.qs-page .qs-btn:hover { color: var(--qs-gold-soft); background: rgba(247, 181, 56, 0.08); border-color: var(--qs-gold); }
+.qs-page .qs-btn--gold { border: 1px solid #e6aa44; box-shadow: 0 8px 22px rgba(217, 154, 50, 0.22); }
+.qs-page .qs-btn--gold:hover { color: #211607; background: linear-gradient(135deg, #ffd479, #e6aa44); border-color: #ffd479; }
+.qs-page .qs-btn--danger:hover { color: #ff8585; }
+
+/* Plan cards */
+.qs-page .qs-plan:hover { border-color: rgba(247, 181, 56, 0.4); }
+.qs-page .qs-form input,
+.qs-page .qs-switch { background: rgba(255, 255, 255, 0.03); }

@@ -10,6 +10,7 @@
   display: block;
   width: 100%;
   height: auto;
+  touch-action: manipulation;
 }
 
 .qb-piece {
@@ -36,7 +37,9 @@
   pointer-events: none;
 }
 
-.qb-arrow line {
+/* ---------- Arrows (shaft = path, head = polygon) ---------- */
+.qb-arrow path {
+  fill: none;
   stroke: rgba(78, 204, 163, 0.85);
 }
 
@@ -50,4 +53,67 @@
 
 .qb-hit {
   cursor: pointer;
+  pointer-events: all;
+  touch-action: manipulation;
+}
+
+/* ---------- Fog of War ---------- */
+.qb-board--fog .qb-fog-square {
+  pointer-events: none;
+}
+
+.qb-fog--light {
+  fill: var(--fog-light, #2d473c);
+}
+
+.qb-fog--dark {
+  fill: var(--fog-dark, #0e1312);
+}
+
+.qb-smoke {
+  opacity: 0.5;
+  animation: qb-breathe 7s ease-in-out infinite;
+}
+
+@keyframes qb-breathe {
+  0%, 100% { opacity: 0.38; }
+  50%      { opacity: 0.62; }
+}
+
+.qb-ring {
+  animation: qb-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes qb-pulse {
+  0%, 100% { opacity: 0.8; }
+  50%      { opacity: 1; }
+}
+
+/* ---------- Bit-Flip: glitch rings + ghost pieces ---------- */
+.qb-glitch {
+  filter: drop-shadow(0 0 8px rgba(245, 184, 58, 0.9));
+  animation: qb-pulse 1.4s ease-in-out infinite;
+}
+
+.qb-ghost {
+  opacity: 0.4;
+  filter: drop-shadow(0 0 7px rgba(245, 184, 58, 0.9));
+  animation: qb-flicker 1.3s steps(1) infinite;
+}
+
+@keyframes qb-flicker {
+  0%   { opacity: 0.45; }
+  18%  { opacity: 0.2; }
+  36%  { opacity: 0.5; }
+  60%  { opacity: 0.28; }
+  80%  { opacity: 0.45; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qb-glitch,
+  .qb-ghost,
+  .qb-smoke,
+  .qb-ring {
+    animation: none;
+  }
 }

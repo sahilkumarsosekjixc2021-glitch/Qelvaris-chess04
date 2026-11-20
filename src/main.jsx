@@ -1,15 +1,19 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import React from "react";
+import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App.jsx";
-import { AuthProvider } from "./context/Authcontext";
+import RootApp from "./auth/RootApp.jsx";
+import ErrorBoundary from "./components/ErrorBoundary.jsx";
+import { installGlobalErrorHandlers } from "./lib/errorReport";
+import "./qelvaris-redesign.css";
+import "./glass-theme.css";
 
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
-  </StrictMode>
+
+installGlobalErrorHandlers();
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <ErrorBoundary scope="root">
+      <RootApp />
+    </ErrorBoundary>
+  </React.StrictMode>
 );
-
-

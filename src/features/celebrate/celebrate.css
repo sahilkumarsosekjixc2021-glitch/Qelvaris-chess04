@@ -1,0 +1,85 @@
+.qcel-canvas { position: fixed; inset: 0; z-index: 9998; width: 100vw; height: 100vh; pointer-events: none; }
+
+.qcel {
+  position: fixed;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #eef1f6;
+  cursor: pointer;
+  border: 1px solid rgba(79, 209, 197, 0.45);
+  background: linear-gradient(145deg, rgba(22, 34, 52, 0.96), rgba(11, 17, 28, 0.97));
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5), 0 0 26px rgba(79, 209, 197, 0.18);
+}
+.qcel-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  color: #4fd1c5;
+  background: rgba(79, 209, 197, 0.12);
+  font-size: 20px;
+}
+.qcel-text { display: grid; gap: 3px; min-width: 0; }
+.qcel-text strong { color: #fff; font-size: 14px; font-weight: 800; }
+.qcel-text span { color: #8c97ab; font-size: 12px; line-height: 1.5; }
+.qcel-qc { color: #f7b538; font-size: 13px; font-weight: 800; white-space: nowrap; }
+
+/* chhota toast: neeche beech mein */
+.qcel--toast {
+  left: 50%;
+  bottom: 28px;
+  max-width: min(420px, calc(100vw - 32px));
+  padding: 12px 16px;
+  border-radius: 14px;
+  transform: translateX(-50%);
+  animation: qcel-up 0.35s ease both;
+}
+
+/* bada moment: screen ke beech mein card */
+.qcel--big {
+  left: 50%;
+  top: 38%;
+  flex-direction: column;
+  width: min(360px, calc(100vw - 32px));
+  padding: 30px 26px 24px;
+  text-align: center;
+  border-color: rgba(247, 181, 56, 0.6);
+  border-radius: 22px;
+  transform: translate(-50%, -50%);
+  animation: qcel-pop 0.5s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+.qcel--big .qcel-icon { width: 64px; height: 64px; border-radius: 20px; font-size: 32px; color: #f7b538; background: rgba(247, 181, 56, 0.14); }
+.qcel--big .qcel-text strong { font-size: 22px; letter-spacing: -0.02em; }
+.qcel--big .qcel-text span { font-size: 13px; }
+.qcel--big .qcel-qc { font-size: 20px; }
+.qcel-glow {
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: 22px;
+  background: radial-gradient(circle at 50% 0%, rgba(247, 181, 56, 0.28), transparent 65%);
+}
+.qcel-close {
+  margin-top: 6px;
+  padding: 10px 26px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  color: #211607;
+  cursor: pointer;
+  border: 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f7c45f, #d99a32);
+}
+.qcel-close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+@keyframes qcel-up { from { opacity: 0; transform: translate(-50%, 14px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@keyframes qcel-pop { from { opacity: 0; transform: translate(-50%, -46%) scale(0.85); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .qcel--toast, .qcel--big { animation: none; }
+}

@@ -1,0 +1,96 @@
+/* Play hub hero: crown ki jagah floating queen image.
+   GameModes.css ke baad import hota hai, isliye ye usse upar rehta hai. */
+
+.gm-queen {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(220px, 24vw, 330px);
+  aspect-ratio: 1024 / 471;
+  /* hero patla rahe: image thodi upar-neeche fail sakti hai (image ke andar khali jagah hai) */
+  margin: -10px 0 -10px auto;
+  pointer-events: none;
+}
+
+/* Cards jaisa glow queen ke peeche */
+.gm-queen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse 45% 50% at 50% 50%,
+    rgba(247, 181, 56, 0.35),
+    rgba(79, 209, 197, 0.12) 55%,
+    transparent 75%
+  );
+}
+
+.gm-queen img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+
+  /* Box hatane ke liye: screen blend + contrast (navy bg kala ho jaye) + edges feather */
+  mix-blend-mode: screen;
+  filter: saturate(1.3) contrast(1.25) brightness(1.1);
+  -webkit-mask-image: radial-gradient(ellipse 52% 54% at 50% 50%, #000 60%, transparent 100%);
+  mask-image: radial-gradient(ellipse 52% 54% at 50% 50%, #000 60%, transparent 100%);
+
+  animation: gm-queen-float 4s ease-in-out infinite;
+}
+
+.gm-queen-ring {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  aspect-ratio: 1;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  opacity: 0.45;
+  transform: translate(-50%, -50%) rotateX(72deg);
+  animation: gm-queen-orbit 3.6s linear infinite;
+}
+
+.gm-queen-ring.r1 {
+  width: 60%;
+  border-top-color: #f7b538;
+  filter: drop-shadow(0 0 6px #f7b538);
+}
+
+.gm-queen-ring.r2 {
+  width: 46%;
+  border-top-color: #38e8f5;
+  filter: drop-shadow(0 0 6px #38e8f5);
+  animation-duration: 2.6s;
+  animation-direction: reverse;
+}
+
+@keyframes gm-queen-float {
+  50% {
+    translate: 0 -8px;
+  }
+}
+
+@keyframes gm-queen-orbit {
+  to {
+    transform: translate(-50%, -50%) rotateX(72deg) rotate(360deg);
+  }
+}
+
+@media (max-width: 700px) {
+  .gm-queen {
+    width: clamp(140px, 38vw, 200px);
+    margin-top: -6px;
+    margin-bottom: -6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gm-queen img,
+  .gm-queen-ring {
+    animation: none;
+  }
+}

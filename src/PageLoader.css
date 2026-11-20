@@ -1,0 +1,241 @@
+/* =========================================================
+   QELVARIS — PAGE LOADER (Today wali loading screen, har page ke liye)
+   Colors yahin ke variables mein hain, Today.css par depend nahi karta.
+========================================================= */
+
+.ql-page {
+  --ql-cyan: #3df5e6;
+  --ql-pink: #ff4fd8;
+  --ql-gold: #f7b538;
+  --ql-text: #e9fffb;
+  --ql-muted: #8fb7b0;
+  --ql-edge: rgba(70, 240, 220, 0.34);
+
+  width: 100%;
+  max-width: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  /* 80px = upar ka navbar. Isse page navbar ke neeche scroll nahi hota */
+  min-height: calc(100vh - 80px);
+  min-height: calc(100dvh - 80px);
+  color: var(--ql-text);
+  box-sizing: border-box;
+}
+
+.ql-page *,
+.ql-page *::before,
+.ql-page *::after {
+  box-sizing: border-box;
+}
+
+/* Loader dikhe to page ke side/top/bottom ki padding hata do (full panel) */
+.qv-main:has(.ql-loading) {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Jab loader kisi aur page ke wrapper ke andar ho (jaise Leak Lab ka .ll-page,
+   jisme Practice Puzzles khulta hai), to us wrapper ki padding hata do taaki
+   loader poora bhare. */
+.ll-page.ll-page:has(> .ql-page) {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- Panel ---------- */
+
+.ql-loading {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  min-height: calc(100dvh - 80px);
+  margin: 0 !important;
+  overflow: hidden;
+  text-align: center;
+  color: var(--ql-text);
+  border: 1px solid var(--ql-edge);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(61, 245, 230, 0.14), transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(150, 110, 255, 0.08), transparent 55%),
+    #06141a;
+  box-shadow: 0 0 34px rgba(61, 245, 230, 0.12), 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+/* chalte hue taare */
+.ql-loading::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  background-image:
+    radial-gradient(circle, rgba(61, 245, 230, 0.9) 1px, transparent 1.6px),
+    radial-gradient(circle, rgba(247, 181, 56, 0.8) 1px, transparent 1.6px);
+  background-size: 64px 64px, 96px 96px;
+  background-position: 0 0, 30px 40px;
+  -webkit-mask-image: radial-gradient(circle, #000 25%, transparent 75%);
+  mask-image: radial-gradient(circle, #000 25%, transparent 75%);
+  animation: ql-stars 14s linear infinite;
+}
+
+@keyframes ql-stars {
+  to {
+    background-position: 0 -256px, 30px -152px;
+  }
+}
+
+/* ---------- King + orbits ---------- */
+
+.ql-stage {
+  position: relative;
+  width: min(720px, 92%);
+  max-height: 52vh;
+  aspect-ratio: 1024 / 471;
+}
+
+/* King: black background screen-blend se gayab, kinare mask se feather */
+.ql-stage img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  mix-blend-mode: screen;
+  -webkit-mask-image: radial-gradient(ellipse 52% 54% at 50% 50%, #000 60%, transparent 100%);
+  mask-image: radial-gradient(ellipse 52% 54% at 50% 50%, #000 60%, transparent 100%);
+  animation: ql-float 4s ease-in-out infinite;
+}
+
+@keyframes ql-float {
+  50% {
+    translate: 0 -9px;
+  }
+}
+
+.ql-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #cfe9ff;
+  font-size: clamp(110px, 18vw, 170px);
+  line-height: 1;
+  text-shadow: 0 0 30px rgba(61, 245, 230, 0.65), 0 0 70px rgba(150, 110, 255, 0.5);
+  animation: ql-float 4s ease-in-out infinite;
+}
+
+.ql-orbit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  aspect-ratio: 1;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  opacity: 0.55;
+  transform: translate(-50%, -50%) rotateX(72deg);
+  animation: ql-orbit 3.2s linear infinite;
+}
+
+.ql-stage .o1 {
+  width: 56%;
+  border-top-color: #3df5e6;
+  filter: drop-shadow(0 0 6px #3df5e6);
+}
+
+.ql-stage .o2 {
+  width: 42%;
+  border-top-color: #f7b538;
+  filter: drop-shadow(0 0 6px #f7b538);
+  animation-duration: 2.4s;
+  animation-direction: reverse;
+}
+
+.ql-stage .o3 {
+  width: 68%;
+  border-top-color: #ff4fd8;
+  filter: drop-shadow(0 0 6px #ff4fd8);
+  animation-duration: 4.4s;
+}
+
+@keyframes ql-orbit {
+  to {
+    transform: translate(-50%, -50%) rotateX(72deg) rotate(360deg);
+  }
+}
+
+/* ---------- Text + bar ---------- */
+
+.ql-title {
+  margin: 6px 0 0;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  text-shadow: 0 0 22px rgba(61, 245, 230, 0.3);
+}
+
+.ql-sub {
+  width: 260px;
+  max-width: 80vw;
+  height: 20px;
+  margin: 0;
+  color: var(--ql-muted);
+  font-size: 13px;
+}
+
+.ql-sub span {
+  display: block;
+  animation: ql-fade 0.8s ease both;
+}
+
+@keyframes ql-fade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.ql-bar {
+  width: min(260px, 60%);
+  height: 3px;
+  margin-top: 4px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ql-bar i {
+  display: block;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #3df5e6, #ff4fd8, transparent);
+  animation: ql-slide 1.2s ease-in-out infinite;
+}
+
+@keyframes ql-slide {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(260%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ql-page *,
+  .ql-page *::before,
+  .ql-page *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

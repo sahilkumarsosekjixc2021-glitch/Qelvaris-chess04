@@ -1,5 +1,5 @@
 import { Chess } from "chess.js";
-import { dbAll, dbGet } from "./storage";
+import { dbAll, getDataVersion } from "./storage";
 import { fromLegacyAnalysis, moverWin, parseGame, summarize } from "./chessUtils";
 
 /*
@@ -26,7 +26,6 @@ export const LEAK_DEFS = [
     skill: "Tactics",
     text: "A piece was left where the opponent could win it for free.",
     ask: "Before you move, ask: what can capture the piece I just moved?",
-    askHindi: "Chalne se pehle poochiye: ab mere piece ko kaun capture kar sakta hai?",
   },
   {
     id: "time-trouble",
@@ -34,7 +33,6 @@ export const LEAK_DEFS = [
     skill: "Time use",
     text: "Serious mistakes after move 25 with under a minute left.",
     ask: "When the clock is low, play the safe move you already know instead of searching for the best one.",
-    askHindi: "Clock kam ho toh best move dhundhne ki jagah wahi safe chaal chaliye jo aap pehle se jante hain.",
   },
   {
     id: "missed-tactics",
@@ -42,7 +40,6 @@ export const LEAK_DEFS = [
     skill: "Tactics",
     text: "A capture or a forced mate was on the board and you did not play it.",
     ask: "Before every move, list the checks, captures and threats for both sides.",
-    askHindi: "Har chaal se pehle dono taraf ke check, capture aur threat ki list banaiye.",
   },
   {
     id: "endgame-conversion",
@@ -50,7 +47,6 @@ export const LEAK_DEFS = [
     skill: "Converting wins",
     text: "You reached a winning endgame and did not win the game.",
     ask: "When you are winning, trade pieces, keep your king safe and avoid risky plans.",
-    askHindi: "Jab aap jeet rahe hon, pieces exchange kijiye, king surakshit rakhiye aur risky plan mat banaiye.",
   },
   {
     id: "opening-gaps",
@@ -58,7 +54,6 @@ export const LEAK_DEFS = [
     skill: "Openings",
     text: "Early slips before move 10 that cost winning chances.",
     ask: "In the first ten moves, develop pieces, castle, and do not move the same piece twice without a reason.",
-    askHindi: "Pehli das chaalon mein pieces nikaaliye, castle kijiye, aur bina wajah ek hi piece dobara mat chaliye.",
   },
   {
     id: "back-rank",
@@ -66,7 +61,6 @@ export const LEAK_DEFS = [
     skill: "Defence",
     text: "You were checkmated on your first rank.",
     ask: "Give your king an escape square before the rooks come to the open files.",
-    askHindi: "Rooks open file par aayein usse pehle apne king ko nikalne ki jagah dijiye.",
   },
 ];
 
@@ -263,13 +257,33 @@ export function analyseGame(game, parsed, moves) {
 
 /* ---------- Loading every reviewed game ---------- */
 
-export async function loadReviewedGames() {
+// QV-PERF: this was rebuilt (every game re-parsed, one database read per game) on EVERY page visit,
+// and about ten places call it. Now: one read of all reviews, and the result is reused until
+// games or reviews really change (storage.js bumps getDataVersion on every write).
+let loadedCache = null; // { version, promise }
+
+export function loadReviewedGames() {
+  const version = getDataVersion();
+  if (!loadedCache || loadedCache.version !== version) {
+    const promise = buildReviewedGames();
+    loadedCache = { version, promise };
+    promise.catch(() => {
+      if (loadedCache && loadedCache.promise === promise) loadedCache = null;
+    });
+  }
+  return loadedCache.promise.then((records) => records.slice());
+}
+
+async function buildReviewedGames() {
   let stored = [];
+  let reviewRows = [];
   try {
-    stored = await dbAll("games");
+    [stored, reviewRows] = await Promise.all([dbAll("games"), dbAll("reviews")]);
   } catch (error) {
     console.error("Could not read games:", error);
   }
+  const reviewsById = new Map();
+  for (const row of reviewRows) if (row && row.gameId !== undefined) reviewsById.set(row.gameId, row);
 
   const byId = new Map();
   for (const game of readLegacy()) if (game?.id && game.pgn) byId.set(game.id, game);
@@ -286,7 +300,7 @@ export async function loadReviewedGames() {
       const parsed = parseGame(game.pgn);
       let moves = null;
 
-      const review = await dbGet("reviews", game.id);
+      const review = reviewsById.get(game.id);
       if (review && Array.isArray(review.moves) && review.moves.length === parsed.moves.length) {
         moves = review.moves;
       } else if (Array.isArray(game.analysis) && game.analysis.length === parsed.moves.length) {

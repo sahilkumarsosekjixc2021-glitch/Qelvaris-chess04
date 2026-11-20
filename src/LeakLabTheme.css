@@ -1,0 +1,117 @@
+/* LEAK LAB: Openings jaisi theme (navy + teal) + patle headers.
+   Buttons (primary) gold hi rahenge, baaki sab teal.
+   Ye file LeakLab.jsx mein SABSE LAST import honi chahiye. */
+
+/* ---------- Colors: gold variable ab teal ---------- */
+.ll-page.ll-page {
+  --ll-gold: #4fd1c5;
+  --ll-gold-soft: #9be8df;
+  --ll-teal: #4fd1c5;
+  --ll-line: rgba(79, 209, 197, .14);
+  --ll-glass: radial-gradient(90% 60% at 0% 0%, rgba(79, 209, 197, .07), transparent 60%), linear-gradient(145deg, rgba(12, 26, 36, .9), rgba(7, 15, 23, .94));
+  --btn-gold-1: #ffd06a;
+  --btn-gold-2: #f0a92e;
+  padding-top: 16px;
+}
+
+/* ---------- Patle headers ---------- */
+.ll-page.ll-page .ll-banner {
+  gap: 4px;
+  padding: 14px 22px;
+  border-radius: 14px;
+  border-color: rgba(79, 209, 197, .3);
+  background:
+    radial-gradient(38% 130% at 94% 50%, rgba(79, 209, 197, .16), transparent 70%),
+    radial-gradient(30% 110% at 6% 0%, rgba(88, 196, 242, .10), transparent 70%),
+    linear-gradient(100deg, #07121a 0%, #0a1b24 55%, #0a2326 100%);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, .25);
+}
+.ll-page.ll-page .ll-banner::after { display: none; }
+.ll-page.ll-page .ll-banner h1 { margin: 0; font-size: clamp(20px, 2.4vw, 26px); }
+.ll-page.ll-page .ll-banner p { max-width: none; font-size: 13px; line-height: 1.45; }
+.ll-page.ll-page .ll-banner-actions { margin-top: 8px; gap: 8px; }
+.ll-page.ll-page .ll-banner-actions .ll-btn { min-height: 36px; padding: 0 18px; font-size: 12px; }
+
+.ll-page.ll-page .ll-strip { border-radius: 12px; }
+.ll-page.ll-page .ll-strip-item { padding: 9px 16px; gap: 11px; }
+.ll-page.ll-page .ll-strip-icon { width: 30px; height: 30px; font-size: 15px; border-radius: 9px; background: var(--accent-soft, rgba(79, 209, 197, .14)); }
+.ll-page.ll-page .ll-strip-item strong { font-size: 19px; }
+.ll-page.ll-page .ll-strip-item small { margin-top: 1px; font-size: 11px; }
+
+.ll-page.ll-page .ll-sessionbar { padding: 8px 12px; gap: 10px; border-radius: 12px; }
+.ll-page.ll-page .ll-back { min-height: 34px; }
+.ll-page.ll-page .ll-footbar { padding: 8px 10px 8px 16px; border-radius: 12px; }
+.ll-page.ll-page .ll-footbar .ll-btn { min-height: 36px; }
+
+.ll-page.ll-page .ll-snav { padding: 8px; gap: 4px; border-radius: 14px; }
+.ll-page.ll-page .ll-snav-btn { padding: 9px 12px; font-size: 13px; }
+.ll-page.ll-page .ll-goalcard { margin-top: 6px; padding: 10px 12px; gap: 6px; }
+.ll-page.ll-page .ll-goalcard strong { font-size: 20px; }
+
+.ll-page.ll-page .ll-card { padding: 16px; gap: 10px; }
+.ll-page.ll-page .ll-card h3 { font-size: 17px; }
+
+/* ---------- Teal: cards, borders, glow ---------- */
+.ll-page.ll-page .ll-grid .q-card::before,
+.ll-page.ll-page .ll-blank::before { border-color: rgba(79, 209, 197, .06); }
+.ll-page.ll-page .ll-grid .q-card:hover,
+.ll-page.ll-page .ll-card:hover,
+.ll-page.ll-page .ll-map > summary:hover { border-color: rgba(79, 209, 197, .5); }
+.ll-page.ll-page .ll-board { border-color: rgba(79, 209, 197, .32); box-shadow: 0 18px 40px rgba(0, 0, 0, .35), 0 0 0 5px rgba(79, 209, 197, .04); }
+
+.ll-page.ll-page .ll-tag { color: #9be8df; background: rgba(79, 209, 197, .1); border-color: rgba(79, 209, 197, .3); }
+.ll-page.ll-page .ll-goalcard { border-color: rgba(79, 209, 197, .3); background: rgba(79, 209, 197, .06); }
+.ll-page.ll-page .ll-gbar div { background: linear-gradient(90deg, #2fa89e, #4fd1c5); }
+
+/* Chart: line teal, dots light blue (data colour) */
+.ll-page.ll-page .ll-chart-area { fill: rgba(79, 209, 197, .12); }
+.ll-page.ll-page .ll-chart-line { stroke: #4fd1c5; filter: drop-shadow(0 0 5px rgba(79, 209, 197, .4)); }
+.ll-page.ll-page .ll-chart-dot { fill: #58c4f2; }
+
+/* "Improving" pill amber hi rahe (status colour) */
+.ll-page.ll-page .ll-pill--warn { color: #ffd98a; }
+
+/* ---------- On-state (menu / chips / size): teal, gold nahi ---------- */
+.ll-page.ll-page .ll-snav-btn.is-on {
+  color: #4fd1c5;
+  background: rgba(79, 209, 197, .14);
+  border-color: rgba(79, 209, 197, .5);
+  box-shadow: none;
+}
+.ll-page.ll-page .ll-chip.is-on,
+.ll-page.ll-page .ll-size-btn.is-on {
+  color: #4fd1c5;
+  background: rgba(79, 209, 197, .14);
+  border-color: #4fd1c5;
+}
+.ll-page.ll-page .ll-chip.is-on .ll-chip-n { background: rgba(79, 209, 197, .22); }
+.ll-page.ll-page .ll-leak.is-on,
+.ll-page.ll-page .ll-all.is-on,
+.ll-page.ll-page .ll-mode-switch button.is-active {
+  background: rgba(79, 209, 197, .1);
+  border-color: #4fd1c5;
+  box-shadow: none;
+}
+
+/* Normal (secondary) buttons ka hover teal */
+.ll-page.ll-page .ll-btn:hover:not(:disabled) { background: rgba(79, 209, 197, .08); border-color: #4fd1c5; }
+
+/* ---------- BUTTONS: primary gold hi rahenge ---------- */
+.ll-page.ll-page .ll-btn--primary,
+.ll-page.ll-page .st-btn--primary {
+  color: #1b1204;
+  background: linear-gradient(180deg, #ffd06a, #f0a92e);
+  border-color: #f0a92e;
+  box-shadow: 0 6px 18px -8px #f5b73e;
+}
+.ll-page.ll-page .ll-btn--primary:hover:not(:disabled) {
+  color: #1b1204;
+  background: linear-gradient(180deg, #ffdb85, #f5b73e);
+  border-color: #ffd06a;
+}
+
+/* ---------- Chhoti screen ---------- */
+@media (max-width: 640px) {
+  .ll-page.ll-page .ll-banner { padding: 12px 14px; }
+  .ll-page.ll-page .ll-banner-actions .ll-btn { padding: 0 12px; }
+}

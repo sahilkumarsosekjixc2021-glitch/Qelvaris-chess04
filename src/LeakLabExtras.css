@@ -1,0 +1,55 @@
+/* LEAK LAB: naye features aur layout fix. Purani LeakLab.css ko haath nahi lagaya. */
+.ll-page.ll-page {
+  /* Explore panel ke colors ke liye */
+  --gl-gold: var(--ll-gold);
+  --gl-cyan: var(--ll-teal);
+  --gl-pink: var(--ll-bad);
+  --gl-ink: var(--ll-text);
+  --gl-mute: var(--ll-muted);
+  --gl-edge: var(--ll-line);
+  --gl-edge-soft: var(--ll-line);
+}
+
+/* Daily goal */
+.ll-page.ll-page .ll-goal { color: var(--ll-muted); font-size: 14px; font-weight: 700; }
+
+/* Session length: 5 / 10 / 20 */
+.ll-page.ll-page .ll-size { position: relative; display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+.ll-page.ll-page .ll-size > span { margin-right: auto; color: var(--ll-muted); font-size: 12px; font-weight: 700; }
+.ll-page.ll-page .ll-size-btn { min-width: 40px; height: 32px; padding: 0 10px; border: 1px solid var(--ll-line); border-radius: 9px; background: rgba(255, 255, 255, 0.04); color: var(--ll-text); font: inherit; font-size: 12px; font-weight: 800; cursor: pointer; transition: 0.2s ease; }
+.ll-page.ll-page .ll-size-btn:hover:not(.is-on) { border-color: var(--ll-teal); }
+.ll-page.ll-page .ll-size-btn.is-on { color: #211607; border-color: #e6aa44; background: linear-gradient(135deg, #f7c45f, #d99a32); }
+
+/* Session progress bar */
+.ll-page.ll-page .ll-sbar { position: relative; height: 5px; max-width: 510px; margin: 2px auto 0; overflow: hidden; border-radius: 99px; background: rgba(255, 255, 255, 0.08); }
+.ll-page.ll-page .ll-sbar div { height: 100%; border-radius: inherit; background: linear-gradient(90deg, #4fd1c5, #61d69a); transition: width 0.35s ease; }
+
+/* Session recap */
+.ll-page.ll-page .ll-recap { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.ll-page.ll-page .ll-recap div { display: grid; gap: 4px; padding: 14px; border: 1px solid var(--ll-line); border-radius: 12px; background: rgba(255, 255, 255, 0.03); }
+.ll-page.ll-page .ll-recap strong { color: #fff; font-size: 26px; line-height: 1; }
+.ll-page.ll-page .ll-recap span { color: var(--ll-muted); font-size: 12px; }
+
+/* Blind-spot map: ab training ke niche, kholne band karne wale card me */
+.ll-page.ll-page .ll-map { margin-top: 24px; }
+.ll-page.ll-page .ll-map > summary { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 14px 18px; margin-bottom: 14px; list-style: none; cursor: pointer; border: 1px solid var(--ll-line); border-radius: 14px; background: var(--ll-glass); }
+.ll-page.ll-page .ll-map > summary::-webkit-details-marker { display: none; }
+.ll-page.ll-page .ll-map > summary .ll-label { margin: 0; }
+.ll-page.ll-page .ll-map > summary small { color: var(--ll-muted); font-size: 12px; }
+.ll-page.ll-page .ll-map > summary:hover { border-color: rgba(247, 181, 56, 0.4); }
+
+/* Explore panel (card ke andar card na dikhe) */
+.ll-page.ll-page .ll-explore { position: relative; width: 100%; max-width: 510px; justify-self: center; }
+.ll-page.ll-page .ll-grid .ll-explore .q-card { padding: 0; overflow: visible; border: 0; background: none; box-shadow: none; }
+.ll-page.ll-page .ll-grid .ll-explore .q-card::before { display: none; }
+.ll-page.ll-page .q-eyebrow { color: var(--ll-gold); font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; }
+.ll-page.ll-page .st-label { color: var(--ll-muted); font-size: 12px; }
+.ll-page.ll-page .st-note { margin: 0; color: var(--ll-muted); font-size: 12px; line-height: 1.5; }
+.ll-page.ll-page .st-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.ll-page.ll-page .st-btn { height: 40px; padding: 0 16px; border: 1px solid var(--ll-line); border-radius: 11px; background: rgba(255, 255, 255, 0.05); color: var(--ll-text); font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+.ll-page.ll-page .st-btn--primary { border: 0; background: linear-gradient(135deg, #f7c45f, #d99a32); color: #211607; }
+
+@media (max-width: 760px) {
+  .ll-page.ll-page .ll-recap { grid-template-columns: 1fr; }
+  .ll-page.ll-page .ll-explore { max-width: 100%; }
+}

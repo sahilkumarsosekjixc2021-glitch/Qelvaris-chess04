@@ -1,0 +1,118 @@
+/* LEAK LAB FIX: background (Openings jaisa dark navy + checker) + banner + cards alignment.
+   Isse LeakLab.jsx me sabse LAST import karo (LeakLabShell.css ke baad):
+   import "./LeakLabFix.css";
+   LeakLab_1.css ki zarurat nahi, wo LeakLab.css ki copy hai. Delete kar do. */
+
+/* ---------- 1. Background: green + constellation hatao, Openings jaisa navy checker ---------- */
+body:has(.ll-page) {
+  background-color: #070c14 !important;
+  background-image:
+    radial-gradient(ellipse 70% 40% at 50% 108%, rgba(79, 209, 197, 0.16), transparent 70%),
+    repeating-conic-gradient(rgba(255, 255, 255, 0.022) 0% 25%, transparent 0% 50%) !important;
+  background-size: 100% 100%, 110px 110px !important;
+  background-attachment: fixed !important;
+}
+
+/* Agar app ka koi wrapper/pseudo-element green dots bana raha ho toh unhe chhupao */
+body:has(.ll-page) #root,
+body:has(.ll-page) .app,
+body:has(.ll-page) main {
+  background: transparent !important;
+}
+body:has(.ll-page) canvas.bg-net,
+body:has(.ll-page) .bg-network,
+body:has(.ll-page) .constellation {
+  display: none !important;
+}
+
+/* Page ke aas-paas ka extra border/outline na dikhe */
+.ll-page.ll-page {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+/* ---------- 2. Banner: checker pattern button ke upar/neeche gandla na dikhe ---------- */
+.ll-page.ll-page .ll-banner::after {
+  z-index: 0;
+  opacity: 0.07;
+  -webkit-mask-image: linear-gradient(to left, #000 20%, transparent);
+  mask-image: linear-gradient(to left, #000 20%, transparent);
+}
+.ll-page.ll-page .ll-banner-actions { position: relative; z-index: 2; }
+.ll-page.ll-page .ll-banner-actions .ll-btn:not(.ll-btn--primary) {
+  background: rgba(14, 22, 36, 0.92);
+}
+
+/* ---------- 3. Leak cards: barabar height, buttons ek line me, bottom pe aligned ---------- */
+.ll-page.ll-page .ll-cards { align-items: stretch; }
+.ll-page.ll-page .ll-card {
+  display: flex;
+  flex-direction: column;
+  align-content: normal;
+  gap: 12px;
+  height: 100%;
+}
+.ll-page.ll-page .ll-card-actions { margin-top: auto; padding-top: 4px; }
+.ll-page.ll-page .ll-card-actions .ll-btn {
+  min-height: 44px;
+  padding: 0 10px;
+  white-space: nowrap;      /* "Learn pattern" 2 line me na tute */
+  font-size: 13px;
+}
+.ll-page.ll-page .ll-card-actions .ll-btn--primary { flex: 1.2; }
+.ll-page.ll-page .ll-card-actions .ll-btn:not(.ll-btn--primary) { flex: 1; }
+
+/* Card ka description 2 line tak barabar rahe */
+.ll-page.ll-page .ll-card p { min-height: 2.6em; }
+
+/* ---------- 4. Glass cards thode saaf (dark checker ke upar) ---------- */
+.ll-page.ll-page .ll-card,
+.ll-page.ll-page .ll-strip,
+.ll-page.ll-page .ll-footbar,
+.ll-page.ll-page .ll-snav,
+.ll-page.ll-page .ll-sessionbar {
+  background: linear-gradient(145deg, rgba(20, 32, 50, 0.9), rgba(9, 14, 24, 0.94));
+}
+
+/* Hover lift sirf un devices pe jahan hover hota hai */
+@media (hover: none) {
+  .ll-page.ll-page .ll-card:hover { transform: none; }
+}
+
+/* ======== V2: brown background fix ========
+   App wrapper ka brown/warm bg body ko dhak raha tha. Ab bg .ll-page ke andar full-width layer me hai. */
+.ll-page.ll-page {
+  position: relative;
+  isolation: isolate;
+  min-height: calc(100vh - 72px);
+}
+.ll-page.ll-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  z-index: -1;
+  pointer-events: none;
+  background-color: #070c14;
+  background-image:
+    radial-gradient(ellipse 70% 40% at 50% 100%, rgba(79, 209, 197, 0.14), transparent 70%),
+    repeating-conic-gradient(rgba(255, 255, 255, 0.022) 0% 25%, transparent 0% 50%);
+  background-size: 100% 100%, 110px 110px;
+}
+body:has(.ll-page) { overflow-x: clip; }
+
+/* Banner ka pattern gold tha, wahi brown tint de raha tha. Ab neutral/teal. */
+.ll-page.ll-page .ll-banner {
+  background:
+    radial-gradient(circle at 88% 15%, rgba(79, 209, 197, 0.12), transparent 46%),
+    linear-gradient(135deg, rgba(20, 32, 50, 0.94), rgba(9, 14, 24, 0.97));
+  border-color: rgba(130, 170, 190, 0.2);
+}
+.ll-page.ll-page .ll-banner::after {
+  background: repeating-conic-gradient(#8fb4c8 0% 25%, transparent 0% 50%) 0 0 / 40px 40px;
+  opacity: 0.05;
+}
